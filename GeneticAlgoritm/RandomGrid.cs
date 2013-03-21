@@ -15,9 +15,9 @@ namespace GeneticAlgoritm
             this.entitiesCount = entitiesCount;
         }
 
-        public List<IEntity> GetEntities { get; private set; }
-        
-        public void GenericGrid()
+        //public IEnumerable<IEntity> GetEntities { get; private set; }
+
+        public IEnumerable<IEntity> GenerateGrid()
         {
             throw new NotImplementedException();
         }

@@ -9,7 +9,8 @@ namespace GeneticAlgoritm
 {
     interface IEntity
     {
-        Point Location { get; set; }
+        Point WindowLocation { get; set; }
 
+        PointF RealLocation { get; set; }
     }
 }

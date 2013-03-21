@@ -8,7 +8,8 @@ namespace GeneticAlgoritm
 {
     interface IGrid
     {
-        List<IEntity> GetEntities { get; }
-        void GenericGrid();
+        //List<IEntity> GetEntities { get; }
+
+        IEnumerable<IEntity> GenerateGrid();
     }
 }

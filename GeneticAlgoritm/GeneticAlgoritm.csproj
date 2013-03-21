@@ -51,12 +51,14 @@
     <Compile Include="EntitiesView.Designer.cs">
       <DependentUpon>EntitiesView.cs</DependentUpon>
     </Compile>
+    <Compile Include="Entity.cs" />
     <Compile Include="GeneticAlgoritmClass.cs" />
     <Compile Include="IEntity.cs" />
     <Compile Include="IGrid.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RandomGrid.cs" />
+    <Compile Include="SearchArea.cs" />
     <Compile Include="SquareGrid.cs" />
     <Compile Include="TriangleGrid.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
