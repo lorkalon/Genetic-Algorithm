@@ -10,6 +10,8 @@ namespace GeneticAlgoritm
 {
     class SquareGrid:IGrid
     {
+        private const float e = 0.001f;
+
         private int entitiesCount;
 
         private SearchArea searchAreaSize;
@@ -49,9 +51,9 @@ namespace GeneticAlgoritm
             float horizontalStep = (searchAreaSize.RightBorder - searchAreaSize.LeftBorder) / 3;
             float verticalStep = (searchAreaSize.TopBorder - searchAreaSize.BottomBorder) / 3;
 
-            for (float x = searchAreaSize.LeftBorder; x < searchAreaSize.RightBorder; x++)
+            for (float x = searchAreaSize.LeftBorder; x <= searchAreaSize.RightBorder+e; x+=horizontalStep)
             {
-                for (float y = searchAreaSize.BottomBorder; y < searchAreaSize.TopBorder; y++)
+                for (float y = searchAreaSize.BottomBorder; y <= searchAreaSize.TopBorder+e; y+=verticalStep)
                 {
                     candidatePoints.Add(new PointF(x, y));
                 }

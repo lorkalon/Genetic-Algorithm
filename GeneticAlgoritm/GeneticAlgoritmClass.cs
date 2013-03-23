@@ -13,7 +13,9 @@ namespace GeneticAlgoritm
         public GeneticAlgoritmClass()
         {
             grid = new SquareGrid(new SearchArea(0, 100, 100, 0), 14);
-            var result = grid.GenerateGrid();//for testing
+            var result1 = grid.GenerateGrid();//for testing
+            grid = new TriangleGrid(new SearchArea(0, 100, 100, 0), 14);
+            var result2 = grid.GenerateGrid();//for testing
         }
     }
 }
