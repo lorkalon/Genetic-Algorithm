@@ -12,18 +12,23 @@ namespace GeneticAlgoritm
         public Entity(PointF realLocation)
         {
             RealLocation = realLocation;
+            FirstGene = BitConverter.GetBytes(RealLocation.X);
+            SecondGene = BitConverter.GetBytes(RealLocation.Y);
+            SetChromosome();
         }
 
-        public System.Drawing.Point WindowLocation
+        void SetChromosome()
         {
-            get;
-            set;
+            List<byte> concatGene = FirstGene.ToList();
+            concatGene.AddRange(SecondGene);
+
+            Chromosome = concatGene;
         }
 
-        public System.Drawing.PointF RealLocation
-        {
-            get;
-            set;
-        }
+        public Point WindowLocation { get; set; }
+        public PointF RealLocation { get; set; }
+        public byte[] FirstGene { get; private set; }
+        public byte[] SecondGene { get; private set; }
+        public IEnumerable<byte> Chromosome { get; private set; }
     }
 }

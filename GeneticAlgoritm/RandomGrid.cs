@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,18 +9,50 @@ namespace GeneticAlgoritm
 {
     class RandomGrid:IGrid
     {
+        private Random random = new Random(DateTime.Now.Millisecond);
+
         private int entitiesCount;
 
-        public RandomGrid(int entitiesCount)
+        private SearchArea searchAreaSize;
+
+        private float intervalX;
+
+        private float intervalY;
+
+        public RandomGrid(SearchArea searchAreaSize, int entitiesCount)
         {
+            this.searchAreaSize = searchAreaSize;
             this.entitiesCount = entitiesCount;
+            intervalX = searchAreaSize.RightBorder - searchAreaSize.LeftBorder;
+            intervalY = searchAreaSize.TopBorder - searchAreaSize.BottomBorder;
         }
 
-        //public IEnumerable<IEntity> GetEntities { get; private set; }
 
         public IEnumerable<IEntity> GenerateGrid()
         {
-            throw new NotImplementedException();
+            List<IEntity> entities = new List<IEntity>();
+
+            for (int i = 0; i < entitiesCount; i++)
+            {
+                IEntity newEntity = new Entity(GetPointF());
+                if (!entities.Contains(newEntity))
+                {
+                    entities.Add(newEntity);
+                }
+                else
+                {
+                    --i;
+                }
+            }
+            return entities;
+        }
+
+        PointF GetPointF()
+        {
+            float x = Convert.ToSingle(random.NextDouble()*intervalX + searchAreaSize.LeftBorder);
+            float y = Convert.ToSingle(random.NextDouble() * intervalY + searchAreaSize.BottomBorder);
+
+            return new PointF(x,y);
         }
     }
 }

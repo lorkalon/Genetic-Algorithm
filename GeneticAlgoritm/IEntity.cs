@@ -12,5 +12,9 @@ namespace GeneticAlgoritm
         Point WindowLocation { get; set; }
 
         PointF RealLocation { get; set; }
+
+        byte[] FirstGene { get; }
+        byte[] SecondGene { get; }
+        IEnumerable<byte> Chromosome { get; }
     }
 }
