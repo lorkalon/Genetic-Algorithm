@@ -17,7 +17,7 @@ namespace GeneticAlgoritm
             RealLocation = realLocation;
             FirstGene = BitConverter.GetBytes(RealLocation.X);
             SecondGene = BitConverter.GetBytes(RealLocation.Y);
-            SetChromosome();
+            //SetChromosome();test
         }
 
         void SetChromosome()
@@ -32,7 +32,7 @@ namespace GeneticAlgoritm
         public PointF RealLocation { get; set; }
         public IEnumerable<byte> FirstGene { get; private set; }
         public IEnumerable<byte> SecondGene { get; private set; }
-        public IEnumerable<byte> Chromosome { get; private set; }
+        public List<byte> Chromosome { get; set; }
 
         public float F1
         {

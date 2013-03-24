@@ -53,6 +53,7 @@
     </Compile>
     <Compile Include="Entity.cs" />
     <Compile Include="GeneticAlgoritmClass.cs" />
+    <Compile Include="Hybridizer.cs" />
     <Compile Include="IEntity.cs" />
     <Compile Include="IGrid.cs" />
     <Compile Include="IHybridizable.cs" />
