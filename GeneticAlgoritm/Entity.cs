@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -15,24 +16,33 @@ namespace GeneticAlgoritm
         public Entity(PointF realLocation)
         {
             RealLocation = realLocation;
-            FirstGene = BitConverter.GetBytes(RealLocation.X);
-            SecondGene = BitConverter.GetBytes(RealLocation.Y);
+            FirstGene = new BitArray(BitConverter.GetBytes(RealLocation.X));
+            SecondGene = new BitArray(BitConverter.GetBytes(RealLocation.Y));
             SetChromosome();
         }
 
+
         void SetChromosome()
         {
-            List<byte> concatGene = FirstGene.ToList();
-            concatGene.AddRange(SecondGene);
+            int length = FirstGene.Count + SecondGene.Count;
+            Chromosome = new BitArray(length);
+            
+            for (int i = 0; i < FirstGene.Count; i++)
+            {
+                Chromosome[i] = FirstGene[i];
+            }
 
-            Chromosome = concatGene;
+            for (int i = FirstGene.Count, j = 0; i < length; i++)
+            {
+                Chromosome[i] = SecondGene[j];
+            }
         }
 
         public Point WindowLocation { get; set; }
         public PointF RealLocation { get; set; }
-        public IEnumerable<byte> FirstGene { get; private set; }
-        public IEnumerable<byte> SecondGene { get; private set; }
-        public IEnumerable<byte> Chromosome { get; private set; }
+        public BitArray FirstGene { get; private set; }
+        public BitArray SecondGene { get; private set; }
+        public BitArray Chromosome { get; private set; }
 
         public float F1
         {

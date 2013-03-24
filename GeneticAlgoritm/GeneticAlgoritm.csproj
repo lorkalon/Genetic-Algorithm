@@ -57,6 +57,7 @@
     <Compile Include="IGrid.cs" />
     <Compile Include="IHybridizable.cs" />
     <Compile Include="IMutation.cs" />
+    <Compile Include="Mutation.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RandomGrid.cs" />

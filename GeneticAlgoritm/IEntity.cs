@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -13,9 +14,9 @@ namespace GeneticAlgoritm
 
         PointF RealLocation { get; set; }
 
-        IEnumerable<byte> FirstGene { get; }
-        IEnumerable<byte> SecondGene { get; }
-        IEnumerable<byte> Chromosome { get; }
+        BitArray FirstGene { get; }
+        BitArray SecondGene { get; }
+        BitArray Chromosome { get; }
         //float delegate FirstCriteria(float x,float y);
         float F1 { set; get; }
         float F2 { set; get; }
