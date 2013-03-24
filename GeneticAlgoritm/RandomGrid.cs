@@ -9,8 +9,6 @@ namespace GeneticAlgoritm
 {
     class RandomGrid:IGrid
     {
-        private Random random = new Random(DateTime.Now.Millisecond);
-
         private int entitiesCount;
 
         private SearchArea searchAreaSize;
@@ -32,9 +30,10 @@ namespace GeneticAlgoritm
         {
             List<IEntity> entities = new List<IEntity>();
 
+            Random random = new Random();
             for (int i = 0; i < entitiesCount; i++)
             {
-                IEntity newEntity = new Entity(GetPointF());
+                IEntity newEntity = new Entity(GetPointF(random));
                 if (!entities.Contains(newEntity))
                 {
                     entities.Add(newEntity);
@@ -47,7 +46,7 @@ namespace GeneticAlgoritm
             return entities;
         }
 
-        PointF GetPointF()
+        PointF GetPointF(Random random)
         {
             float x = Convert.ToSingle(random.NextDouble()*intervalX + searchAreaSize.LeftBorder);
             float y = Convert.ToSingle(random.NextDouble() * intervalY + searchAreaSize.BottomBorder);

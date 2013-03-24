@@ -10,8 +10,6 @@ namespace GeneticAlgoritm
 {
     class SquareGrid:IGrid
     {
-        private Random random = new Random(DateTime.Now.Millisecond);
-    
         private const float e = 0.001f;
 
         private int entitiesCount;
@@ -24,7 +22,6 @@ namespace GeneticAlgoritm
             this.searchAreaSize = searchAreaSize;
         }
 
-        //public List<IEntity> GetEntities { get; private set; }
 
         public IEnumerable<IEntity> GenerateGrid()
         {
@@ -36,7 +33,8 @@ namespace GeneticAlgoritm
         private IEnumerable<IEntity> SeedGridPoints(List<PointF> candidatePoints)
         {
             List<IEntity> gridPoints = new List<IEntity>();
-        
+
+            Random random = new Random();
             for (int i = 0; i < entitiesCount; i++)
             {
                 int randomPointIndex = random.Next(candidatePoints.Count());

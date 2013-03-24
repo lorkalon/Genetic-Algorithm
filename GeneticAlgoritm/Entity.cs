@@ -9,6 +9,9 @@ namespace GeneticAlgoritm
 {
     class Entity : IEntity
     {
+        const float c1 = 1;
+        const float c2 = 1;
+
         public Entity(PointF realLocation)
         {
             RealLocation = realLocation;
@@ -27,8 +30,44 @@ namespace GeneticAlgoritm
 
         public Point WindowLocation { get; set; }
         public PointF RealLocation { get; set; }
-        public byte[] FirstGene { get; private set; }
-        public byte[] SecondGene { get; private set; }
+        public IEnumerable<byte> FirstGene { get; private set; }
+        public IEnumerable<byte> SecondGene { get; private set; }
         public IEnumerable<byte> Chromosome { get; private set; }
+
+        public float F1
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public float F2
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public float FGeneralized
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

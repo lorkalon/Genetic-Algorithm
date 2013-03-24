@@ -35,11 +35,10 @@ namespace GeneticAlgoritm
         private IEnumerable<IEntity> SeedGridPoints(List<PointF> candidatePoints)
         {
             List<IEntity> gridPoints = new List<IEntity>();
-            
+
+            Random random = new Random();
             for (int i = 0; i < entitiesCount; i++)
             {
-                //Random random = new Random(); будет все время одинаковый результат =(
-
                 int randomPointIndex = random.Next(candidatePoints.Count());
                 PointF randomPoint = candidatePoints[randomPointIndex];
                 candidatePoints.RemoveAt(randomPointIndex);
