@@ -14,11 +14,17 @@ namespace GeneticAlgoritm
         PointF RealLocation { get; set; }
 
         IEnumerable<byte> FirstGene { get; }
+
         IEnumerable<byte> SecondGene { get; }
+
         List<byte> Chromosome { get; set; }
-        //float delegate FirstCriteria(float x,float y);
+        
         float F1 { set; get; }
+
         float F2 { set; get; }
+
         float FGeneralized { set; get; }
+
+        bool IsValid(SearchArea searchAreaSize);
     }
 }

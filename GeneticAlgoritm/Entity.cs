@@ -9,8 +9,23 @@ namespace GeneticAlgoritm
 {
     class Entity : IEntity
     {
+        private static readonly delegate float firstCriteria(float x, float y);
+        private static readonly delegate float secondCriteria(float x, float y);
         const float c1 = 1;
         const float c2 = 1;
+
+        private static float FirstCriteria(float x, float y)
+        {
+            float result=0;
+
+
+            return result;
+        }
+
+        static Entity()
+        {
+            //firstCriteria
+        }
 
         public Entity(PointF realLocation)
         {
@@ -59,6 +74,29 @@ namespace GeneticAlgoritm
         }
 
         public float FGeneralized
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+
+        System.Collections.BitArray IEntity.FirstGene
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        System.Collections.BitArray IEntity.SecondGene
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        System.Collections.BitArray IEntity.Chromosome
         {
             get
             {

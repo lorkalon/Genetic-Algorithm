@@ -18,7 +18,7 @@ namespace GeneticAlgoritm
             this.hybridizePoints = sortedHybridizePoints;
         }
 
-        public IEnumerable<IEntity> Hybridize(IEntity mom, IEntity dad)
+        public IEnumerable<IEntity> Hybridize(IEntity mom, IEntity dad)//add checking in borders
         {
             mom.Chromosome=new List<byte>() { 1, 1, 0, 0, 1, 1 };//test
             dad.Chromosome=new List<byte>() { 0, 0, 1, 1, 0, 0 };//test
@@ -47,6 +47,7 @@ namespace GeneticAlgoritm
                 }
             }
             List<IEntity> children = new List<IEntity>();
+            //if(firstChild
             children.Add(firstChild);
             children.Add(secondChild);
             return children;
