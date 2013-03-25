@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -20,15 +21,15 @@ namespace GeneticAlgoritm
 
         public IEnumerable<IEntity> Hybridize(IEntity mom, IEntity dad)
         {
-            mom.Chromosome=new List<byte>() { 1, 1, 0, 0, 1, 1 };//test
-            dad.Chromosome=new List<byte>() { 0, 0, 1, 1, 0, 0 };//test
+            mom.Chromosome = new BitArray(new int[] { 1, 1, 0, 0, 1, 1 });//test
+            dad.Chromosome = new BitArray(new int[] { 0, 0, 1, 1, 0, 0 });//test
 
             IEntity firstChild = mom;
             IEntity secondChild = dad;
 
             bool swap = false;
             int j = 0;
-            int chromosomeCount = mom.Chromosome.Count();
+            int chromosomeCount = mom.Chromosome.Length;
             for (int i = 0; i < chromosomeCount; i++)
             {
                 if (j < hybridizePoints.Count())
@@ -41,7 +42,7 @@ namespace GeneticAlgoritm
                 }
                 if (swap)
                 {
-                    byte temp = firstChild.Chromosome[i];
+                    bool temp = firstChild.Chromosome[i];
                     firstChild.Chromosome[i] = secondChild.Chromosome[i];
                     secondChild.Chromosome[i] = temp;
                 }

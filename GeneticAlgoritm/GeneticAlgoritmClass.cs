@@ -23,10 +23,15 @@ namespace GeneticAlgoritm
             grid = new RandomGrid(new SearchArea(0, 100, 100, 0), 14);
             var result3 = grid.GenerateGrid();//for testing
 
+
             hybridize = new Hybridizer(new List<int>() { 2, 4 });
             IEntity mom = new Entity(new PointF(10, 10));
             IEntity dad = new Entity(new PointF(10, 10));
             hybridize.Hybridize(mom, dad);
+
+            Mutation m = new Mutation(10);
+            IEntity newEntity = m.Mutate(new Entity(new PointF(12, 12)));
+
         }
     }
 }
