@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -9,12 +10,12 @@ namespace GeneticAlgoritm
 {
     class Entity : IEntity
     {
-        private static readonly delegate float firstCriteria(float x, float y);
-        private static readonly delegate float secondCriteria(float x, float y);
+        private delegate float firstCriteria(float x, float y);
+        private delegate float secondCriteria(float x, float y);
         const float c1 = 1;
         const float c2 = 1;
 
-        private static float FirstCriteria(float x, float y)
+        private float FirstCriteria(float x, float y)
         {
             float result=0;
 
@@ -30,24 +31,24 @@ namespace GeneticAlgoritm
         public Entity(PointF realLocation)
         {
             RealLocation = realLocation;
-            FirstGene = BitConverter.GetBytes(RealLocation.X);
-            SecondGene = BitConverter.GetBytes(RealLocation.Y);
+            //FirstGene = BitConverter.GetBytes(RealLocation.X);
+            //SecondGene = BitConverter.GetBytes(RealLocation.Y);
             //SetChromosome();test
         }
 
         void SetChromosome()
         {
-            List<byte> concatGene = FirstGene.ToList();
-            concatGene.AddRange(SecondGene);
+            //List<byte> concatGene = FirstGene.ToList();
+            //concatGene.AddRange(SecondGene);
 
-            Chromosome = concatGene;
+            //Chromosome = concatGene;
         }
 
         public Point WindowLocation { get; set; }
         public PointF RealLocation { get; set; }
-        public IEnumerable<byte> FirstGene { get; private set; }
-        public IEnumerable<byte> SecondGene { get; private set; }
-        public List<byte> Chromosome { get; set; }
+        public BitArray FirstGene { get; private set; }
+        public BitArray SecondGene { get; private set; }
+        public BitArray Chromosome { get; set; }
 
         public float F1
         {
@@ -85,27 +86,9 @@ namespace GeneticAlgoritm
             }
         }
 
-
-        System.Collections.BitArray IEntity.FirstGene
+        public bool IsValid(SearchArea searchAreaSize)
         {
-            get { throw new NotImplementedException(); }
-        }
-
-        System.Collections.BitArray IEntity.SecondGene
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        System.Collections.BitArray IEntity.Chromosome
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            throw new NotImplementedException();
         }
     }
 }

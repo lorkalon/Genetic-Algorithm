@@ -15,9 +15,31 @@ namespace GeneticAlgoritm
             this.entitiesCount = entitiesCount;
         }
 
-        public IEnumerable<IEntity> SelectEntities(IEnumerable<IEntity> candidates)
+        public List<IEntity> SelectEntities(List<IEntity> candidates, Func<IEntity, float> comparsionDelegate)
         {
+            List<IEntity> selectedEntities = new List<IEntity>();
 
+            Random random = new Random(DateTime.Now.Millisecond);
+            for (int i = 0; i < entitiesCount; i++)
+            {
+                float sum = candidates.Sum(comparsionDelegate);
+                float selectedValue = sum * Convert.ToSingle(random.NextDouble());
+                float cursor = 0f;
+                int j = 0;
+                while (cursor < sum)
+                {
+                    //cursor += candidates[j].F1;
+                    cursor += comparsionDelegate(candidates[i]);
+                    if (cursor >= selectedValue)
+                    {
+                        selectedEntities.Add(candidates[j]);
+                        candidates.Remove(candidates[i]);
+                        break;
+                    }
+                    j += 1;
+                }
+            }
+            return selectedEntities;
         }
     }
 }
