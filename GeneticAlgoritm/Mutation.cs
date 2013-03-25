@@ -11,22 +11,28 @@ namespace GeneticAlgoritm
     class Mutation:IMutation
     {
         private int mutationPercent = 0;
+        private SearchArea searchAreaSize;
 
-        public Mutation(int mutationPercent)
+        public Mutation(SearchArea searchAreaSize, int mutationPercent)
         {
+            this.searchAreaSize = searchAreaSize;
             this.mutationPercent = mutationPercent;
         }
 
-        public IEntity Mutate(IEntity entity)
+        public IEntity Mutate(IEntity entity) //!!!!!!!!!!!!!!!!!!!!
         {
-            Random random = new Random();
-            BitArray firstGeneArray = new BitArray(entity.FirstGene);
-            BitArray secondGeneArray = new BitArray(entity.SecondGene);
-           
-            float x = GetMutateGene(firstGeneArray, random);
-            float y = GetMutateGene(secondGeneArray, random);
+            IEntity tempEntity;
 
-            return new Entity(new PointF(x,y));
+            do
+            {
+                Random random = new Random();
+                BitArray firstGeneArray = new BitArray(entity.FirstGene);
+                BitArray secondGeneArray = new BitArray(entity.SecondGene);
+
+                tempEntity = new Entity(searchAreaSize, new PointF(GetMutateGene(firstGeneArray, random), GetMutateGene(secondGeneArray, random)));
+            } while (tempEntity.IsValid()!=true);
+ 
+            return entity.Equals(tempEntity) ? null : tempEntity;
         }
 
         private float GetMutateGene(BitArray geneArray, Random random)
@@ -55,5 +61,7 @@ namespace GeneticAlgoritm
 
             return false;
         }
+
+        
     }
 }

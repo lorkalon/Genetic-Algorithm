@@ -21,5 +21,7 @@ namespace GeneticAlgoritm
         float F1 { set; get; }
         float F2 { set; get; }
         float FGeneralized { set; get; }
+
+        bool IsValid();
     }
 }

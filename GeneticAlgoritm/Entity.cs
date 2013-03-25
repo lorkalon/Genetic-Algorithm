@@ -13,8 +13,11 @@ namespace GeneticAlgoritm
         const float c1 = 1;
         const float c2 = 1;
 
-        public Entity(PointF realLocation)
+        private SearchArea searchAreaSize;
+
+        public Entity(SearchArea searchAreaSize, PointF realLocation)
         {
+            this.searchAreaSize = searchAreaSize;
             RealLocation = realLocation;
             FirstGene = new BitArray(BitConverter.GetBytes(RealLocation.X));
             SecondGene = new BitArray(BitConverter.GetBytes(RealLocation.Y));
@@ -80,6 +83,24 @@ namespace GeneticAlgoritm
             {
                 throw new NotImplementedException();
             }
+        }
+
+        public bool IsValid()
+        {
+            return (RealLocation.X > searchAreaSize.LeftBorder && RealLocation.X < searchAreaSize.RightBorder &&
+                    RealLocation.Y > searchAreaSize.BottomBorder && RealLocation.Y < searchAreaSize.TopBorder);
+        }
+
+        public override bool Equals(object obj)
+        {
+            IEntity entity = (IEntity)obj;
+
+            return this.RealLocation.Equals(entity.RealLocation);
+        }
+
+        public override int GetHashCode()
+        {
+            return this.RealLocation.GetHashCode();
         }
     }
 }

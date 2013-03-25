@@ -40,7 +40,7 @@ namespace GeneticAlgoritm
                 int randomPointIndex = random.Next(candidatePoints.Count());
                 PointF randomPoint=candidatePoints[randomPointIndex];
                 candidatePoints.RemoveAt(randomPointIndex);
-                gridPoints.Add(new Entity(randomPoint));
+                gridPoints.Add(new Entity(searchAreaSize, randomPoint));
             }
             return gridPoints;
         }
