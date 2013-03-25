@@ -16,10 +16,15 @@ namespace GeneticAlgoritm
 
         BitArray FirstGene { get; }
         BitArray SecondGene { get; }
+
         BitArray Chromosome { get; set; }
 
         float F1 { set; get; }
+
         float F2 { set; get; }
+
         float FGeneralized { set; get; }
+
+        bool IsValid(SearchArea searchAreaSize);
     }
 }

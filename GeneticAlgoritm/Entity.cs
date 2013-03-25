@@ -10,8 +10,22 @@ namespace GeneticAlgoritm
 {
     class Entity : IEntity
     {
+        private delegate float firstCriteria(float x, float y);
+        private delegate float secondCriteria(float x, float y);
         const float c1 = 1;
         const float c2 = 1;
+
+        private float FirstCriteria(float x, float y)
+        {
+            float result = 0;
+
+            return result;
+        }
+
+        static Entity()
+        {
+            //firstCriteria
+        }
 
         public Entity(PointF realLocation)
         {
@@ -19,7 +33,6 @@ namespace GeneticAlgoritm
             FirstGene = new BitArray(BitConverter.GetBytes(RealLocation.X));
             SecondGene = new BitArray(BitConverter.GetBytes(RealLocation.Y));
             SetChromosome();
-
         }
 
 
@@ -80,6 +93,11 @@ namespace GeneticAlgoritm
             {
                 throw new NotImplementedException();
             }
+        }
+
+        public bool IsValid(SearchArea searchAreaSize)
+        {
+            throw new NotImplementedException();
         }
     }
 }
