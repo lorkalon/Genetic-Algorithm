@@ -33,7 +33,7 @@ namespace GeneticAlgoritm
             Random random = new Random();
             for (int i = 0; i < entitiesCount; i++)
             {
-                IEntity newEntity = new Entity(searchAreaSize, GetPointF(random));
+                IEntity newEntity = new Entity(GetPointF(random));
                 if (!entities.Contains(newEntity))
                 {
                     entities.Add(newEntity);

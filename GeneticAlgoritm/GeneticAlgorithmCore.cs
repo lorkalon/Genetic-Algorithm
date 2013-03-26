@@ -46,7 +46,7 @@ namespace GeneticAlgoritm
             */
             
             Grid = new RandomGrid(searchAreaSize, 14);            //Временное объявление
-            selection = new Roulette();
+            selection = new Roulette(10);
             performMutation = new Mutation(searchAreaSize, 3);
             
             entitiesGroups = new CenterDivide();
@@ -64,7 +64,7 @@ namespace GeneticAlgoritm
 
                 foreach (var group in groups)
                 {
-                    modifiedEntities.AddRange(selection.GetBestEntities(group).ToList()); // Нужно реализовать этот метод!!!!!!!
+                    //modifiedEntities.AddRange(selection.SelectEntities(group).ToList()); // Нужно реализовать этот метод!!!!!!!
                     modifiedEntities.AddRange(GetMutationEntities(group));
                     modifiedEntities.AddRange(GetOffspring(group)); // Не инициализирован объект hybridize!!!!!!!
                 }
