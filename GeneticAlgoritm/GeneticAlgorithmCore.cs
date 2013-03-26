@@ -44,7 +44,12 @@ namespace GeneticAlgoritm
             IEntity dad = new Entity(new PointF(10, 10));
             hybridize.Hybridize(mom, dad);
             */
+            IEntity e = new Entity(new PointF(12,12));
+            var a = e.GetF1(12, 12);
+            var b = e.GetF2(12, 12);
+            var c = e.GetFGeneralized(12, 12);
             
+
             Grid = new RandomGrid(searchAreaSize, 14);            //Временное объявление
             selection = new Roulette(10);
             performMutation = new Mutation(searchAreaSize, 3);

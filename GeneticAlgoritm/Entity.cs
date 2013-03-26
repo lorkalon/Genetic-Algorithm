@@ -10,21 +10,27 @@ namespace GeneticAlgoritm
 {
     class Entity : IEntity
     {
-        private delegate float firstCriteria(float x, float y);
-        private delegate float secondCriteria(float x, float y);
-        const float c1 = 1;
-        const float c2 = 1;
+        internal delegate float FirstCriteriaDelegate(float x, float y);
+        internal delegate float SecondCriteriaDelegate(float x, float y);
 
-        private float FirstCriteria(float x, float y)
+        private FirstCriteriaDelegate firstCriteria;
+        private SecondCriteriaDelegate secondCriteria;
+
+        const float c1 = 1.0f;
+        const float c2 = 1.0f;
+
+        private float FirstCriteriaMethod(float x, float y)
         {
-            float result = 0;
-
-            return result;
+            return (float) (1/(1 + Math.Pow((x - 2), 2) + Math.Pow((y - 10), 2)) +
+                              1/(2 + Math.Pow((x - 10), 2) + Math.Pow((y - 15), 2)) +
+                              1/(2 + Math.Pow((x - 18), 2) + Math.Pow((y - 4), 2*x)));
         }
 
-        static Entity()
+        private float SecondCriteriaMethod(float x, float y)
         {
-            //firstCriteria
+            return (float)( 1/(1 / (1 + Math.Pow((x - 2), 2) + Math.Pow((y - 10), 2)) +
+                              1 / (2 + Math.Pow((x - 10), 2) + Math.Pow((y - 15), 2)) +
+                              1 / (2 + Math.Pow((x - 18), 2) + Math.Pow((y - 4), 2 * x))) );
         }
 
         public Entity(PointF realLocation)
@@ -33,10 +39,13 @@ namespace GeneticAlgoritm
             FirstGene = new BitArray(BitConverter.GetBytes(RealLocation.X));
             SecondGene = new BitArray(BitConverter.GetBytes(RealLocation.Y));
             SetChromosome();
+
+            firstCriteria = FirstCriteriaMethod;
+            secondCriteria = SecondCriteriaMethod;
+          
         }
 
-
-        void SetChromosome()
+        private void SetChromosome()
         {
             int length = FirstGene.Count + SecondGene.Count;
             Chromosome = new BitArray(length);
@@ -59,42 +68,33 @@ namespace GeneticAlgoritm
         public BitArray SecondGene { get; private set; }
         public BitArray Chromosome { get; set; }
 
-        public float F1
+       
+        public float GetF1(float x, float y)
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            return firstCriteria(x, y);
         }
 
-        public float F2
+        public FirstCriteriaDelegate SetF1
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            set { firstCriteria = value; }
         }
 
-        public float FGeneralized
+        public float GetF2(float x, float y)
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            return secondCriteria(x, y);
         }
 
+        public SecondCriteriaDelegate SetF2
+        {
+            set { secondCriteria = value; }
+        }
+
+        public float GetFGeneralized(float x, float y)
+        {
+             return (float) (firstCriteria(x,y)*c1 + secondCriteria(x,y)*c2); 
+        }
+
+       
         public bool IsValid(SearchArea searchAreaSize)
         {
             return (RealLocation.X > searchAreaSize.LeftBorder && RealLocation.X < searchAreaSize.RightBorder &&
