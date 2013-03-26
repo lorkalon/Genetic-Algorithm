@@ -97,7 +97,20 @@ namespace GeneticAlgoritm
 
         public bool IsValid(SearchArea searchAreaSize)
         {
-            throw new NotImplementedException();
+            return (RealLocation.X > searchAreaSize.LeftBorder && RealLocation.X < searchAreaSize.RightBorder &&
+                    RealLocation.Y > searchAreaSize.BottomBorder && RealLocation.Y < searchAreaSize.TopBorder);
+        }
+
+        public override bool Equals(object obj)
+        {
+            IEntity entity = (IEntity)obj;
+
+            return this.RealLocation.Equals(entity.RealLocation);
+        }
+
+        public override int GetHashCode()
+        {
+            return this.RealLocation.GetHashCode();
         }
     }
 }

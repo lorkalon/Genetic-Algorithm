@@ -12,13 +12,13 @@ namespace GeneticAlgoritm
 {
     public partial class EntitiesView : Form
     {
-        private GeneticAlgoritmClass geneticAlgoritm;
+        private GeneticAlgorithmCore geneticAlgoritm;
 
         public EntitiesView()
         {
             InitializeComponent();
 
-            geneticAlgoritm = new GeneticAlgoritmClass();
+            geneticAlgoritm = new GeneticAlgorithmCore(new SearchArea( 0, 100, 100, 0) , 10);
         }
     }
 }

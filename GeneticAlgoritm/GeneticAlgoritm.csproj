@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CenterDivide.cs" />
     <Compile Include="EntitiesView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -52,12 +53,14 @@
       <DependentUpon>EntitiesView.cs</DependentUpon>
     </Compile>
     <Compile Include="Entity.cs" />
-    <Compile Include="GeneticAlgoritmClass.cs" />
+    <Compile Include="GeneticAlgorithmCore.cs" />
     <Compile Include="Hybridizer.cs" />
+    <Compile Include="IDividable.cs" />
     <Compile Include="IEntity.cs" />
     <Compile Include="IGrid.cs" />
     <Compile Include="IHybridizable.cs" />
     <Compile Include="IMutation.cs" />
+    <Compile Include="ISelection.cs" />
     <Compile Include="Mutation.cs" />
     <Compile Include="ISelection.cs" />
     <Compile Include="Program.cs" />
