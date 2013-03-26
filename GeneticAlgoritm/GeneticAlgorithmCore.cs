@@ -10,17 +10,19 @@ namespace GeneticAlgoritm
 {
     class GeneticAlgorithmCore
     {
+        private int cycles;
+
         private SearchArea searchAreaSize;
+        private IGrid grid;
         private IHybridizable hybridize;
         private ISelection selection;
         private IDividable entitiesGroups;
         private IMutation performMutation;
+        
 
-        private int cycles;
-
-        public IGrid Grid { get; set; }
         public SearchArea SearchAreaSize { get; set; }
-        public IHybridizable Hybridizable { get; set; }
+        public IGrid Grid { get; set; }
+        public IHybridizable Hybridize { get; set; }
         public ISelection Selection { get; set; }
         public IDividable EntitiesGroups { get; set; }
         public IMutation PerformMutation { get; set; }
@@ -45,10 +47,20 @@ namespace GeneticAlgoritm
             hybridize.Hybridize(mom, dad);
             */
             
-            Grid = new RandomGrid(searchAreaSize, 14);            //Временное объявление
-            selection = new Roulette(10);
+            Grid = new RandomGrid(searchAreaSize, 14);//Временное объявление
+            selection = new Roulette(2);
+            var entities=Grid.GenerateGrid();
+            //entities.ElementAt(0).F1 = 1000f;//test
+            //entities.ElementAt(1).F1 = 100f;//test
+            //entities.ElementAt(2).F1 = 99f;//test
+            //entities.ElementAt(3).F1 = 2f;//test
+            //entities.ElementAt(4).F1 = 1f;//test
+            //var best = selection.SelectEntities(entities.ToList(), entity => entity.F1);//test
+
+            hybridize = new Hybridizer(searchAreaSize, new int[] { 2, 4 });
+            var childs = hybridize.Hybridize(entities[0], entities[1]);//test
+
             performMutation = new Mutation(searchAreaSize, 3);
-            
             entitiesGroups = new CenterDivide();
             StartGeneticAlgorithm();
         }
@@ -60,13 +72,13 @@ namespace GeneticAlgoritm
             for (int i = 0; i < cycles; i++)
             {
                 List<IEntity> modifiedEntities = new List<IEntity>();
-                List<IEnumerable<IEntity>> groups = entitiesGroups.DivideEntities(entities);
+                List<List<IEntity>> groups = entitiesGroups.DivideEntities(entities);
 
                 foreach (var group in groups)
                 {
-                    //modifiedEntities.AddRange(selection.SelectEntities(group).ToList()); // Нужно реализовать этот метод!!!!!!!
+                    modifiedEntities.AddRange(selection.SelectEntities(group,entity=>entity.F1));
                     modifiedEntities.AddRange(GetMutationEntities(group));
-                    modifiedEntities.AddRange(GetOffspring(group)); // Не инициализирован объект hybridize!!!!!!!
+                    modifiedEntities.AddRange(GetOffsprings(group)); // Не инициализирован объект hybridize!!!!!!!
                 }
 
                 entities = modifiedEntities;
@@ -74,7 +86,7 @@ namespace GeneticAlgoritm
 
         }
 
-        private List<IEntity> GetOffspring(IEnumerable<IEntity> parents)
+        private List<IEntity> GetOffsprings(IEnumerable<IEntity> parents)
         {
             List<IEntity> offspring = new List<IEntity>();
 

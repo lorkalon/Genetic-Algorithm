@@ -14,18 +14,16 @@ namespace GeneticAlgoritm
             
         }
 
-        public List<IEnumerable<IEntity>> DivideEntities(IEnumerable<IEntity> entities)
+        public List<List<IEntity>> DivideEntities(List<IEntity> entities)
         {
             List<IEntity> firstHalf = new List<IEntity>();
             List<IEntity> secondHalf = new List<IEntity>();
 
-            firstHalf.AddRange(entities.Take(entities.Count()/2));
-            for (int i = entities.Count()/2; i < entities.Count(); i++)
-            {
-                secondHalf.Add(entities.ToList()[i]);
-            }
+            int entitiesHalfCount = entities.Count() / 2;
+            firstHalf.AddRange(entities.Take(entitiesHalfCount));
+            secondHalf.AddRange(entities.GetRange(entitiesHalfCount, entitiesHalfCount));
 
-            List<IEnumerable<IEntity>> halfs = new List<IEnumerable<IEntity>>();
+            List<List<IEntity>> halfs = new List<List<IEntity>>();
             halfs.Add(firstHalf);
             halfs.Add(secondHalf);
 

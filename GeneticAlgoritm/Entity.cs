@@ -35,7 +35,6 @@ namespace GeneticAlgoritm
             SetChromosome();
         }
 
-
         void SetChromosome()
         {
             int length = FirstGene.Count + SecondGene.Count;
@@ -61,14 +60,8 @@ namespace GeneticAlgoritm
 
         public float F1
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            get;
+            set;
         }
 
         public float F2

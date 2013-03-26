@@ -28,12 +28,11 @@ namespace GeneticAlgoritm
                 int j = 0;
                 while (cursor < sum)
                 {
-                    //cursor += candidates[j].F1;
-                    cursor += comparsionDelegate(candidates[i]);
+                    cursor += comparsionDelegate(candidates[j]);
                     if (cursor >= selectedValue)
                     {
                         selectedEntities.Add(candidates[j]);
-                        candidates.Remove(candidates[i]);
+                        candidates.Remove(candidates[j]);
                         break;
                     }
                     j += 1;

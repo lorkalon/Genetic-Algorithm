@@ -23,14 +23,14 @@ namespace GeneticAlgoritm
         }
 
 
-        public IEnumerable<IEntity> GenerateGrid()
+        public List<IEntity> GenerateGrid()
         {
             List<PointF> candidatePoints = GetCandidatePoints();
-            IEnumerable<IEntity> gridPoints = SeedGridPoints(candidatePoints);
+            List<IEntity> gridPoints = SeedGridPoints(candidatePoints);
             return gridPoints;
         }
 
-        private IEnumerable<IEntity> SeedGridPoints(List<PointF> candidatePoints)
+        private List<IEntity> SeedGridPoints(List<PointF> candidatePoints)
         {
             List<IEntity> gridPoints = new List<IEntity>();
 

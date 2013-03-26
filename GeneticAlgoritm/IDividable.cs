@@ -8,6 +8,6 @@ namespace GeneticAlgoritm
 {
     interface IDividable
     {
-        List<IEnumerable<IEntity>> DivideEntities(IEnumerable<IEntity> entities);
+        List<List<IEntity>> DivideEntities(List<IEntity> entities);
     }
 }

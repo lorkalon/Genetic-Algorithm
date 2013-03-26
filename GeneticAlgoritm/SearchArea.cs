@@ -16,7 +16,7 @@ namespace GeneticAlgoritm
 
         public float BottomBorder { get; set; }
 
-        public SearchArea(float leftBorder, float rightBorder, float topBorder, float bottomBorder)
+        public SearchArea(float leftBorder, float rightBorder,  float bottomBorder, float topBorder)
         {
             LeftBorder = leftBorder;
             RightBorder = rightBorder;

@@ -26,7 +26,7 @@ namespace GeneticAlgoritm
         }
 
 
-        public IEnumerable<IEntity> GenerateGrid()
+        public List<IEntity> GenerateGrid()
         {
             List<IEntity> entities = new List<IEntity>();
 

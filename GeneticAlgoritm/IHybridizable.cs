@@ -8,6 +8,6 @@ namespace GeneticAlgoritm
 {
     interface IHybridizable
     {
-        IEnumerable<IEntity> Hybridize(IEntity mom, IEntity dad);
+        List<IEntity> Hybridize(IEntity mom, IEntity dad);
     }
 }

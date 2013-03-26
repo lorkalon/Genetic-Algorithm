@@ -22,10 +22,9 @@ namespace GeneticAlgoritm
         public IEntity Mutate(IEntity entity) //!!!!!!!!!!!!!!!!!!!!
         {
             IEntity tempEntity;
-
+            Random random = new Random(DateTime.Now.Millisecond);
             do
             {
-                Random random = new Random();
                 BitArray firstGeneArray = new BitArray(entity.FirstGene);
                 BitArray secondGeneArray = new BitArray(entity.SecondGene);
 
@@ -53,13 +52,8 @@ namespace GeneticAlgoritm
         private bool AllowMutation(Random random)
         {
             int possibility = random.Next(0, 100);
-            
-            if (possibility < mutationPercent)
-            {
-                return true;
-            }
 
-            return false;
+            return (possibility < mutationPercent);
         }
 
         

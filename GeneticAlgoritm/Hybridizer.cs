@@ -12,26 +12,23 @@ namespace GeneticAlgoritm
     {
         private IEnumerable<int> hybridizePoints;
 
-        public Hybridizer(IEnumerable<int> hybridizePoints)
+        private SearchArea searchAreaSize;
+
+        public Hybridizer(SearchArea searchAreaSize, IEnumerable<int> hybridizePoints)
         {
             List<int> sortedHybridizePoints = hybridizePoints.ToList();
             sortedHybridizePoints.Sort();
             this.hybridizePoints = sortedHybridizePoints;
+            this.searchAreaSize = searchAreaSize;
         }
 
-        public IEnumerable<IEntity> Hybridize(IEntity mom, IEntity dad)//add checking in borders
+        public List<IEntity> Hybridize(IEntity mom, IEntity dad)
         {
-            mom.Chromosome = new BitArray(new int[] { 1, 1, 0, 0, 1, 1 });//test
-            dad.Chromosome = new BitArray(new int[] { 0, 0, 1, 1, 0, 0 });//test
+            BitArray momChromosome = new BitArray(mom.Chromosome);
+            BitArray dadChromosome = new BitArray(dad.Chromosome);
 
-
-            IEntity firstChild = mom;
-            IEntity secondChild = dad;
-
-            int[] c3 = new int[300];
-            firstChild.Chromosome.CopyTo(c3, 0);
-            int[] c4 = new int[300];
-            secondChild.Chromosome.CopyTo(c4, 0);
+            momChromosome = new BitArray(new bool[] { true, true, false, false, true, true, false, false, true, true, false, false, true, true, false, false, true, true, true, false, false, true, true, false, false, true, true, false, false, true, true, false, false, true, true, true, false, false, true, true, false, false, true, true, false, false, true, true, false, false, true, true });//test
+            dadChromosome = new BitArray(new bool[] { true, true, false, false, true, true, false, false, true, true, false, false, true, true, false, false, true, true, true, false, false, true, true, false, false, true, true, false, false, true, true, false, false, true, false, false, true, true, false, false, false, false, true, true, false, false, true, true, false, false, true, true });//test
 
             bool swap = false;
             int j = 0;
@@ -48,27 +45,60 @@ namespace GeneticAlgoritm
                 }
                 if (swap)
                 {
-                    bool temp = firstChild.Chromosome.Get(i);
-                    bool f=secondChild.Chromosome.Get(i);
-                    firstChild.Chromosome.Set(i, f);
-                    bool f1 = firstChild.Chromosome.Get(i);
-                    secondChild.Chromosome.Set(i, temp);
+                    bool temp = momChromosome[i];
+                    momChromosome.Set(i, dadChromosome[i]);
+                    dadChromosome.Set(i, temp);
                 }
             }
-            List<IEntity> children = new List<IEntity>();
-            //if(firstChild
-            children.Add(firstChild);
-            children.Add(secondChild);
-            int[] c1 = new int[300];
-            children[0].Chromosome.CopyTo(c1,0);
-            int[] c2 = new int[300];
-            children[1].Chromosome.CopyTo(c2, 0);
-            return children;
+
+            return GetValidChilds(momChromosome, dadChromosome);
         }
 
         private bool Invert(bool value)
         {
             return (value == false);
+        }
+
+        private List<IEntity> GetValidChilds(BitArray momChromosome, BitArray dadChromosome)
+        {
+            PointF momGenes = GetGenes(momChromosome);
+            PointF dadGenes = GetGenes(dadChromosome);
+
+            List<IEntity> validChilds = new List<IEntity>();
+            IEntity firstChild = new Entity(momGenes);
+            IEntity secondChild = new Entity(dadGenes);
+            if (firstChild.IsValid(searchAreaSize))
+            {
+                validChilds.Add(firstChild);
+            }
+            if (secondChild.IsValid(searchAreaSize))
+            {
+                validChilds.Add(secondChild);
+            }
+            return validChilds;
+        }
+
+        private PointF GetGenes(BitArray chromosome)
+        {
+            BitArray firstGene = new BitArray(chromosome.Count / 2);
+            for (int i = 0; i < chromosome.Count/2; i++)
+            {
+                firstGene.Set(i, chromosome[i]);
+            }
+            BitArray secondGene = new BitArray(chromosome.Count / 2);
+            for (int i = 0; i < chromosome.Count / 2; i++)
+            {
+                secondGene.Set(i, chromosome[i + chromosome.Count / 2]);
+            }
+            byte[] firstGeneArray = new byte[(int)Math.Ceiling((double)firstGene.Count / 8)];
+            byte[] secondGeneArray = new byte[(int)Math.Ceiling((double)secondGene.Count / 8)];
+            firstGene.CopyTo(firstGeneArray, 0);
+            secondGene.CopyTo(secondGeneArray, 0);
+
+            float firstGeneValue = BitConverter.ToSingle(firstGeneArray, 0);
+            float secondGeneValue = BitConverter.ToSingle(secondGeneArray, 0);
+
+            return new PointF(firstGeneValue, secondGeneValue);
         }
     }
 }
