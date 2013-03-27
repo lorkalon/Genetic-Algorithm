@@ -79,14 +79,9 @@ namespace GeneticAlgoritm
 
                 foreach (var group in groups)
                 {
-
-                    modifiedEntities.AddRange(GetMutationEntities(group));
-                    modifiedEntities.AddRange(GetOffsprings(group)); // Не инициализирован объект hybridize!!!!!!!
-
                     modifiedEntities.AddRange(selection.SelectEntities(group, entity => entity.F1));
                     modifiedEntities.AddRange(GetOffsprings(modifiedEntities));
                     modifiedEntities.AddRange(GetMutationEntities(modifiedEntities));
-
                 }
 
                 entities = modifiedEntities;

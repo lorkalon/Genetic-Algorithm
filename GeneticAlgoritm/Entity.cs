@@ -58,11 +58,6 @@ namespace GeneticAlgoritm
         {
             FirstGene = new BitArray(BitConverter.GetBytes(RealLocation.X));
             SecondGene = new BitArray(BitConverter.GetBytes(RealLocation.Y));
-
-            SetChromosome();
-            
-
-
         }
 
         private void InitializeDelegates()
@@ -78,7 +73,6 @@ namespace GeneticAlgoritm
             f1 = firstCriteria(x, y);
             f2 = secondCriteria(x, y);
             fGeneralized = c1 * f1 + c2 * f2;
-
         }
 
         private void SetChromosome()
