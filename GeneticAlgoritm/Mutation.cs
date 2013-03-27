@@ -55,7 +55,5 @@ namespace GeneticAlgoritm
 
             return (possibility < mutationPercent);
         }
-
-        
     }
 }

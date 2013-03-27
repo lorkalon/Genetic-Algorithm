@@ -10,20 +10,18 @@ namespace GeneticAlgoritm
 {
     interface IEntity
     {
-        Point WindowLocation { get; set; }
-        PointF RealLocation { get; set; }
+        Point WindowLocation { get; }
+        PointF RealLocation { get; }
 
         BitArray FirstGene { get; }
         BitArray SecondGene { get; }
-        BitArray Chromosome { get; set; }
+        BitArray Chromosome { get; }
 
+        float F1 { get; }
 
-        float GetF1(float x, float y);
+        float F2 { get; }
 
-        float GetF2(float x, float y);
-
-        float GetFGeneralized(float x, float y);
-
+        float FGeneralized { get; }
 
         bool IsValid(SearchArea searchAreaSize);
     }
