@@ -18,7 +18,6 @@ namespace GeneticAlgoritm
         private ISelection selection;
         private IDividable entitiesGroups;
         private IMutation performMutation;
-        
 
         public SearchArea SearchAreaSize { get; set; }
         public IGrid Grid { get; set; }
@@ -47,9 +46,9 @@ namespace GeneticAlgoritm
             hybridize.Hybridize(mom, dad);
             */
             IEntity e = new Entity(new PointF(12,12));
-            var a = e.GetF1(12, 12);
-            var b = e.GetF2(12, 12);
-            var c = e.GetFGeneralized(12, 12);
+            var a = e.F1;
+            var b = e.F2;
+            var c = e.FGeneralized;
 
             Grid = new RandomGrid(searchAreaSize, 14);//Временное объявление
             selection = new Roulette(2);
@@ -80,23 +79,22 @@ namespace GeneticAlgoritm
 
                 foreach (var group in groups)
                 {
-                    modifiedEntities.AddRange(selection.SelectEntities(group,entity=>entity.F1));
+                    modifiedEntities.AddRange(selection.SelectEntities(group, entity => entity.F1));
                     modifiedEntities.AddRange(GetMutationEntities(group));
-                    modifiedEntities.AddRange(GetOffsprings(group)); // Не инициализирован объект hybridize!!!!!!!
+                    modifiedEntities.AddRange(GetOffsprings(group)); 
                 }
 
                 entities = modifiedEntities;
             }
-
         }
 
-        private List<IEntity> GetOffsprings(IEnumerable<IEntity> parents)
+        private List<IEntity> GetOffsprings(List<IEntity> parents)
         {
             List<IEntity> offspring = new List<IEntity>();
 
             for (int i = 0; i < parents.Count(); i+=2)
             {
-                offspring.AddRange(hybridize.Hybridize(parents.ToList()[i], parents.ToList()[i + 1]).ToList());
+                offspring.AddRange(hybridize.Hybridize(parents[i], parents[i + 1]).ToList());
             }
 
             return offspring;
@@ -107,6 +105,5 @@ namespace GeneticAlgoritm
             List<IEntity> mutationEntities = entities.Select(entity => performMutation.Mutate(entity)).Where(mutant => mutant != null).ToList();
             return mutationEntities;
         }
-
     }
 }
