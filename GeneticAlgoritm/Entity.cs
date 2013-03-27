@@ -32,16 +32,16 @@ namespace GeneticAlgoritm
 
         private float FirstCriteriaMethod(float x, float y)
         {
-            return (float) (1/(1 + Math.Pow((x - 2), 2) + Math.Pow((y - 10), 2)) +
-                              1/(2 + Math.Pow((x - 10), 2) + Math.Pow((y - 15), 2)) +
-                              1/(2 + Math.Pow((x - 18), 2) + Math.Pow((y - 4), 2*x)));
+            return (float)(1 / (1 + Math.Pow((x - 2), 2) + Math.Pow((y - 10), 2)) +
+                              1 / (2 + Math.Pow((x - 10), 2) + Math.Pow((y - 15), 2)) +
+                              1 / (2 + Math.Pow((x - 18), 2) + Math.Pow((y - 4), 2 * Math.Round(x))));
         }
 
         private float SecondCriteriaMethod(float x, float y)
         {
             return (float)( 1/(1 / (1 + Math.Pow((x - 2), 2) + Math.Pow((y - 10), 2)) +
                               1 / (2 + Math.Pow((x - 10), 2) + Math.Pow((y - 15), 2)) +
-                              1 / (2 + Math.Pow((x - 18), 2) + Math.Pow((y - 4), 2 * x))) );
+                              1 / (2 + Math.Pow((x - 18), 2) + Math.Pow((y - 4), 2 * Math.Round(x)))));
         }
 
         public Entity(PointF realLocation)

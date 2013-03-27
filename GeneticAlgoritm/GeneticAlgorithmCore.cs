@@ -45,7 +45,7 @@ namespace GeneticAlgoritm
             IEntity dad = new Entity(new PointF(10, 10));
             hybridize.Hybridize(mom, dad);
             */
-            IEntity e = new Entity(new PointF(12,12));
+            IEntity e = new Entity(new PointF(5.422427f, 0.0000305175781f));//{X = 5.422427 Y = }
             var a = e.F1;
             var b = e.F2;
             var c = e.FGeneralized;
@@ -58,9 +58,9 @@ namespace GeneticAlgoritm
             //entities.ElementAt(2).F1 = 99f;//test
             //entities.ElementAt(3).F1 = 2f;//test
             //entities.ElementAt(4).F1 = 1f;//test
-            //var best = selection.SelectEntities(entities.ToList(), entity => entity.F1);//test
+            var best = selection.SelectEntities(entities.ToList(), entity => entity.F1);//test
 
-            hybridize = new Hybridizer(searchAreaSize, new int[] { 2, 4 });
+            hybridize = new Hybridizer(searchAreaSize, new int[] { 59, 62 });
             var childs = hybridize.Hybridize(entities[0], entities[1]);//test
 
             performMutation = new Mutation(searchAreaSize, 3);
@@ -80,19 +80,20 @@ namespace GeneticAlgoritm
                 foreach (var group in groups)
                 {
                     modifiedEntities.AddRange(selection.SelectEntities(group, entity => entity.F1));
-                    modifiedEntities.AddRange(GetMutationEntities(group));
-                    modifiedEntities.AddRange(GetOffsprings(group)); 
+                    modifiedEntities.AddRange(GetOffsprings(modifiedEntities));
+                    modifiedEntities.AddRange(GetMutationEntities(modifiedEntities));
                 }
 
                 entities = modifiedEntities;
             }
+            var min=entities.Max(e=>e.F1);
         }
 
         private List<IEntity> GetOffsprings(List<IEntity> parents)
         {
             List<IEntity> offspring = new List<IEntity>();
 
-            for (int i = 0; i < parents.Count(); i+=2)
+            for (int i = 0; i < parents.Count() - 1; i += 2)
             {
                 offspring.AddRange(hybridize.Hybridize(parents[i], parents[i + 1]).ToList());
             }

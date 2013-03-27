@@ -27,8 +27,8 @@ namespace GeneticAlgoritm
             BitArray momChromosome = new BitArray(mom.Chromosome);
             BitArray dadChromosome = new BitArray(dad.Chromosome);
 
-            momChromosome = new BitArray(new bool[] { true, true, false, false, true, true, false, false, true, true, false, false, true, true, false, false, true, true, true, false, false, true, true, false, false, true, true, false, false, true, true, false, false, true, true, true, false, false, true, true, false, false, true, true, false, false, true, true, false, false, true, true });//test
-            dadChromosome = new BitArray(new bool[] { true, true, false, false, true, true, false, false, true, true, false, false, true, true, false, false, true, true, true, false, false, true, true, false, false, true, true, false, false, true, true, false, false, true, false, false, true, true, false, false, false, false, true, true, false, false, true, true, false, false, true, true });//test
+            //momChromosome = new BitArray(new bool[] { true, true, false, false, true, true, false, false, true, true, false, false, true, true, false, false, true, true, true, false, false, true, true, false, false, true, true, false, false, true, true, false, false, true, true, true, false, false, true, true, false, false, true, true, false, false, true, true, false, false, true, true });//test
+            //dadChromosome = new BitArray(new bool[] { true, true, false, false, true, true, false, false, true, true, false, false, true, true, false, false, true, true, true, false, false, true, true, false, false, true, true, false, false, true, true, false, false, true, false, false, true, true, false, false, false, false, true, true, false, false, true, true, false, false, true, true });//test
 
             bool swap = false;
             int j = 0;

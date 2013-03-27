@@ -18,7 +18,7 @@ namespace GeneticAlgoritm
         {
             InitializeComponent();
 
-            geneticAlgoritm = new GeneticAlgorithmCore(new SearchArea(0, 100, 0, 100), 10);
+            geneticAlgoritm = new GeneticAlgorithmCore(new SearchArea(0, 10, 0, 10), 30);
         }
 
         private void EntitiesView_Load(object sender, EventArgs e)
