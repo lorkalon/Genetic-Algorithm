@@ -39,7 +39,9 @@ namespace GeneticAlgoritm
             FirstGene = new BitArray(BitConverter.GetBytes(RealLocation.X));
             SecondGene = new BitArray(BitConverter.GetBytes(RealLocation.Y));
             SetChromosome();
+            
 
+        }
 
         private void SetChromosome()
         {

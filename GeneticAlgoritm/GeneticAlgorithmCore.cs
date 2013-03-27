@@ -80,7 +80,7 @@ namespace GeneticAlgoritm
 
                 foreach (var group in groups)
                 {
-                    modifiedEntities.AddRange(selection.SelectEntities(group,entity=>entity.F1));
+                    modifiedEntities.AddRange(selection.SelectEntities(group,entity=>entity));
                     modifiedEntities.AddRange(GetMutationEntities(group));
                     modifiedEntities.AddRange(GetOffsprings(group)); // Не инициализирован объект hybridize!!!!!!!
                 }
