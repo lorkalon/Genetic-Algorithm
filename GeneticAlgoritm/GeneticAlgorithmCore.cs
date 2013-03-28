@@ -51,8 +51,9 @@ namespace GeneticAlgoritm
             var c = e.FGeneralized;
 
             Grid = new RandomGrid(searchAreaSize, 14);//Временное объявление
-            selection = new Roulette(2);
-            var entities=Grid.GenerateGrid();
+            //selection = new Roulette(2);
+            selection = new Tournament(3);
+            var entities = Grid.GenerateGrid();
             //entities.ElementAt(0).F1 = 1000f;//test
             //entities.ElementAt(1).F1 = 100f;//test
             //entities.ElementAt(2).F1 = 99f;//test
@@ -86,7 +87,7 @@ namespace GeneticAlgoritm
 
                 entities = modifiedEntities;
             }
-            var min=entities.Max(e=>e.F1);
+            var min = entities.Max(e => e.F1);
         }
 
         private List<IEntity> GetOffsprings(List<IEntity> parents)

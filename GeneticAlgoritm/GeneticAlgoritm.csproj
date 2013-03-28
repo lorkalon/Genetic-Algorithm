@@ -61,6 +61,7 @@
     <Compile Include="IHybridizable.cs" />
     <Compile Include="IMutation.cs" />
     <Compile Include="ISelection.cs" />
+    <Compile Include="MoreLinq\MoreEnumerable.MaxBy.cs" />
     <Compile Include="Mutation.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="Roulette.cs" />
     <Compile Include="SearchArea.cs" />
     <Compile Include="SquareGrid.cs" />
+    <Compile Include="Tournament.cs" />
     <Compile Include="TriangleGrid.cs" />
     <EmbeddedResource Include="EntitiesView.resx">
       <DependentUpon>EntitiesView.cs</DependentUpon>
@@ -81,6 +83,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
