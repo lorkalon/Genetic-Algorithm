@@ -63,30 +63,45 @@ namespace GeneticAlgoritm
             hybridize = new Hybridizer(searchAreaSize, new int[] { 59, 62 });
             var childs = hybridize.Hybridize(entities[0], entities[1]);//test
 
-            performMutation = new Mutation(searchAreaSize, 3);
+            performMutation = new Mutation(searchAreaSize, 10);
             entitiesGroups = new CenterDivide();
             StartGeneticAlgorithm();
         }
 
         public void StartGeneticAlgorithm()
         {
-            List<IEntity> entities = Grid.GenerateGrid().ToList();
-
-            for (int i = 0; i < cycles; i++)
+            List<IEntity> entities = Grid.GenerateGrid();
+            
+            for (int i = 0; i < 10000; i++)
             {
-                List<IEntity> modifiedEntities = new List<IEntity>();
                 List<List<IEntity>> groups = entitiesGroups.DivideEntities(entities);
+                List<IEntity> newEntities = new List<IEntity>();
 
-                foreach (var group in groups)
+                for (int j = 0; j < groups.Count; j++ )
                 {
-                    modifiedEntities.AddRange(selection.SelectEntities(group, entity => entity.F1));
-                    modifiedEntities.AddRange(GetOffsprings(modifiedEntities));
-                    modifiedEntities.AddRange(GetMutationEntities(modifiedEntities));
-                }
+                    List<IEntity> modifiedEntities = new List<IEntity>();
+                    Func<IEntity, float> comprasionDelegate;
 
-                entities = modifiedEntities;
+                    //if (j%2 == 0)
+                    {
+                        comprasionDelegate = entity => entity.F1;
+                    }
+                    //else
+                    {
+                      //  comprasionDelegate = entity => entity.F2;
+                    }
+
+                    modifiedEntities.AddRange(selection.SelectEntities(groups[j], comprasionDelegate));
+                    modifiedEntities.AddRange(GetOffsprings(modifiedEntities));
+                    var r = modifiedEntities;
+                    var t = GetMutationEntities(modifiedEntities);//{X = 0.896648467 Y = 9.69811}
+                    modifiedEntities.AddRange(t);
+                    newEntities.AddRange(modifiedEntities);
+                }
+                entities = newEntities; //!сделать отбор по F
             }
-            var min=entities.Max(e=>e.F1);
+            var c = entities.Count; //!максимум 16 может быть
+            var max = entities.Max(e=>e.F1);
         }
 
         private List<IEntity> GetOffsprings(List<IEntity> parents)

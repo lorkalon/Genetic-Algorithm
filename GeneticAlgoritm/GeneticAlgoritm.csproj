@@ -69,6 +69,7 @@
     <Compile Include="SearchArea.cs" />
     <Compile Include="SquareGrid.cs" />
     <Compile Include="TriangleGrid.cs" />
+    <Compile Include="TwoDivide.cs" />
     <EmbeddedResource Include="EntitiesView.resx">
       <DependentUpon>EntitiesView.cs</DependentUpon>
     </EmbeddedResource>
