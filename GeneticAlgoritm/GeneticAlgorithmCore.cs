@@ -52,7 +52,7 @@ namespace GeneticAlgoritm
             var b = e.F2;
             var c = e.FGeneralized;
 
-            grid = new SquareGrid(searchAreaSize, 14);//Временное объявление
+            grid = new RandomGrid(searchAreaSize, 14);//Временное объявление
             //selection = new Roulette(4);
             selection = new Tournament(4);
             var entities = grid.GenerateGrid();
@@ -75,7 +75,8 @@ namespace GeneticAlgoritm
         {
             List<IEntity> entities = grid.GenerateGrid();
             canvas = EntitiesDrawer.DrawEntities(entities);
-
+            entities = grid.GenerateGrid();
+            canvas = EntitiesDrawer.DrawEntities(entities);
 
             for (int i = 0; i < cycles; i++)
             {

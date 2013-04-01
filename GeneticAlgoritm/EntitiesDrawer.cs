@@ -16,7 +16,7 @@ namespace GeneticAlgoritm
 
         private static SearchArea searchArea;
 
-        private static int dashesCount = 9;
+        private static int dashesCount = 19;
 
         public static Bitmap DrawEntities(List<IEntity> entities)
         {
@@ -24,8 +24,8 @@ namespace GeneticAlgoritm
             if (canvas == null)
             {
                 InitializeCanvas();
+                DrawCS();
             }
-            DrawCS();
             PaintEntities(entities);
             return canvas;
         }
@@ -70,28 +70,28 @@ namespace GeneticAlgoritm
             drawer.FillRectangle(Brushes.WhiteSmoke, new Rectangle(0, 0, illustrationCanvasSize.Width, illustrationCanvasSize.Height));
 
             double windowX = 0;
-            double windowY = 0;
+            double windowY = illustrationCanvasSize.Height;
             double windowStepX = illustrationCanvasSize.Width / (dashesCount - 1);
             double windowStepY = illustrationCanvasSize.Height / (dashesCount - 1);
             double realX = searchArea.LeftBorder;
-            double realY = searchArea.TopBorder;
+            double realY = 0;
             double realStepX = (searchArea.RightBorder - searchArea.LeftBorder) / (dashesCount - 1);
             double realStepY = (searchArea.TopBorder - searchArea.BottomBorder) / (dashesCount - 1);
-            
+
             for (int i = 0; i < dashesCount; i++)
             {
-                drawer.DrawString(Convert.ToString(realX), new Font("Arial", 7), Brushes.Black, (int)windowX + 4, illustrationCanvasSize.Height - 15);
+                drawer.DrawString(String.Format("{0:0.00}",realX), new Font("Arial", 7), Brushes.Black, (int)windowX + 4, illustrationCanvasSize.Height - 15);
                 drawer.DrawLine(new Pen(Brushes.Black, 1), new Point((int)windowX, 0), new Point((int)windowX, illustrationCanvasSize.Height));
                 windowX += windowStepX;
                 realX += realStepX;
             }
-            drawer.DrawLine(new Pen(Brushes.Black, 1), new Point(illustrationCanvasSize.Width-1, 0), new Point(illustrationCanvasSize.Width-1, illustrationCanvasSize.Height));
+            drawer.DrawLine(new Pen(Brushes.Black, 1), new Point(illustrationCanvasSize.Width - 1, 0), new Point(illustrationCanvasSize.Width - 1, illustrationCanvasSize.Height));
             for (int i = 0; i < dashesCount; i++)
             {
-                drawer.DrawString(Convert.ToString(realY), new Font("Arial", 7), Brushes.Black, 4, (int)windowY - 15);
+                drawer.DrawString(String.Format("{0:0.00}", realY), new Font("Arial", 7), Brushes.Black, 4, (int)windowY - 15);
                 drawer.DrawLine(new Pen(Brushes.Black, 1), new Point(0, (int)windowY), new Point(illustrationCanvasSize.Width, (int)windowY));
-                windowY += windowStepY;
-                realY -= realStepY;
+                windowY -= windowStepY;
+                realY += realStepY;
             }
             drawer.DrawLine(new Pen(Brushes.Black, 1), new Point(0, illustrationCanvasSize.Height - 1), new Point(illustrationCanvasSize.Width, illustrationCanvasSize.Height - 1));
 
