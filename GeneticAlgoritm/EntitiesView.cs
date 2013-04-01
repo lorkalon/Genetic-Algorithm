@@ -19,9 +19,8 @@ namespace GeneticAlgoritm
         {
             InitializeComponent();
 
-            
-
             geneticAlgoritm = new GeneticAlgorithmCore(new SearchArea(0, 10, 0, 10), 30);
+            geneticAlgoritm.StartGeneticAlgorithm();
         }
 
         private int GetCyclesCount()
@@ -29,13 +28,13 @@ namespace GeneticAlgoritm
             return Convert.ToInt32(ConfigurationSettings.AppSettings.GetValues("cyclesCount")[0]);
         }
 
-        private Size GetIllustrationCanvasSize()
-        {
-            int illustrationCanvasWidth = Convert.ToInt32(ConfigurationSettings.AppSettings.GetValues("illustrationCanvasWidth")[0]);
-            int illustrationCanvasHeigth = Convert.ToInt32(ConfigurationSettings.AppSettings.GetValues("illustrationCanvasHeigth")[0]);
-            Size illustrationCanvasSize = new Size(illustrationCanvasWidth, illustrationCanvasHeigth);
-            return illustrationCanvasSize;
-        }
+        //private Size GetIllustrationCanvasSize()
+        //{
+        //    int illustrationCanvasWidth = Convert.ToInt32(ConfigurationSettings.AppSettings.GetValues("illustrationCanvasWidth")[0]);
+        //    int illustrationCanvasHeigth = Convert.ToInt32(ConfigurationSettings.AppSettings.GetValues("illustrationCanvasHeigth")[0]);
+        //    Size illustrationCanvasSize = new Size(illustrationCanvasWidth, illustrationCanvasHeigth);
+        //    return illustrationCanvasSize;
+        //}
 
         private SearchArea GetAreaSize()
         {
@@ -49,7 +48,7 @@ namespace GeneticAlgoritm
 
         private void EntitiesView_Load(object sender, EventArgs e)
         {
-
+            this.illustrationPictureBox.Image = geneticAlgoritm.GetCanvas();
         }
     }
 }

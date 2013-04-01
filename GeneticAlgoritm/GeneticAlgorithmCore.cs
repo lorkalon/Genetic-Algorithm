@@ -74,7 +74,9 @@ namespace GeneticAlgoritm
         public void StartGeneticAlgorithm()
         {
             List<IEntity> entities = grid.GenerateGrid();
-            
+            canvas = EntitiesDrawer.DrawEntities(entities);
+
+
             for (int i = 0; i < cycles; i++)
             {
                 List<List<IEntity>> groups = entitiesGroups.DivideEntities(entities);
