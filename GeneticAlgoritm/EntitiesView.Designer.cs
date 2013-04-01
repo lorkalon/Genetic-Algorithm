@@ -40,6 +40,7 @@
             this.illustrationPictureBox.Location = new System.Drawing.Point(12, 12);
             this.illustrationPictureBox.Name = "illustrationPictureBox";
             this.illustrationPictureBox.Size = new System.Drawing.Size(600, 600);
+            this.illustrationPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.illustrationPictureBox.TabIndex = 0;
             this.illustrationPictureBox.TabStop = false;
             // 

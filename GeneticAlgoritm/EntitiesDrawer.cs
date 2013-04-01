@@ -16,7 +16,7 @@ namespace GeneticAlgoritm
 
         private static SearchArea searchArea;
 
-        private static int dashesCount = 19;
+        private static int dashesCount = 9;
 
         public static Bitmap DrawEntities(List<IEntity> entities)
         {

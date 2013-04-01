@@ -52,7 +52,7 @@ namespace GeneticAlgoritm
             var b = e.F2;
             var c = e.FGeneralized;
 
-            grid = new RandomGrid(searchAreaSize, 14);//Временное объявление
+            grid = new SquareGrid(searchAreaSize, 14);//Временное объявление
             //selection = new Roulette(4);
             selection = new Tournament(4);
             var entities = grid.GenerateGrid();
@@ -61,21 +61,18 @@ namespace GeneticAlgoritm
             //entities.ElementAt(2).F1 = 99f;//test
             //entities.ElementAt(3).F1 = 2f;//test
             //entities.ElementAt(4).F1 = 1f;//test
-            var best = selection.SelectEntities(entities.ToList(), entity => entity.F1);//test
+            //var best = selection.SelectEntities(entities.ToList(), entity => entity.F1);//test
 
             hybridize = new Hybridizer(searchAreaSize, new int[] { 40, 62 });
             var childs = hybridize.Hybridize(entities[0], entities[1]);//test
 
             performMutation = new Mutation(searchAreaSize, 3);
             entitiesGroups = new CenterDivide();
-            StartGeneticAlgorithm();
         }
 
         public void StartGeneticAlgorithm()
         {
             List<IEntity> entities = grid.GenerateGrid();
-            canvas = EntitiesDrawer.DrawEntities(entities);
-            entities = grid.GenerateGrid();
             canvas = EntitiesDrawer.DrawEntities(entities);
 
             for (int i = 0; i < cycles; i++)
