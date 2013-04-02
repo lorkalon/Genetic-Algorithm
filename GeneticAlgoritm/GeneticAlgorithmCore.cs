@@ -10,8 +10,6 @@ namespace GeneticAlgoritm
 {
     class GeneticAlgorithmCore
     {
-        private Bitmap canvas;
-
         private int cycles;
 
         private SearchArea searchAreaSize;
@@ -20,6 +18,7 @@ namespace GeneticAlgoritm
         private ISelection selection;
         private IDividable entitiesGroups;
         private IMutation performMutation;
+        
 
         public SearchArea SearchAreaSize { get; set; }
         public IGrid Grid { get; set; }
@@ -47,75 +46,59 @@ namespace GeneticAlgoritm
             IEntity dad = new Entity(new PointF(10, 10));
             hybridize.Hybridize(mom, dad);
             */
-            IEntity e = new Entity(new PointF(5.422427f, 0.0000305175781f));
-            var a = e.F1;
-            var b = e.F2;
-            var c = e.FGeneralized;
+            IEntity e = new Entity(new PointF(12,12));
+            var a = e.GetF1(12, 12);
+            var b = e.GetF2(12, 12);
+            var c = e.GetFGeneralized(12, 12);
 
-            grid = new SquareGrid(searchAreaSize, 14);//Временное объявление
-            //selection = new Roulette(4);
-            selection = new Tournament(4);
-            var entities = grid.GenerateGrid();
+            Grid = new RandomGrid(searchAreaSize, 14);//Временное объявление
+            //selection = new Roulette(2);
+            var entities = Grid.GenerateGrid();
             //entities.ElementAt(0).F1 = 1000f;//test
             //entities.ElementAt(1).F1 = 100f;//test
             //entities.ElementAt(2).F1 = 99f;//test
             //entities.ElementAt(3).F1 = 2f;//test
             //entities.ElementAt(4).F1 = 1f;//test
-            //var best = selection.SelectEntities(entities.ToList(), entity => entity.F1);//test
+            var best = selection.SelectEntities(entities.ToList(), entity => entity.F1);//test
 
-            hybridize = new Hybridizer(searchAreaSize, new int[] { 40, 62 });
+            hybridize = new Hybridizer(searchAreaSize, new int[] { 59, 62 });
             var childs = hybridize.Hybridize(entities[0], entities[1]);//test
 
             performMutation = new Mutation(searchAreaSize, 3);
             entitiesGroups = new CenterDivide();
+            StartGeneticAlgorithm();
         }
 
         public void StartGeneticAlgorithm()
         {
-            List<IEntity> entities = grid.GenerateGrid();
-            canvas = EntitiesDrawer.DrawEntities(entities);
+            List<IEntity> entities = Grid.GenerateGrid().ToList();
 
             for (int i = 0; i < cycles; i++)
             {
+                List<IEntity> modifiedEntities = new List<IEntity>();
                 List<List<IEntity>> groups = entitiesGroups.DivideEntities(entities);
-                List<IEntity> newEntities = new List<IEntity>();
 
-                for (int j = 0; j < groups.Count; j++ )
+                foreach (var group in groups)
                 {
-                    List<IEntity> modifiedEntities = new List<IEntity>();
-                    Func<IEntity, float> comprasionDelegate;
-
-                    //if (j%2 == 0)
-                    {
-                        comprasionDelegate = entity => entity.F1;
-                    }
-                    //else
-                    {
-                      //  comprasionDelegate = entity => entity.F2;
-                    }
-
-                    modifiedEntities.AddRange(selection.SelectEntities(groups[j], comprasionDelegate));
-                    modifiedEntities.AddRange(GetOffsprings(modifiedEntities));
-                    var r = modifiedEntities;
-                    var t = GetMutationEntities(modifiedEntities);
-                    modifiedEntities.AddRange(t);
-                    newEntities.AddRange(modifiedEntities);
+                    modifiedEntities.AddRange(selection.SelectEntities(group,entity=>entity));
+                    modifiedEntities.AddRange(GetMutationEntities(group));
+                    modifiedEntities.AddRange(GetOffsprings(group)); // Не инициализирован объект hybridize!!!!!!!
                 }
-                entities = newEntities; //!сделать отбор по F
+
+                entities = modifiedEntities;
             }
 
-            var c = entities.Count; //!максимум 16 может быть
-            var max = entities.Max(e => e.F1);
         }
 
-        private List<IEntity> GetOffsprings(List<IEntity> parents)
+        private List<IEntity> GetOffsprings(IEnumerable<IEntity> parents)
         {
             List<IEntity> offspring = new List<IEntity>();
 
-            for (int i = 0; i < parents.Count() - 1; i += 2)
+            for (int i = 0; i < parents.Count(); i+=2)
             {
-                offspring.AddRange(hybridize.Hybridize(parents[i], parents[i + 1]).ToList());
+                offspring.AddRange(hybridize.Hybridize(parents.ToList()[i], parents.ToList()[i + 1]).ToList());
             }
+
             return offspring;
         }
 
@@ -123,11 +106,6 @@ namespace GeneticAlgoritm
         {
             List<IEntity> mutationEntities = entities.Select(entity => performMutation.Mutate(entity)).Where(mutant => mutant != null).ToList();
             return mutationEntities;
-        }
-
-        public Bitmap GetCanvas()
-        {
-            return canvas;
         }
     }
 }
