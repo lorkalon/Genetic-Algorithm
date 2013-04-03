@@ -18,6 +18,8 @@ namespace GeneticAlgoritm
 
         private static int dashesCount = 9;
 
+        private static Color entityColor = Color.Red;
+
         public static Bitmap DrawEntities(List<IEntity> entities)
         {
             searchArea = GetAreaSize();

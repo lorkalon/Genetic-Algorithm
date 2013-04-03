@@ -90,10 +90,22 @@ namespace GeneticAlgoritm
                 {
                     //comprasionDelegate = entity => entity.F2;
                 }
+                //////////////////
+                var leadingEntities = selection.SelectEntities(groups[j], comprasionDelegate);
+                modifiedEntities.AddRange(leadingEntities);
+                var entitiesOffsprings = GetOffsprings(modifiedEntities);
+                modifiedEntities.AddRange(entitiesOffsprings);
+                var mutationEntities = GetMutationEntities(modifiedEntities);
+                modifiedEntities.AddRange(mutationEntities);
+                //////////////////
+                //var mutationEntities = GetMutationEntities(groups[j]);
+                //modifiedEntities.AddRange(mutationEntities);
+                //var leadingEntities = selection.SelectEntities(modifiedEntities, comprasionDelegate);
+                //modifiedEntities.AddRange(leadingEntities);
+                //var entitiesOffsprings = GetOffsprings(modifiedEntities);
+                //modifiedEntities.AddRange(entitiesOffsprings);
+                
 
-                modifiedEntities.AddRange(selection.SelectEntities(groups[j], comprasionDelegate));
-                modifiedEntities.AddRange(GetOffsprings(modifiedEntities));
-                modifiedEntities.AddRange(GetMutationEntities(modifiedEntities));
                 newEntities.AddRange(modifiedEntities);
             }
 

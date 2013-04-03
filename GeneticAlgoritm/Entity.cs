@@ -10,7 +10,7 @@ namespace GeneticAlgoritm
 {
     class Entity : IEntity
     {
-        public Point WindowLocation { get; private set; }
+        //public Point WindowLocation { get; private set; }
         public PointF RealLocation { get; private set; }
 
         public BitArray FirstGene { get; private set; }
