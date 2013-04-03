@@ -45,7 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CenterDivide.cs" />
+    <Compile Include="CenterDivision.cs" />
     <Compile Include="EntitiesDrawer.cs" />
     <Compile Include="EntitiesView.cs">
       <SubType>Form</SubType>
@@ -72,7 +72,7 @@
     <Compile Include="SquareGrid.cs" />
     <Compile Include="Tournament.cs" />
     <Compile Include="TriangleGrid.cs" />
-    <Compile Include="TwoDivide.cs" />
+    <Compile Include="EvenDivision.cs" />
     <EmbeddedResource Include="EntitiesView.resx">
       <DependentUpon>EntitiesView.cs</DependentUpon>
     </EmbeddedResource>
@@ -97,7 +97,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />

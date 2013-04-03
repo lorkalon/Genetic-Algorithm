@@ -142,5 +142,6 @@ namespace GeneticAlgoritm
         {
             return this.RealLocation.GetHashCode();
         }
+
     }
 }
