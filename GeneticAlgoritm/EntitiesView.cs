@@ -14,13 +14,16 @@ namespace GeneticAlgoritm
     public partial class EntitiesView : Form
     { 
         private GeneticAlgorithmCore geneticAlgoritm;
+
         private AppSettingsReader settingsReader;
+
         private SearchArea searchAreaSize;
+
         private int cycles;
         private Dictionary<string, Type> grids = new Dictionary<string, Type>(){{"Random", typeof(RandomGrid)}, {"Triangle", typeof(TriangleGrid)}, {"Square", typeof(SquareGrid)} };
         private Dictionary<string, Type> divisions = new Dictionary<string, Type>() { { "Center", typeof(CenterDivision) }, { "Even", typeof(EvenDivision) } };
         private Dictionary<string, Type> selections = new Dictionary<string, Type>() { { "Roulette", typeof(Roulette) }, { "Tournament", typeof(Tournament) } };
-        private bool settigsChanged = false;
+        //private bool settigsChanged = false;
         private bool formLoaded = false;
 
         public EntitiesView()
@@ -51,7 +54,7 @@ namespace GeneticAlgoritm
         private void InitializeGeneticAlgorithmProperties()
         {
             geneticAlgoritm.EntitiesCount = (int) entitiesCountNumericUpDown.Value;    
-            geneticAlgoritm.AmountSortedEntities = (int)selectedByFEntitiesNumericUpDown.Value;
+            //geneticAlgoritm.AmountSortedEntities = (int)selectedByFEntitiesNumericUpDown.Value;
             
             geneticAlgoritm.Hybridize = new Hybridizer(searchAreaSize, new int[] { (int)crossPointNumericUpDown1.Value, (int)crossPointNumericUpDown2.Value });
             geneticAlgoritm.PerformMutation = new Mutation(searchAreaSize, (int)mutationPercentNumericUpDown.Value);
@@ -84,11 +87,6 @@ namespace GeneticAlgoritm
             return searchAreaSize;
         }
 
-        private void EntitiesView_Load(object sender, EventArgs e)
-        {
-            
-        }
-
         private void ExecuteGeneticAlgorithmButton_Click(object sender, EventArgs e)
         {
             geneticAlgoritm.ExecuteGeneticAlgorithm(); 
@@ -101,15 +99,15 @@ namespace GeneticAlgoritm
             this.illustrationPictureBox.Image = geneticAlgoritm.GetCanvas();
         }
 
-        private void SettingsChanged(object sender, EventArgs e)
-        {
-            settigsChanged = true;
-        }
+        //private void SettingsChanged(object sender, EventArgs e)
+        //{
+        //    settigsChanged = true;
+        //}
 
-        private void ApplySettingsButton_Click(object sender, EventArgs e)
-        {
-            InitializeGeneticAlgorithmProperties();  // Вариант для ленивых
-        }
+        //private void ApplySettingsButton_Click(object sender, EventArgs e)
+        //{
+        //    InitializeGeneticAlgorithmProperties();  // Вариант для ленивых
+        //}
 
 
         // ------------------- обработчики изменений настроек -------------------------
@@ -123,10 +121,10 @@ namespace GeneticAlgoritm
 
         private void SelectedByFEntitiesCountValueChanged(object sender, EventArgs e)
         {
-            if (formLoaded)
-            {
-                geneticAlgoritm.AmountSortedEntities = (int) selectedByFEntitiesNumericUpDown.Value;
-            }
+            //if (formLoaded)
+            //{
+            //    geneticAlgoritm.AmountSortedEntities = (int) selectedByFEntitiesNumericUpDown.Value;
+            //}
         }
 
         private void CrossPointsValueChanged(object sender, EventArgs e)

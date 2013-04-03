@@ -34,14 +34,14 @@ namespace GeneticAlgoritm
         {
             return (float)(1 / (1 + Math.Pow((x - 2), 2) + Math.Pow((y - 10), 2)) +
                                1 / (2 + Math.Pow((x - 10), 2) + Math.Pow((y - 15), 2)) +
-                               1 / (2 + Math.Pow((x - 18), 2) + Math.Pow(Math.Abs(y - 4), 2 * x)));
+                               1 / (2 + Math.Pow((x - 18), 2) + x*Math.Pow((y - 4), 2 )));
         }
 
         private float SecondCriteriaMethod(float x, float y)
         {
             return (float)(1 / (1 / (1 + Math.Pow((x - 2), 2) + Math.Pow((y - 10), 2)) +
                               1 / (2 + Math.Pow((x - 10), 2) + Math.Pow((y - 15), 2)) +
-                              1 / (2 + Math.Pow((x - 18), 2) + Math.Pow(Math.Abs(y - 4), 2 * x))));
+                              1 / (2 + Math.Pow((x - 18), 2) + x*Math.Pow((y - 4), 2 ))));
         }
 
         public Entity(PointF realLocation)
@@ -127,8 +127,8 @@ namespace GeneticAlgoritm
 
         public bool IsValid(SearchArea searchAreaSize)
         {
-            return (RealLocation.X > searchAreaSize.LeftBorder && RealLocation.X < searchAreaSize.RightBorder &&
-                    RealLocation.Y > searchAreaSize.BottomBorder && RealLocation.Y < searchAreaSize.TopBorder);
+            return (RealLocation.X >= searchAreaSize.LeftBorder && RealLocation.X <= searchAreaSize.RightBorder &&
+                    RealLocation.Y >= searchAreaSize.BottomBorder && RealLocation.Y <= searchAreaSize.TopBorder);
         }
 
         public override bool Equals(object obj)

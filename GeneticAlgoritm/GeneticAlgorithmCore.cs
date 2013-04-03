@@ -10,6 +10,8 @@ namespace GeneticAlgoritm
 {
     class GeneticAlgorithmCore
     {
+        private int currentStep = 0;
+
         private Bitmap canvas;
         private int cycles;
         private SearchArea searchAreaSize;
@@ -18,7 +20,7 @@ namespace GeneticAlgoritm
         private ISelection selection;
         private IDividable entitiesDivision;
         private IMutation performMutation;
-        private int amountSortedEntites;
+        //private int amountSortedEntites;
         private int entitiesCount;
         private List<IEntity> entities;
 
@@ -39,7 +41,7 @@ namespace GeneticAlgoritm
         public ISelection Selection { get { return selection; } set { selection = value; } }
         public IDividable EntitiesDivision { get { return entitiesDivision; } set { entitiesDivision = value; } }
         public IMutation PerformMutation { get { return performMutation; } set { performMutation = value; } }
-        public int AmountSortedEntities { get { return amountSortedEntites; } set { amountSortedEntites = value; } }
+        //public int AmountSortedEntities { get { return amountSortedEntites; } set { amountSortedEntites = value; } }
         public int EntitiesCount { get { return entitiesCount; } set { entitiesCount = value; } }
 
         public GeneticAlgorithmCore(SearchArea searchAreaSize, int cycles)
@@ -50,14 +52,17 @@ namespace GeneticAlgoritm
 
         public void ExecuteGeneticAlgorithm()
         {
-            entities = grid.GenerateGrid();
-            EntitiesDrawer.ClearCanvas();
             canvas = EntitiesDrawer.DrawEntities(entities);
-            for (int i = 0; i < cycles; i++)
+
+            for (int i = currentStep; i < cycles; i++)
             {
                 List<List<IEntity>> groups = entitiesDivision.DivideEntities(entities);
                 entities = GetGenerationEntities(groups);
+                canvas = EntitiesDrawer.DrawEntities(entities);
             }
+            entities = grid.GenerateGrid();
+            EntitiesDrawer.ClearCanvas();
+            currentStep = 0;
         }
 
         public void ExecuteOneStep()
@@ -65,6 +70,7 @@ namespace GeneticAlgoritm
             List<List<IEntity>> groups = entitiesDivision.DivideEntities(entities);
             entities = GetGenerationEntities(groups);
             canvas = EntitiesDrawer.DrawEntities(entities);
+            currentStep += 1;
         }
 
         private List<IEntity> GetGenerationEntities(List<List<IEntity>> groups)
@@ -76,22 +82,23 @@ namespace GeneticAlgoritm
                 List<IEntity> modifiedEntities = new List<IEntity>();
                 Func<IEntity, float> comprasionDelegate;
 
-               if (j % 2 == 0)
+                //if (j % 2 == 0)
                 {
                     comprasionDelegate = entity => entity.F1;
-               }
-               else
+                }
+                //else
                 {
-                    comprasionDelegate = entity => entity.F2;
+                    //comprasionDelegate = entity => entity.F2;
                 }
 
                 modifiedEntities.AddRange(selection.SelectEntities(groups[j], comprasionDelegate));
                 modifiedEntities.AddRange(GetOffsprings(modifiedEntities));
                 modifiedEntities.AddRange(GetMutationEntities(modifiedEntities));
-                newEntities.AddRange(modifiedEntities);    
+                newEntities.AddRange(modifiedEntities);
             }
 
-            return selection.SelectEntities(newEntities, x => x.FGeneralized);   // !!!!!!!!!!!Обратить внимание на количество возвращаемых особей!!!!!
+            //return selection.SelectEntities(newEntities, x => x.FGeneralized);   // !!!!!!!!!!!Обратить внимание на количество возвращаемых особей!!!!!
+            return selection.SelectEntities(newEntities, x => x.F1);
         }
 
         private List<IEntity> GetOffsprings(List<IEntity> parents)
