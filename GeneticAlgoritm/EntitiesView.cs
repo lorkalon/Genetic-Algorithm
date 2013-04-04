@@ -54,7 +54,6 @@ namespace GeneticAlgoritm
         private void InitializeGeneticAlgorithmProperties()
         {
             geneticAlgoritm.EntitiesCount = (int) entitiesCountNumericUpDown.Value;    
-            //geneticAlgoritm.AmountSortedEntities = (int)selectedByFEntitiesNumericUpDown.Value;
             
             geneticAlgoritm.Hybridize = new Hybridizer(searchAreaSize, new int[] { (int)crossPointNumericUpDown1.Value, (int)crossPointNumericUpDown2.Value });
             geneticAlgoritm.PerformMutation = new Mutation(searchAreaSize, (int)mutationPercentNumericUpDown.Value);
@@ -98,16 +97,6 @@ namespace GeneticAlgoritm
             geneticAlgoritm.ExecuteOneStep();
             this.illustrationPictureBox.Image = geneticAlgoritm.GetCanvas();
         }
-
-        //private void SettingsChanged(object sender, EventArgs e)
-        //{
-        //    settigsChanged = true;
-        //}
-
-        //private void ApplySettingsButton_Click(object sender, EventArgs e)
-        //{
-        //    InitializeGeneticAlgorithmProperties();  // Вариант для ленивых
-        //}
 
 
         // ------------------- обработчики изменений настроек -------------------------

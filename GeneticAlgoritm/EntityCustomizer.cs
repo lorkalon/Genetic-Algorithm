@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GeneticAlgoritm
 {
-    enum EntityTypes { BestEntity, MutantEntity, ParentEntity, ChildEntity };
+    enum EntityTypes { BestEntity, MutantEntity, ParentEntity, ChildEntity, SelectedEntity };
 
     static class EntityCustomizer
     {
@@ -19,7 +19,8 @@ namespace GeneticAlgoritm
             {EntityTypes.BestEntity,Color.Red},
             {EntityTypes.MutantEntity,Color.Violet},
             {EntityTypes.ParentEntity,Color.Green},
-            {EntityTypes.ChildEntity,Color.Blue}};
+            {EntityTypes.ChildEntity,Color.Blue},
+            {EntityTypes.SelectedEntity,Color.Orange}};
         }
 
         public static Color GetEntityColor(EntityTypes entityType)

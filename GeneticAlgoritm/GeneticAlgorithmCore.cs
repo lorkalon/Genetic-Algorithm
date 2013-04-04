@@ -20,7 +20,6 @@ namespace GeneticAlgoritm
         private ISelection selection;
         private IDividable entitiesDivision;
         private IMutation performMutation;
-        //private int amountSortedEntites;
         private int entitiesCount;
         private List<IEntity> entities;
 
@@ -41,7 +40,6 @@ namespace GeneticAlgoritm
         public ISelection Selection { get { return selection; } set { selection = value; } }
         public IDividable EntitiesDivision { get { return entitiesDivision; } set { entitiesDivision = value; } }
         public IMutation PerformMutation { get { return performMutation; } set { performMutation = value; } }
-        //public int AmountSortedEntities { get { return amountSortedEntites; } set { amountSortedEntites = value; } }
         public int EntitiesCount { get { return entitiesCount; } set { entitiesCount = value; } }
 
         public GeneticAlgorithmCore(SearchArea searchAreaSize, int cycles)
@@ -52,14 +50,15 @@ namespace GeneticAlgoritm
 
         public void ExecuteGeneticAlgorithm()
         {
-            canvas = EntitiesDrawer.DrawEntities(entities);
+            //canvas = EntitiesDrawer.DrawEntities(entities, EntityTypes.);
 
             for (int i = currentStep; i < cycles; i++)
             {
                 List<List<IEntity>> groups = entitiesDivision.DivideEntities(entities);
                 entities = GetGenerationEntities(groups);
-                canvas = EntitiesDrawer.DrawEntities(entities);
+                //canvas = EntitiesDrawer.DrawEntities(entities, EntityTypes.BestEntity);
             }
+            //canvas = EntitiesDrawer.DrawEntities(entities, EntityTypes.BestEntity);
             entities = grid.GenerateGrid();
             EntitiesDrawer.ClearCanvas();
             currentStep = 0;
@@ -69,7 +68,7 @@ namespace GeneticAlgoritm
         {
             List<List<IEntity>> groups = entitiesDivision.DivideEntities(entities);
             entities = GetGenerationEntities(groups);
-            canvas = EntitiesDrawer.DrawEntities(entities);
+            //canvas = EntitiesDrawer.DrawEntities(entities,EntityTypes.BestEntity);
             currentStep += 1;
         }
 
@@ -93,24 +92,33 @@ namespace GeneticAlgoritm
                 //////////////////
                 var leadingEntities = selection.SelectEntities(groups[j], comprasionDelegate);
                 modifiedEntities.AddRange(leadingEntities);
+                canvas = EntitiesDrawer.DrawEntities(leadingEntities, EntityTypes.SelectedEntity);
+
                 var entitiesOffsprings = GetOffsprings(modifiedEntities);
                 modifiedEntities.AddRange(entitiesOffsprings);
+                canvas = EntitiesDrawer.DrawEntities(entitiesOffsprings, EntityTypes.ChildEntity);
+
                 var mutationEntities = GetMutationEntities(modifiedEntities);
                 modifiedEntities.AddRange(mutationEntities);
+                canvas = EntitiesDrawer.DrawEntities(mutationEntities, EntityTypes.MutantEntity);
+
                 //////////////////
+
                 //var mutationEntities = GetMutationEntities(groups[j]);
                 //modifiedEntities.AddRange(mutationEntities);
                 //var leadingEntities = selection.SelectEntities(modifiedEntities, comprasionDelegate);
                 //modifiedEntities.AddRange(leadingEntities);
                 //var entitiesOffsprings = GetOffsprings(modifiedEntities);
                 //modifiedEntities.AddRange(entitiesOffsprings);
-                
+
 
                 newEntities.AddRange(modifiedEntities);
             }
 
-            //return selection.SelectEntities(newEntities, x => x.FGeneralized);   // !!!!!!!!!!!Обратить внимание на количество возвращаемых особей!!!!!
-            return selection.SelectEntities(newEntities, x => x.F1);
+            //var newPopulationEntities = selection.SelectEntities(newEntities, x => x.FGeneralized);   // !!!!!!!!!!!Обратить внимание на количество возвращаемых особей!!!!!
+            var newPopulationEntities = selection.SelectEntities(newEntities, x => x.F1);
+            canvas = EntitiesDrawer.DrawEntities(newPopulationEntities, EntityTypes.BestEntity);
+            return newPopulationEntities;
         }
 
         private List<IEntity> GetOffsprings(List<IEntity> parents)

@@ -10,6 +10,8 @@ namespace GeneticAlgoritm
 {
     class EntitiesDrawer
     {
+        private static Graphics drawer;
+
         private static Bitmap canvas;
 
         private static Size illustrationCanvasSize;
@@ -20,7 +22,7 @@ namespace GeneticAlgoritm
 
         private static Color entityColor = Color.Red;
 
-        public static Bitmap DrawEntities(List<IEntity> entities)
+        public static Bitmap DrawEntities(List<IEntity> entities, EntityTypes type)
         {
             searchArea = GetAreaSize();
             if (canvas == null)
@@ -28,7 +30,7 @@ namespace GeneticAlgoritm
                 InitializeCanvas();
                 DrawCS();
             }
-            PaintEntities(entities);
+            PaintEntities(entities, type);
             return canvas;
         }
 
@@ -37,21 +39,21 @@ namespace GeneticAlgoritm
             canvas = null;
         }
 
-        private static void PaintEntities(List<IEntity> entities)
+        private static void PaintEntities(List<IEntity> entities, EntityTypes type)
         {
-            Graphics drawer = Graphics.FromImage(canvas);
-            drawer.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            Color color = EntityCustomizer.GetEntityColor(type);
+            
             foreach (var entity in entities)
             {
-                DrawEntity(drawer, entity);
+                DrawEntity(entity, color);
             }
         }
 
-        private static void DrawEntity(Graphics drawer, IEntity entity)
+        private static void DrawEntity(IEntity entity, Color color)
         {
             int pointRadius = 5;
             Point windowCoordinates = TranslateToWindowCoordinates(entity.RealLocation);
-            drawer.FillEllipse(Brushes.Red, windowCoordinates.X - pointRadius, windowCoordinates.Y - pointRadius, 2 * pointRadius, 2 * pointRadius);
+            drawer.FillEllipse(new SolidBrush(color), windowCoordinates.X - pointRadius, windowCoordinates.Y - pointRadius, 2 * pointRadius, 2 * pointRadius);
         }
 
         private static Point TranslateToWindowCoordinates(PointF realCoordiantes)
@@ -107,6 +109,8 @@ namespace GeneticAlgoritm
             int illustrationCanvasHeigth = Convert.ToInt32(ConfigurationSettings.AppSettings.GetValues("illustrationCanvasHeigth")[0]);
             canvas = new Bitmap(illustrationCanvasWidth, illustrationCanvasHeigth);
             illustrationCanvasSize = new Size(illustrationCanvasWidth, illustrationCanvasHeigth);
+            drawer = Graphics.FromImage(canvas);
+            drawer.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
         }
 
         private static SearchArea GetAreaSize()

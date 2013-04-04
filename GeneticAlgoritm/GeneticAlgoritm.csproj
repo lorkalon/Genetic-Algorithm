@@ -54,6 +54,7 @@
       <DependentUpon>EntitiesView.cs</DependentUpon>
     </Compile>
     <Compile Include="Entity.cs" />
+    <Compile Include="EntityCustomizer.cs" />
     <Compile Include="GeneticAlgorithmCore.cs" />
     <Compile Include="Hybridizer.cs" />
     <Compile Include="IDividable.cs" />
