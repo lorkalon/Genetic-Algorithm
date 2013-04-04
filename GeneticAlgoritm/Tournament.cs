@@ -20,14 +20,23 @@ namespace GeneticAlgoritm
         {
             List<IEntity> selectedEntities = new List<IEntity>();
             List<List<IEntity>> groups = new List<List<IEntity>>();
-            int entitiesInGroup = candidates.Count() / entitiesCount;
 
-            for (int i = 0; i < entitiesCount - 1; i++)
+            if (candidates.Count() > entitiesCount)
             {
-                groups.Add(candidates.GetRange(0, entitiesInGroup));
-                candidates.RemoveRange(0, entitiesInGroup);
+                int entitiesInGroup = candidates.Count() / entitiesCount;
+
+                for (int i = 0; i < entitiesCount - 1; i++)
+                {
+                    groups.Add(candidates.GetRange(0, entitiesInGroup));
+                    candidates.RemoveRange(0, entitiesInGroup);
+                }
+                groups.Add(candidates);
             }
-            groups.Add(candidates);
+            else
+            {
+                return candidates;
+            }
+
             foreach (var group in groups)
             {
                 selectedEntities.Add(group.MaxBy(comparsionDelegate));

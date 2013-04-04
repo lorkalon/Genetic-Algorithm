@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace GeneticAlgoritm
 {
@@ -92,6 +93,10 @@ namespace GeneticAlgoritm
                 }
                 //////////////////
                 var leadingEntities = selection.SelectEntities(groups[j], comprasionDelegate);
+                if (leadingEntities.Count == 0)
+                {
+                    MessageBox.Show("qsqs");
+                }
                 modifiedEntities.AddRange(leadingEntities);
                 canvas = EntitiesDrawer.DrawEntities(leadingEntities, EntityTypes.SelectedEntity);
 
