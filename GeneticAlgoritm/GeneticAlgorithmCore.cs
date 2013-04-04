@@ -74,6 +74,7 @@ namespace GeneticAlgoritm
 
         private List<IEntity> GetGenerationEntities(List<List<IEntity>> groups)
         {
+            //EntitiesDrawer.ClearCanvas();
             List<IEntity> newEntities = new List<IEntity>();
 
             for (int j = 0; j < groups.Count; j++)
