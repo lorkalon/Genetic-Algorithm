@@ -15,11 +15,12 @@ namespace GeneticAlgoritm
         private SearchArea searchAreaSize;
         private IGrid grid;
         private IHybridizable hybridize;
-        private ISelection selection;
+        private ISelection selectionFromGroups;
+        private ISelection selectionFromGeneration;
         private IDividable entitiesDivision;
         private IMutation performMutation;
-        private int amountSortedEntites;
-        private int entitiesCount;
+        private int selectionFromGroupsCount;
+        private int selectionFromGenerationCount;
         private List<IEntity> entities;
 
         public IGrid Grid 
@@ -36,11 +37,12 @@ namespace GeneticAlgoritm
         }
 
         public IHybridizable Hybridize { get { return hybridize; } set { hybridize = value; } }
-        public ISelection Selection { get { return selection; } set { selection = value; } }
+        public ISelection SelectionFromGroups { get { return selectionFromGroups; } set { selectionFromGroups = value; } }
         public IDividable EntitiesDivision { get { return entitiesDivision; } set { entitiesDivision = value; } }
         public IMutation PerformMutation { get { return performMutation; } set { performMutation = value; } }
-        public int AmountSortedEntities { get { return amountSortedEntites; } set { amountSortedEntites = value; } }
-        public int EntitiesCount { get { return entitiesCount; } set { entitiesCount = value; } }
+      //  public int SelectionFromGroupsCount { get { return selectionFromGroupsCount; } set { selectionFromGroupsCount = value; } }
+      //  public int SelectionFromGenerationCount { get { return selectionFromGenerationCount; } set { selectionFromGenerationCount = value; } }
+        public ISelection SelectionFromGeneration { get { return selectionFromGeneration; } set { selectionFromGeneration = value; } }
 
         public GeneticAlgorithmCore(SearchArea searchAreaSize, int cycles)
         {
@@ -52,7 +54,7 @@ namespace GeneticAlgoritm
         {
             entities = grid.GenerateGrid();
             EntitiesDrawer.ClearCanvas();
-            canvas = EntitiesDrawer.DrawEntities(entities);
+            
             for (int i = 0; i < cycles; i++)
             {
                 List<List<IEntity>> groups = entitiesDivision.DivideEntities(entities);
@@ -85,13 +87,13 @@ namespace GeneticAlgoritm
                     comprasionDelegate = entity => entity.F2;
                 }
 
-                modifiedEntities.AddRange(selection.SelectEntities(groups[j], comprasionDelegate));
+                modifiedEntities.AddRange(selectionFromGroups.SelectEntities(groups[j], comprasionDelegate));
                 modifiedEntities.AddRange(GetOffsprings(modifiedEntities));
                 modifiedEntities.AddRange(GetMutationEntities(modifiedEntities));
                 newEntities.AddRange(modifiedEntities);    
             }
 
-            return selection.SelectEntities(newEntities, x => x.FGeneralized);   // !!!!!!!!!!!Обратить внимание на количество возвращаемых особей!!!!!
+            return selectionFromGeneration.SelectEntities(newEntities, x => x.FGeneralized);
         }
 
         private List<IEntity> GetOffsprings(List<IEntity> parents)

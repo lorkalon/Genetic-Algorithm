@@ -69,7 +69,9 @@
     <Compile Include="RandomGrid.cs" />
     <Compile Include="Roulette.cs" />
     <Compile Include="SearchArea.cs" />
+    <Compile Include="SelectionSortedEntities.cs" />
     <Compile Include="SquareGrid.cs" />
+    <Compile Include="Statistics.cs" />
     <Compile Include="Tournament.cs" />
     <Compile Include="TriangleGrid.cs" />
     <Compile Include="EvenDivision.cs" />
