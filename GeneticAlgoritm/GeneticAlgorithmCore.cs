@@ -96,10 +96,10 @@ namespace GeneticAlgoritm
                     //comprasionDelegate = entity => entity.F2;
                 }
                 //////////////////
-                var leadingEntities = selection.SelectEntities(groups[j], comprasionDelegate);
+                var leadingEntities = selectionFromGroups.SelectEntities(groups[j], comprasionDelegate);
                 if (leadingEntities.Count == 0)
                 {
-                    MessageBox.Show("qsqs");
+                    MessageBox.Show("leading entities count is null !!! ");
                 }
                 modifiedEntities.AddRange(leadingEntities);
                 canvas = EntitiesDrawer.DrawEntities(leadingEntities, EntityTypes.SelectedEntity);
@@ -126,7 +126,7 @@ namespace GeneticAlgoritm
             }
 
             //var newPopulationEntities = selection.SelectEntities(newEntities, x => x.FGeneralized);   // !!!!!!!!!!!Обратить внимание на количество возвращаемых особей!!!!!
-            var newPopulationEntities = selection.SelectEntities(newEntities, x => x.F1);
+            var newPopulationEntities = selectionFromGeneration.SelectEntities(newEntities, x => x.F1);
             canvas = EntitiesDrawer.DrawEntities(newPopulationEntities, EntityTypes.BestEntity);
             return newPopulationEntities;
         }
