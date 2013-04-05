@@ -29,6 +29,7 @@ namespace GeneticAlgoritm
         public EntitiesView()
         {
             InitializeComponent();
+
             settingsReader = new AppSettingsReader();
             InitializeComboBoxControls();
             searchAreaSize = GetAreaSize();
@@ -37,6 +38,8 @@ namespace GeneticAlgoritm
             geneticAlgoritm = new GeneticAlgorithmCore(searchAreaSize, cycles);
             InitializeGeneticAlgorithmProperties();
             formLoaded = true;
+
+            legendPictureBox.Image = EntitiesDrawer.DrawLegend();
         }
 
         private void InitializeComboBoxControls()
@@ -97,7 +100,6 @@ namespace GeneticAlgoritm
             geneticAlgoritm.ExecuteOneStep();
             this.illustrationPictureBox.Image = geneticAlgoritm.GetCanvas();
         }
-
 
         // ------------------- обработчики изменений настроек -------------------------
         private void EntitiesCountValueChanged(object sender, EventArgs e)

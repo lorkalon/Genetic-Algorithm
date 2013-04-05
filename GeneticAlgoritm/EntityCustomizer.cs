@@ -32,5 +32,10 @@ namespace GeneticAlgoritm
         {
             entityColorConformity[entityType] = color;
         }
+
+        public static Dictionary<EntityTypes, Color> GetEntityColorConformity()
+        {
+            return entityColorConformity;
+        }
     }
 }

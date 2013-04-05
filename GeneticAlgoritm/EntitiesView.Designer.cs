@@ -52,6 +52,7 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.illustrationPictureBox = new System.Windows.Forms.PictureBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.legendPictureBox = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.entitiesCountNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.selectedByFEntitiesNumericUpDown)).BeginInit();
             this.settingsPanel.SuspendLayout();
@@ -62,6 +63,7 @@
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.illustrationPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.legendPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // initialCountLabel
@@ -131,6 +133,7 @@
             // settingsPanel
             // 
             this.settingsPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.settingsPanel.Controls.Add(this.legendPictureBox);
             this.settingsPanel.Controls.Add(this.executeGeneticAlgorithmButton);
             this.settingsPanel.Controls.Add(this.executeOneStepButton);
             this.settingsPanel.Controls.Add(this.crossPointNumericUpDown2);
@@ -368,6 +371,14 @@
             this.tabPage2.Text = "Statistics";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // legendPictureBox
+            // 
+            this.legendPictureBox.Location = new System.Drawing.Point(29, 463);
+            this.legendPictureBox.Name = "legendPictureBox";
+            this.legendPictureBox.Size = new System.Drawing.Size(191, 156);
+            this.legendPictureBox.TabIndex = 9;
+            this.legendPictureBox.TabStop = false;
+            // 
             // EntitiesView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -389,6 +400,7 @@
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.illustrationPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.legendPictureBox)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -419,6 +431,7 @@
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.PictureBox illustrationPictureBox;
         private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.PictureBox legendPictureBox;
     }
 }
 

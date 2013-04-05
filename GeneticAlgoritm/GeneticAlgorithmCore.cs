@@ -60,6 +60,7 @@ namespace GeneticAlgoritm
                 //canvas = EntitiesDrawer.DrawEntities(entities, EntityTypes.BestEntity);
             }
             //canvas = EntitiesDrawer.DrawEntities(entities, EntityTypes.BestEntity);
+            canvas = EntitiesDrawer.DrawBestResult(entities);
             entities = grid.GenerateGrid();
             EntitiesDrawer.ClearCanvas();
             currentStep = 0;
@@ -75,7 +76,7 @@ namespace GeneticAlgoritm
 
         private List<IEntity> GetGenerationEntities(List<List<IEntity>> groups)
         {
-            //EntitiesDrawer.ClearCanvas();
+            EntitiesDrawer.ClearCanvas();
             List<IEntity> newEntities = new List<IEntity>();
 
             for (int j = 0; j < groups.Count; j++)
