@@ -18,10 +18,12 @@ namespace GeneticAlgoritm
         private SearchArea searchAreaSize;
         private IGrid grid;
         private IHybridizable hybridize;
-        private ISelection selection;
+        private ISelection selectionFromGroups;
+        private ISelection selectionFromGeneration;
         private IDividable entitiesDivision;
         private IMutation performMutation;
-        private int entitiesCount;
+        private int selectionFromGroupsCount;
+        private int selectionFromGenerationCount;
         private List<IEntity> entities;
 
         public IGrid Grid 
@@ -38,10 +40,12 @@ namespace GeneticAlgoritm
         }
 
         public IHybridizable Hybridize { get { return hybridize; } set { hybridize = value; } }
-        public ISelection Selection { get { return selection; } set { selection = value; } }
+        public ISelection SelectionFromGroups { get { return selectionFromGroups; } set { selectionFromGroups = value; } }
         public IDividable EntitiesDivision { get { return entitiesDivision; } set { entitiesDivision = value; } }
         public IMutation PerformMutation { get { return performMutation; } set { performMutation = value; } }
-        public int EntitiesCount { get { return entitiesCount; } set { entitiesCount = value; } }
+      //  public int SelectionFromGroupsCount { get { return selectionFromGroupsCount; } set { selectionFromGroupsCount = value; } }
+      //  public int SelectionFromGenerationCount { get { return selectionFromGenerationCount; } set { selectionFromGenerationCount = value; } }
+        public ISelection SelectionFromGeneration { get { return selectionFromGeneration; } set { selectionFromGeneration = value; } }
 
         public GeneticAlgorithmCore(SearchArea searchAreaSize, int cycles)
         {
@@ -93,10 +97,10 @@ namespace GeneticAlgoritm
                     //comprasionDelegate = entity => entity.F2;
                 }
                 //////////////////
-                var leadingEntities = selection.SelectEntities(groups[j], comprasionDelegate);
+                var leadingEntities = selectionFromGroups.SelectEntities(groups[j], comprasionDelegate);
                 if (leadingEntities.Count == 0)
                 {
-                    MessageBox.Show("qsqs");
+                    MessageBox.Show("leading entities count is null !!! ");
                 }
                 modifiedEntities.AddRange(leadingEntities);
                 canvas = EntitiesDrawer.DrawEntities(leadingEntities, EntityTypes.SelectedEntity);
@@ -123,7 +127,7 @@ namespace GeneticAlgoritm
             }
 
             //var newPopulationEntities = selection.SelectEntities(newEntities, x => x.FGeneralized);   // !!!!!!!!!!!Обратить внимание на количество возвращаемых особей!!!!!
-            var newPopulationEntities = selection.SelectEntities(newEntities, x => x.F1);
+            var newPopulationEntities = selectionFromGeneration.SelectEntities(newEntities, x => x.F1);
             canvas = EntitiesDrawer.DrawEntities(newPopulationEntities, EntityTypes.BestEntity);
             return newPopulationEntities;
         }
