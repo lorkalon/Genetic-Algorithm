@@ -114,15 +114,7 @@ namespace GeneticAlgoritm
         void ShowStatistics()
         {
             int generation = 0;
-            
-            List<IEntity> e = new List<IEntity>();
-            e.Add(new Entity(new PointF(1,1)));
-            e.Add(new Entity(new PointF(2, 2)));
-
-            Statistics.SaveData(e);
-            Statistics.SaveData(new List<IEntity>());
-            Statistics.SaveData(new List<IEntity>());
-
+          
             foreach (var list in Statistics.GetEntitiesData)
             {
                 var tempGeneration = entitiesTreeView.Nodes.Add((generation+1).ToString(), "Generation " + (generation+1).ToString());
@@ -130,14 +122,16 @@ namespace GeneticAlgoritm
                 foreach (var entity in list)
                 {
                     var node = tempGeneration.Nodes.Add(childIndex.ToString(), "Point "+childIndex.ToString());
+                    node.BackColor = EntityCustomizer.GetEntityColor(Statistics.GetTypeEntity(entity.FGeneralized));    
 
                     node.Nodes.Add(entity.RealLocation.X.ToString(), "X - " + entity.RealLocation.X.ToString());
                     node.Nodes.Add(entity.RealLocation.Y.ToString(), "Y - " + entity.RealLocation.Y.ToString());
                     node.Nodes.Add(entity.F1.ToString(), "F1 - " + entity.F1.ToString());
                     node.Nodes.Add(entity.F2.ToString(), "F2 - " + entity.F2.ToString());
                     node.Nodes.Add(entity.FGeneralized.ToString(), "F - " + entity.FGeneralized.ToString());
-                    node.Nodes.Add(entity.FGeneralized.ToString(), "First gene - " + GetGene(entity.FirstGene));
-                    node.Nodes.Add(entity.FGeneralized.ToString(), "Second gene - " + GetGene(entity.SecondGene));
+                    node.Nodes.Add(entity.FGeneralized.ToString(), "First gene - " + ((Entity)entity).GetFirstGene);
+                    node.Nodes.Add(entity.FGeneralized.ToString(), "Second gene - " + ((Entity)entity).GetSecondGene);
+                    node.Nodes.Add(Statistics.GetTypeEntity(entity.FGeneralized).ToString(), "Entity type - " + Statistics.GetTypeEntity(entity.FGeneralized).ToString());
                     ++childIndex;
                 }
 
@@ -146,16 +140,6 @@ namespace GeneticAlgoritm
             
         }
 
-        string GetGene(BitArray array)
-        {
-            string gene = "";
-            foreach (var b in array)
-            {
-                int bit = Convert.ToInt16(b);
-                gene += (bit.ToString() + " ");
-            }
-            return gene;
-        }
 
         // ------------------- обработчики изменений настроек -------------------------
   /*      private void EntitiesCountValueChanged(object sender, EventArgs e)
