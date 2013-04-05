@@ -10,7 +10,7 @@ namespace GeneticAlgoritm
 {
     interface IEntity
     {
-        Point WindowLocation { get; }
+        //Point WindowLocation { get; }
         PointF RealLocation { get; }
 
         BitArray FirstGene { get; }

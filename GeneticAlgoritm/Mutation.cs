@@ -19,7 +19,7 @@ namespace GeneticAlgoritm
             this.mutationPercent = mutationPercent;
         }
 
-        public IEntity Mutate(IEntity entity) //!!!!!!!!!!!!!!!!!!!!
+        public IEntity Mutate(IEntity entity)
         {
             IEntity tempEntity;
             Random random = new Random(DateTime.Now.Millisecond);

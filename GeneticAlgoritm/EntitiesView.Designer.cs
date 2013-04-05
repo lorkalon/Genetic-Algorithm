@@ -81,7 +81,7 @@
             // 
             this.entitiesCountNumericUpDown.Location = new System.Drawing.Point(167, 12);
             this.entitiesCountNumericUpDown.Maximum = new decimal(new int[] {
-            20,
+            16,
             0,
             0,
             0});
@@ -408,7 +408,6 @@
             this.Controls.Add(this.settingsPanel);
             this.Name = "EntitiesView";
             this.Text = "Genetic algorithm";
-            this.Load += new System.EventHandler(this.EntitiesView_Load);
             ((System.ComponentModel.ISupportInitialize)(this.entitiesCountNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.selectionFromGenerationCountNumericUpDown)).EndInit();
             this.settingsPanel.ResumeLayout(false);

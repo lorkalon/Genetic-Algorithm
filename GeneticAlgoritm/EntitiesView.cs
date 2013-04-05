@@ -15,8 +15,11 @@ namespace GeneticAlgoritm
     public partial class EntitiesView : Form
     { 
         private GeneticAlgorithmCore geneticAlgoritm;
+
         private AppSettingsReader settingsReader;
+
         private SearchArea searchAreaSize;
+
         private int cycles;
         private Dictionary<string, Type> gridsDictionary = new Dictionary<string, Type>(){{"Random", typeof(RandomGrid)}, {"Triangle", typeof(TriangleGrid)}, {"Square", typeof(SquareGrid)} };
         private Dictionary<string, Type> divisionsDictionary = new Dictionary<string, Type>() { { "Center", typeof(CenterDivision) }, { "Even", typeof(EvenDivision) } };
@@ -89,11 +92,6 @@ namespace GeneticAlgoritm
             int serchAreaTopBorder = (int)settingsReader.GetValue("serchAreaTopBorder", typeof(int));
             SearchArea searchAreaSize = new SearchArea(serchAreaLeftBorder, serchAreaRightBorder, serchAreaBottomBorder, serchAreaTopBorder);
             return searchAreaSize;
-        }
-
-        private void EntitiesView_Load(object sender, EventArgs e)
-        {
-            
         }
 
         private void ExecuteGeneticAlgorithmButton_Click(object sender, EventArgs e)

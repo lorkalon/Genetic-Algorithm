@@ -5,11 +5,14 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace GeneticAlgoritm
 {
     class GeneticAlgorithmCore
     {
+        private int currentStep = 0;
+
         private Bitmap canvas;
         private int cycles;
         private SearchArea searchAreaSize;
@@ -52,25 +55,31 @@ namespace GeneticAlgoritm
 
         public void ExecuteGeneticAlgorithm()
         {
-            entities = grid.GenerateGrid();
-            EntitiesDrawer.ClearCanvas();
-            
-            for (int i = 0; i < cycles; i++)
+            //canvas = EntitiesDrawer.DrawEntities(entities, EntityTypes.);
+
+            for (int i = currentStep; i < cycles; i++)
             {
                 List<List<IEntity>> groups = entitiesDivision.DivideEntities(entities);
                 entities = GetGenerationEntities(groups);
+                //canvas = EntitiesDrawer.DrawEntities(entities, EntityTypes.BestEntity);
             }
+            //canvas = EntitiesDrawer.DrawEntities(entities, EntityTypes.BestEntity);
+            entities = grid.GenerateGrid();
+            EntitiesDrawer.ClearCanvas();
+            currentStep = 0;
         }
 
         public void ExecuteOneStep()
         {
             List<List<IEntity>> groups = entitiesDivision.DivideEntities(entities);
             entities = GetGenerationEntities(groups);
-            canvas = EntitiesDrawer.DrawEntities(entities);
+            //canvas = EntitiesDrawer.DrawEntities(entities,EntityTypes.BestEntity);
+            currentStep += 1;
         }
 
         private List<IEntity> GetGenerationEntities(List<List<IEntity>> groups)
         {
+            //EntitiesDrawer.ClearCanvas();
             List<IEntity> newEntities = new List<IEntity>();
 
             for (int j = 0; j < groups.Count; j++)
@@ -78,22 +87,48 @@ namespace GeneticAlgoritm
                 List<IEntity> modifiedEntities = new List<IEntity>();
                 Func<IEntity, float> comprasionDelegate;
 
-               if (j % 2 == 0)
+                //if (j % 2 == 0)
                 {
                     comprasionDelegate = entity => entity.F1;
-               }
-               else
-                {
-                    comprasionDelegate = entity => entity.F2;
                 }
+                //else
+                {
+                    //comprasionDelegate = entity => entity.F2;
+                }
+                //////////////////
+                var leadingEntities = selection.SelectEntities(groups[j], comprasionDelegate);
+                if (leadingEntities.Count == 0)
+                {
+                    MessageBox.Show("qsqs");
+                }
+                modifiedEntities.AddRange(leadingEntities);
+                canvas = EntitiesDrawer.DrawEntities(leadingEntities, EntityTypes.SelectedEntity);
 
-                modifiedEntities.AddRange(selectionFromGroups.SelectEntities(groups[j], comprasionDelegate));
-                modifiedEntities.AddRange(GetOffsprings(modifiedEntities));
-                modifiedEntities.AddRange(GetMutationEntities(modifiedEntities));
-                newEntities.AddRange(modifiedEntities);    
+                var entitiesOffsprings = GetOffsprings(modifiedEntities);
+                modifiedEntities.AddRange(entitiesOffsprings);
+                canvas = EntitiesDrawer.DrawEntities(entitiesOffsprings, EntityTypes.ChildEntity);
+
+                var mutationEntities = GetMutationEntities(modifiedEntities);
+                modifiedEntities.AddRange(mutationEntities);
+                canvas = EntitiesDrawer.DrawEntities(mutationEntities, EntityTypes.MutantEntity);
+
+                //////////////////
+
+                //var mutationEntities = GetMutationEntities(groups[j]);
+                //modifiedEntities.AddRange(mutationEntities);
+                //var leadingEntities = selection.SelectEntities(modifiedEntities, comprasionDelegate);
+                //modifiedEntities.AddRange(leadingEntities);
+                //var entitiesOffsprings = GetOffsprings(modifiedEntities);
+                //modifiedEntities.AddRange(entitiesOffsprings);
+
+
+                newEntities.AddRange(modifiedEntities);
             }
 
-            return selectionFromGeneration.SelectEntities(newEntities, x => x.FGeneralized);
+            //var newPopulationEntities = selection.SelectEntities(newEntities, x => x.FGeneralized);   // !!!!!!!!!!!Обратить внимание на количество возвращаемых особей!!!!!
+            var newPopulationEntities = selection.SelectEntities(newEntities, x => x.F1);
+            canvas = EntitiesDrawer.DrawEntities(newPopulationEntities, EntityTypes.BestEntity);
+            return newPopulationEntities;
         }
 
         private List<IEntity> GetOffsprings(List<IEntity> parents)

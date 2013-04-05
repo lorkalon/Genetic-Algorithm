@@ -10,6 +10,8 @@ namespace GeneticAlgoritm
 {
     class EntitiesDrawer
     {
+        private static Graphics drawer;
+
         private static Bitmap canvas;
 
         private static Size illustrationCanvasSize;
@@ -18,7 +20,9 @@ namespace GeneticAlgoritm
 
         private static int dashesCount = 9;
 
-        public static Bitmap DrawEntities(List<IEntity> entities)
+        private static int transparensy = 130;
+
+        public static Bitmap DrawEntities(List<IEntity> entities, EntityTypes type)
         {
             searchArea = GetAreaSize();
             if (canvas == null)
@@ -26,7 +30,7 @@ namespace GeneticAlgoritm
                 InitializeCanvas();
                 DrawCS();
             }
-            PaintEntities(entities);
+            PaintEntities(entities, type);
             return canvas;
         }
 
@@ -35,21 +39,39 @@ namespace GeneticAlgoritm
             canvas = null;
         }
 
-        private static void PaintEntities(List<IEntity> entities)
+        private static void PaintEntities(List<IEntity> entities, EntityTypes type)
         {
-            Graphics drawer = Graphics.FromImage(canvas);
-            drawer.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             foreach (var entity in entities)
             {
-                DrawEntity(drawer, entity);
+                DrawEntity(entity, type);
             }
         }
 
-        private static void DrawEntity(Graphics drawer, IEntity entity)
+        private static void DrawEntity(IEntity entity, EntityTypes type)
         {
-            int pointRadius = 5;
             Point windowCoordinates = TranslateToWindowCoordinates(entity.RealLocation);
-            drawer.FillEllipse(Brushes.Red, windowCoordinates.X - pointRadius, windowCoordinates.Y - pointRadius, 2 * pointRadius, 2 * pointRadius);
+            Color color = EntityCustomizer.GetEntityColor(type);
+
+            int outerRadius = type == EntityTypes.BestEntity ? 9 : 7;
+            SolidBrush outerBrush = MakeSemiTransparentBrush(color);
+            drawer.FillEllipse(outerBrush, windowCoordinates.X - outerRadius, windowCoordinates.Y - outerRadius, 2 * outerRadius, 2 * outerRadius);
+
+            int innerRadius = 5;
+            SolidBrush innerBrush = MakeSemiTransparentBrush(Color.White);
+            drawer.FillEllipse(innerBrush, windowCoordinates.X - innerRadius, windowCoordinates.Y - innerRadius, 2 * innerRadius, 2 * innerRadius);
+            //if (type == EntityTypes.BestEntity)
+            //{
+            //    int centerRadius = 4;
+            //    SolidBrush centerBrush = outerBrush;
+            //    drawer.DrawEllipse(new Pen(centerBrush), windowCoordinates.X - centerRadius, windowCoordinates.Y - centerRadius, 2 * centerRadius, 2 * centerRadius);
+            //}
+        }
+
+        private static SolidBrush MakeSemiTransparentBrush(Color color)
+        {
+            Color semiTransparentColor = Color.FromArgb(transparensy, color);
+            SolidBrush semiTransparentBrush = new SolidBrush(semiTransparentColor);
+            return semiTransparentBrush;
         }
 
         private static Point TranslateToWindowCoordinates(PointF realCoordiantes)
@@ -105,6 +127,8 @@ namespace GeneticAlgoritm
             int illustrationCanvasHeigth = Convert.ToInt32(ConfigurationSettings.AppSettings.GetValues("illustrationCanvasHeigth")[0]);
             canvas = new Bitmap(illustrationCanvasWidth, illustrationCanvasHeigth);
             illustrationCanvasSize = new Size(illustrationCanvasWidth, illustrationCanvasHeigth);
+            drawer = Graphics.FromImage(canvas);
+            drawer.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
         }
 
         private static SearchArea GetAreaSize()
