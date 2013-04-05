@@ -120,7 +120,7 @@
             0,
             0});
             this.selectionFromGenerationCountNumericUpDown.Minimum = new decimal(new int[] {
-            10,
+            8,
             0,
             0,
             0});

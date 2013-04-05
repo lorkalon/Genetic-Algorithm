@@ -22,8 +22,8 @@ namespace GeneticAlgoritm
         private ISelection selectionFromGeneration;
         private IDividable entitiesDivision;
         private IMutation performMutation;
-        private int selectionFromGroupsCount;
-        private int selectionFromGenerationCount;
+        //private int selectionFromGroupsCount;
+        //private int selectionFromGenerationCount;
         private List<IEntity> entities;
 
         public IGrid Grid 

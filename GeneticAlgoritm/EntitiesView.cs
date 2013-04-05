@@ -13,7 +13,7 @@ using System.Windows.Forms;
 namespace GeneticAlgoritm
 {
     public partial class EntitiesView : Form
-    { 
+    {
         private GeneticAlgorithmCore geneticAlgoritm;
 
         private AppSettingsReader settingsReader;
@@ -21,9 +21,9 @@ namespace GeneticAlgoritm
         private SearchArea searchAreaSize;
 
         private int cycles;
-        private Dictionary<string, Type> gridsDictionary = new Dictionary<string, Type>(){{"Random", typeof(RandomGrid)}, {"Triangle", typeof(TriangleGrid)}, {"Square", typeof(SquareGrid)} };
+        private Dictionary<string, Type> gridsDictionary = new Dictionary<string, Type>() { { "Random", typeof(RandomGrid) }, { "Triangle", typeof(TriangleGrid) }, { "Square", typeof(SquareGrid) } };
         private Dictionary<string, Type> divisionsDictionary = new Dictionary<string, Type>() { { "Center", typeof(CenterDivision) }, { "Even", typeof(EvenDivision) } };
-        private Dictionary<string, Type> selectionFromGroupsDictionary = new Dictionary<string, Type>() { { "Roulette", typeof(Roulette) }, { "Tournament", typeof(Tournament) } };
+        private Dictionary<string, Type> selectionFromGroupsDictionary = new Dictionary<string, Type>() { { "Roulette", typeof(Roulette) }, { "Tournament", typeof(Tournament) }, { "From Sorted", typeof(SelectionSortedEntities) } };
         private Dictionary<string, Type> selectionFromGenerationDictionary = new Dictionary<string, Type>() { { "Roulette", typeof(Roulette) }, { "Tournament", typeof(Tournament) }, { "From Sorted", typeof(SelectionSortedEntities) } };
         //private bool settigsChanged = false;
         private bool formLoaded = false;
@@ -36,7 +36,7 @@ namespace GeneticAlgoritm
             InitializeComboBoxControls();
             searchAreaSize = GetAreaSize();
             cycles = GetCyclesCount();
-            
+
             geneticAlgoritm = new GeneticAlgorithmCore(searchAreaSize, cycles);
             InitializeGeneticAlgorithmProperties();
             formLoaded = true;
@@ -67,9 +67,9 @@ namespace GeneticAlgoritm
 
             geneticAlgoritm.Hybridize = new Hybridizer(searchAreaSize, new int[] { (int)crossPointNumericUpDown1.Value, (int)crossPointNumericUpDown2.Value });
             geneticAlgoritm.PerformMutation = new Mutation(searchAreaSize, (int)mutationPercentNumericUpDown.Value);
-            
+
             geneticAlgoritm.Grid = (IGrid)Activator.CreateInstance(gridsDictionary[gridComboBox.Text], searchAreaSize, (int)entitiesCountNumericUpDown.Value);
-            geneticAlgoritm.SelectionFromGroups = (ISelection) Activator.CreateInstance(selectionFromGroupsDictionary[selectionFromGroupsComboBox.Text], (int)selectionFromGroupsCountNumericUpDown.Value);
+            geneticAlgoritm.SelectionFromGroups = (ISelection)Activator.CreateInstance(selectionFromGroupsDictionary[selectionFromGroupsComboBox.Text], (int)selectionFromGroupsCountNumericUpDown.Value);
             geneticAlgoritm.EntitiesDivision = (IDividable)Activator.CreateInstance(divisionsDictionary[divisionComboBox.Text]);
             geneticAlgoritm.SelectionFromGeneration = (ISelection)Activator.CreateInstance(selectionFromGenerationDictionary[selectionFromGenerationComboBox.Text], (int)selectionFromGenerationCountNumericUpDown.Value);
         }
@@ -99,7 +99,7 @@ namespace GeneticAlgoritm
 
         private void ExecuteGeneticAlgorithmButton_Click(object sender, EventArgs e)
         {
-            geneticAlgoritm.ExecuteGeneticAlgorithm(); 
+            geneticAlgoritm.ExecuteGeneticAlgorithm();
             this.illustrationPictureBox.Image = geneticAlgoritm.GetCanvas();
 
             ShowStatistics();
@@ -114,9 +114,9 @@ namespace GeneticAlgoritm
         void ShowStatistics()
         {
             int generation = 0;
-            
+
             List<IEntity> e = new List<IEntity>();
-            e.Add(new Entity(new PointF(1,1)));
+            e.Add(new Entity(new PointF(1, 1)));
             e.Add(new Entity(new PointF(2, 2)));
 
             Statistics.SaveData(e);
@@ -125,11 +125,11 @@ namespace GeneticAlgoritm
 
             foreach (var list in Statistics.GetEntitiesData)
             {
-                var tempGeneration = entitiesTreeView.Nodes.Add((generation+1).ToString(), "Generation " + (generation+1).ToString());
+                var tempGeneration = entitiesTreeView.Nodes.Add((generation + 1).ToString(), "Generation " + (generation + 1).ToString());
                 int childIndex = 0;
                 foreach (var entity in list)
                 {
-                    var node = tempGeneration.Nodes.Add(childIndex.ToString(), "Point "+childIndex.ToString());
+                    var node = tempGeneration.Nodes.Add(childIndex.ToString(), "Point " + childIndex.ToString());
 
                     node.Nodes.Add(entity.RealLocation.X.ToString(), "X - " + entity.RealLocation.X.ToString());
                     node.Nodes.Add(entity.RealLocation.Y.ToString(), "Y - " + entity.RealLocation.Y.ToString());
@@ -141,9 +141,9 @@ namespace GeneticAlgoritm
                     ++childIndex;
                 }
 
-                ++generation; 
+                ++generation;
             }
-            
+
         }
 
         string GetGene(BitArray array)
@@ -158,29 +158,29 @@ namespace GeneticAlgoritm
         }
 
         // ------------------- обработчики изменений настроек -------------------------
-  /*      private void EntitiesCountValueChanged(object sender, EventArgs e)
-        {
-            if (formLoaded)
-            {
-                geneticAlgoritm.SelectionFromGenerationCount = (int) entitiesCountNumericUpDown.Value;
-            }
-        }
+        /*      private void EntitiesCountValueChanged(object sender, EventArgs e)
+              {
+                  if (formLoaded)
+                  {
+                      geneticAlgoritm.SelectionFromGenerationCount = (int) entitiesCountNumericUpDown.Value;
+                  }
+              }
 
-        private void SelectedByGenerationCountValueChanged(object sender, EventArgs e)
-        {
-            if (formLoaded)
-            {
-                geneticAlgoritm.SelectionFromGroupsCount = (int)selectionFromGenerationCountNumericUpDown.Value;
-            }
-        }
+              private void SelectedByGenerationCountValueChanged(object sender, EventArgs e)
+              {
+                  if (formLoaded)
+                  {
+                      geneticAlgoritm.SelectionFromGroupsCount = (int)selectionFromGenerationCountNumericUpDown.Value;
+                  }
+              }
 
-                private void SelectedFromGenerationCountValueChanged(object sender, EventArgs e)
-        {
-            if (formLoaded)
-            {
-                geneticAlgoritm.SelectionFromGroupsCount = (int)selectionFromGenerationCountNumericUpDown.Value;
-            }
-        }*/
+                      private void SelectedFromGenerationCountValueChanged(object sender, EventArgs e)
+              {
+                  if (formLoaded)
+                  {
+                      geneticAlgoritm.SelectionFromGroupsCount = (int)selectionFromGenerationCountNumericUpDown.Value;
+                  }
+              }*/
 
         private void CrossPointsValueChanged(object sender, EventArgs e)
         {
@@ -194,7 +194,7 @@ namespace GeneticAlgoritm
         {
             if (formLoaded)
             {
-                geneticAlgoritm.PerformMutation = new Mutation(searchAreaSize, (int) mutationPercentNumericUpDown.Value);
+                geneticAlgoritm.PerformMutation = new Mutation(searchAreaSize, (int)mutationPercentNumericUpDown.Value);
             }
         }
 
