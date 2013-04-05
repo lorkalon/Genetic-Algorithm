@@ -33,6 +33,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.selectionFromGenerationCountNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.settingsPanel = new System.Windows.Forms.Panel();
+            this.legendPictureBox = new System.Windows.Forms.PictureBox();
             this.executeGeneticAlgorithmButton = new System.Windows.Forms.Button();
             this.executeOneStepButton = new System.Windows.Forms.Button();
             this.crossPointNumericUpDown2 = new System.Windows.Forms.NumericUpDown();
@@ -54,11 +55,11 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.illustrationPictureBox = new System.Windows.Forms.PictureBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.legendPictureBox = new System.Windows.Forms.PictureBox();
             this.entitiesTreeView = new System.Windows.Forms.TreeView();
             ((System.ComponentModel.ISupportInitialize)(this.entitiesCountNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.selectionFromGenerationCountNumericUpDown)).BeginInit();
             this.settingsPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.legendPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.crossPointNumericUpDown2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.selectionFromGroupsCountNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mutationPercentNumericUpDown)).BeginInit();
@@ -66,10 +67,7 @@
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.illustrationPictureBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.legendPictureBox)).BeginInit();
-
             this.tabPage2.SuspendLayout();
-
             this.SuspendLayout();
             // 
             // initialCountLabel
@@ -109,9 +107,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(4, 227);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(160, 13);
+            this.label1.Size = new System.Drawing.Size(158, 13);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Selected from Generation count:";
+            this.label1.Text = "Selected from generation count:";
             // 
             // selectionFromGenerationCountNumericUpDown
             // 
@@ -167,9 +165,17 @@
             this.settingsPanel.Size = new System.Drawing.Size(247, 632);
             this.settingsPanel.TabIndex = 3;
             // 
+            // legendPictureBox
+            // 
+            this.legendPictureBox.Location = new System.Drawing.Point(29, 463);
+            this.legendPictureBox.Name = "legendPictureBox";
+            this.legendPictureBox.Size = new System.Drawing.Size(191, 156);
+            this.legendPictureBox.TabIndex = 9;
+            this.legendPictureBox.TabStop = false;
+            // 
             // executeGeneticAlgorithmButton
             // 
-            this.executeGeneticAlgorithmButton.Location = new System.Drawing.Point(29, 464);
+            this.executeGeneticAlgorithmButton.Location = new System.Drawing.Point(25, 421);
             this.executeGeneticAlgorithmButton.Name = "executeGeneticAlgorithmButton";
             this.executeGeneticAlgorithmButton.Size = new System.Drawing.Size(194, 23);
             this.executeGeneticAlgorithmButton.TabIndex = 8;
@@ -179,7 +185,7 @@
             // 
             // executeOneStepButton
             // 
-            this.executeOneStepButton.Location = new System.Drawing.Point(29, 423);
+            this.executeOneStepButton.Location = new System.Drawing.Point(25, 380);
             this.executeOneStepButton.Name = "executeOneStepButton";
             this.executeOneStepButton.Size = new System.Drawing.Size(194, 23);
             this.executeOneStepButton.TabIndex = 8;
@@ -396,13 +402,6 @@
             this.tabPage2.Text = "Statistics";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // legendPictureBox
-            // 
-            this.legendPictureBox.Location = new System.Drawing.Point(29, 463);
-            this.legendPictureBox.Name = "legendPictureBox";
-            this.legendPictureBox.Size = new System.Drawing.Size(191, 156);
-            this.legendPictureBox.TabIndex = 9;
-            this.legendPictureBox.TabStop = false;
             // entitiesTreeView
             // 
             this.entitiesTreeView.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -410,7 +409,6 @@
             this.entitiesTreeView.Name = "entitiesTreeView";
             this.entitiesTreeView.Size = new System.Drawing.Size(647, 600);
             this.entitiesTreeView.TabIndex = 0;
-
             // 
             // EntitiesView
             // 
@@ -425,6 +423,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.selectionFromGenerationCountNumericUpDown)).EndInit();
             this.settingsPanel.ResumeLayout(false);
             this.settingsPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.legendPictureBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.crossPointNumericUpDown2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.selectionFromGroupsCountNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mutationPercentNumericUpDown)).EndInit();
@@ -433,10 +432,7 @@
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.illustrationPictureBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.legendPictureBox)).EndInit();
-
             this.tabPage2.ResumeLayout(false);
-
             this.ResumeLayout(false);
 
         }

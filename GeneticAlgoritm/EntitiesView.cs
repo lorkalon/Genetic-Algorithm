@@ -25,7 +25,7 @@ namespace GeneticAlgoritm
         private Dictionary<string, Type> divisionsDictionary = new Dictionary<string, Type>() { { "Center", typeof(CenterDivision) }, { "Even", typeof(EvenDivision) } };
         private Dictionary<string, Type> selectionFromGroupsDictionary = new Dictionary<string, Type>() { { "Roulette", typeof(Roulette) }, { "Tournament", typeof(Tournament) } };
         private Dictionary<string, Type> selectionFromGenerationDictionary = new Dictionary<string, Type>() { { "Roulette", typeof(Roulette) }, { "Tournament", typeof(Tournament) }, { "From Sorted", typeof(SelectionSortedEntities) } };
-        private bool settigsChanged = false;
+        //private bool settigsChanged = false;
         private bool formLoaded = false;
 
         public EntitiesView()
