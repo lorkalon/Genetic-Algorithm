@@ -11,16 +11,18 @@ namespace GeneticAlgoritm
 
     static class EntityCustomizer
     {
+        private static int transparensy = 180;
+
         private static Dictionary<EntityTypes, Color> entityColorConformity;
 
         static EntityCustomizer()
         {
             entityColorConformity = new Dictionary<EntityTypes, Color>(){
-            {EntityTypes.BestEntity,Color.Red},
-            {EntityTypes.UsualEntity,Color.Coral},
-            {EntityTypes.MutantEntity,Color.Green},
-            {EntityTypes.ChildEntity,Color.Blue},
-            {EntityTypes.SelectedEntity,Color.Orange}};
+            {EntityTypes.BestEntity, Color.FromArgb(transparensy, Color.Red)},
+            {EntityTypes.UsualEntity, Color.FromArgb(transparensy, Color.Gray)},
+            {EntityTypes.MutantEntity, Color.FromArgb(transparensy, Color.Green)},
+            {EntityTypes.ChildEntity, Color.FromArgb(transparensy, Color.Blue)},
+            {EntityTypes.SelectedEntity, Color.FromArgb(transparensy, Color.Orange)}};
         }
 
         public static Color GetEntityColor(EntityTypes entityType)

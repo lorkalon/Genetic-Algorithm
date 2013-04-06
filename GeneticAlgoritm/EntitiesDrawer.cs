@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+//using System.Windows.
 using MoreLinq;
 
 namespace GeneticAlgoritm
@@ -21,7 +22,7 @@ namespace GeneticAlgoritm
 
         private static int dashesCount = 9;
 
-        private static int transparensy = 180;
+        //private static int transparensy = 180;
 
         public static Bitmap DrawEntities(List<IEntity> entities, EntityTypes type)
         {
@@ -41,12 +42,25 @@ namespace GeneticAlgoritm
             canvas = null;
         }
 
+        private delegate void DrawEntityDelegate(Point windowCoordinates, EntityTypes type, int? index = null);
+
         private static void PaintEntities(List<IEntity> entities, EntityTypes type)
         {
             int counter = 1;
+            //DrawEntityDelegate PaintEntity = (type == EntityTypes.BestEntity) ? DrawBestEntity : DrawEntity;
+            DrawEntityDelegate PaintEntity;
+            if (type == EntityTypes.BestEntity)
+            {
+                PaintEntity = DrawBestEntity;
+            }
+            else
+            {
+                PaintEntity = DrawEntity;
+            }
             foreach (var entity in entities)
             {
-                DrawEntity(entity, type, counter);
+                Point windowCoordinates = TranslateToWindowCoordinates(entity.RealLocation);
+                PaintEntity(windowCoordinates, type, counter);
                 counter += 1;
             }
         }
@@ -56,35 +70,35 @@ namespace GeneticAlgoritm
             const int legendWidth = 200;
             const int legendHeight = 200;
             Bitmap legendCanvas = new Bitmap(legendWidth, legendHeight);
-            Graphics drawer = Graphics.FromImage(legendCanvas);
+            drawer = Graphics.FromImage(legendCanvas);
             drawer.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             drawer.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
             drawer.Clear(SystemColors.Control);
 
             var entityColorConformity = EntityCustomizer.GetEntityColorConformity();
-            Point location = new Point(40, 30);
-            foreach (var entityColor in entityColorConformity)
+            Point location = new Point(40, 20);
+            foreach (var entityColorForType in entityColorConformity)
             {
-                DrawLegendItem(entityColor, location, drawer);
-                location.Y += 22;
+                DrawLegendItem(entityColorForType, location, drawer);
+                location.Y += 25;
             }
             return legendCanvas;
         }
 
-        private static void DrawLegendItem(KeyValuePair<EntityTypes, Color> entityColor,Point position, Graphics drawer)
+        private static void DrawLegendItem(KeyValuePair<EntityTypes, Color> entityColorForType, Point position, Graphics drawer)
         {
-            Color color = entityColor.Value;
+            if (entityColorForType.Key == EntityTypes.BestEntity)
+            {
+                DrawEntity(position, EntityTypes.UsualEntity);
+                DrawBestEntity(position, entityColorForType.Key);
+            }
+            else
+            {
+                DrawEntity(position, entityColorForType.Key);
+            }
 
-            int outerRadius = entityColor.Key == EntityTypes.BestEntity ? 9 : 7;
-            SolidBrush outerBrush = MakeSemiTransparentBrush(color);
-            drawer.FillEllipse(outerBrush, position.X - outerRadius, position.Y - outerRadius, 2 * outerRadius, 2 * outerRadius);
-
-            int innerRadius = 5;
-            SolidBrush innerBrush = MakeSemiTransparentBrush(Color.White);
-            drawer.FillEllipse(innerBrush, position.X - innerRadius, position.Y - innerRadius, 2 * innerRadius, 2 * innerRadius);
-
-            drawer.DrawString(AddSpacesToSentence(entityColor.Key.ToString()), new Font("Arial", 8), Brushes.Black, position.X + 15, position.Y - 6);
+            drawer.DrawString(AddSpacesToSentence(entityColorForType.Key.ToString()), new Font("Arial", 8), Brushes.Black, position.X + 16, position.Y - 7);
         }
 
         public static Bitmap DrawBestResult(List<IEntity> entities)
@@ -116,34 +130,42 @@ namespace GeneticAlgoritm
             return newText.ToString();
         }
 
-        private static void DrawEntity(IEntity entity, EntityTypes type, int index)
+        private static void DrawEntity(Point windowCoordinates, EntityTypes type, int? index = null)
         {
-            Point windowCoordinates = TranslateToWindowCoordinates(entity.RealLocation);
             Color color = EntityCustomizer.GetEntityColor(type);
 
-            int outerRadius = type == EntityTypes.BestEntity ? 11 : 9;
-            SolidBrush outerBrush = MakeSemiTransparentBrush(color);
+            int outerRadius = 10;
+            SolidBrush outerBrush = new SolidBrush(color);
             drawer.FillEllipse(outerBrush, windowCoordinates.X - outerRadius, windowCoordinates.Y - outerRadius, 2 * outerRadius, 2 * outerRadius);
 
-            int innerRadius = 7;
-            SolidBrush innerBrush = MakeSemiTransparentBrush(Color.White);
+            int innerRadius = 8;
+            SolidBrush innerBrush = new SolidBrush(Color.White);
             drawer.FillEllipse(innerBrush, windowCoordinates.X - innerRadius, windowCoordinates.Y - innerRadius, 2 * innerRadius, 2 * innerRadius);
 
             DrawEntityNumber(windowCoordinates, index);
         }
 
-        private static void DrawEntityNumber(Point windowCoordinates, int index)
+        private static void DrawBestEntity(Point windowCoordinates, EntityTypes type, int? index = null)
         {
+            Color color = EntityCustomizer.GetEntityColor(type);
+
+            int outerRadius = 6;
+            SolidBrush outerBrush = new SolidBrush(color);
+            drawer.DrawEllipse(new Pen(outerBrush, 2), windowCoordinates.X - outerRadius, windowCoordinates.Y - outerRadius, 2 * outerRadius, 2 * outerRadius);
+
+            DrawEntityNumber(windowCoordinates, index);
+        }
+
+        private static void DrawEntityNumber(Point windowCoordinates, int? index)
+        {
+            if (index == null)
+            {
+                return;
+            }
+
             String entityNumber = index.ToString();
             int deltaX = entityNumber.Count() == 1 ? 3 : 5;
             drawer.DrawString(entityNumber, new Font("Arial", 6), Brushes.Black, windowCoordinates.X - deltaX, windowCoordinates.Y - 4);
-        }
-
-        private static SolidBrush MakeSemiTransparentBrush(Color color)
-        {
-            Color semiTransparentColor = Color.FromArgb(transparensy, color);
-            SolidBrush semiTransparentBrush = new SolidBrush(semiTransparentColor);
-            return semiTransparentBrush;
         }
 
         private static Point TranslateToWindowCoordinates(PointF realCoordiantes)
