@@ -61,6 +61,7 @@ namespace GeneticAlgoritm
             {
                 List<List<IEntity>> groups = entitiesDivision.DivideEntities(entities);
                 entities = GetGenerationEntities(groups);
+                Statistics.SaveCurrentGeneration();
                 //canvas = EntitiesDrawer.DrawEntities(entities, EntityTypes.BestEntity);
             }
             //canvas = EntitiesDrawer.DrawEntities(entities, EntityTypes.BestEntity);
@@ -85,6 +86,7 @@ namespace GeneticAlgoritm
 
             for (int j = 0; j < groups.Count; j++)
             {
+               // Statistics.AddDataInCurrentGeneration(groups[j], EntityTypes.ParentEntity);
                 List<IEntity> modifiedEntities = new List<IEntity>();
                 Func<IEntity, float> comprasionDelegate;
 
@@ -104,14 +106,17 @@ namespace GeneticAlgoritm
                 }
                 modifiedEntities.AddRange(leadingEntities);
                 canvas = EntitiesDrawer.DrawEntities(leadingEntities, EntityTypes.SelectedEntity);
+                Statistics.AddDataInCurrentGeneration(leadingEntities, EntityTypes.SelectedEntity);
 
                 var entitiesOffsprings = GetOffsprings(modifiedEntities);
                 modifiedEntities.AddRange(entitiesOffsprings);
                 canvas = EntitiesDrawer.DrawEntities(entitiesOffsprings, EntityTypes.ChildEntity);
+                Statistics.AddDataInCurrentGeneration(entitiesOffsprings, EntityTypes.ChildEntity);
 
                 var mutationEntities = GetMutationEntities(modifiedEntities);
                 modifiedEntities.AddRange(mutationEntities);
                 canvas = EntitiesDrawer.DrawEntities(mutationEntities, EntityTypes.MutantEntity);
+                Statistics.AddDataInCurrentGeneration(mutationEntities, EntityTypes.MutantEntity);
 
                 //////////////////
 
@@ -129,6 +134,7 @@ namespace GeneticAlgoritm
             //var newPopulationEntities = selection.SelectEntities(newEntities, x => x.FGeneralized);   // !!!!!!!!!!!Обратить внимание на количество возвращаемых особей!!!!!
             var newPopulationEntities = selectionFromGeneration.SelectEntities(newEntities, x => x.F1);
             canvas = EntitiesDrawer.DrawEntities(newPopulationEntities, EntityTypes.BestEntity);
+            Statistics.AddDataInCurrentGeneration(newPopulationEntities, EntityTypes.BestEntity);
             return newPopulationEntities;
         }
 

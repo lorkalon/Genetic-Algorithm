@@ -18,7 +18,7 @@ namespace GeneticAlgoritm
             entityColorConformity = new Dictionary<EntityTypes, Color>(){
             {EntityTypes.BestEntity,Color.Red},
             {EntityTypes.MutantEntity,Color.Green},
-            //{EntityTypes.ParentEntity,Color.Green},
+            {EntityTypes.ParentEntity,Color.DarkMagenta},// !!!!!!!!!!!!!!!!!!!!!!!!!
             {EntityTypes.ChildEntity,Color.Blue},
             {EntityTypes.SelectedEntity,Color.Orange}};
         }

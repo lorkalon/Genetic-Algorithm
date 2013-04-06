@@ -10,12 +10,57 @@ namespace GeneticAlgoritm
 {
     class Entity : IEntity
     {
+        private BitArray firstGene;
+        private BitArray secondGene;
+        private BitArray chromosome;
+
         //public Point WindowLocation { get; private set; }
         public PointF RealLocation { get; private set; }
+        public BitArray FirstGene { get { return firstGene; } private set { firstGene = value; } }
+        public BitArray SecondGene { get { return secondGene; } private set { secondGene = value; } }
+        public BitArray Chromosome { get { return chromosome; } private set { chromosome = value; } }
 
-        public BitArray FirstGene { get; private set; }
-        public BitArray SecondGene { get; private set; }
-        public BitArray Chromosome { get; private set; }
+        public string GetFirstGene
+        {
+            get
+            {
+                string gene = "";
+                foreach (var b in firstGene)
+                {
+                    int bit = Convert.ToInt16(b);
+                    gene += (bit.ToString() + " ");
+                }
+                return gene;
+            }
+        }
+
+        public string GetSecondGene
+        {
+            get
+            {
+                string gene = "";
+                foreach (var b in secondGene)
+                {
+                    int bit = Convert.ToInt16(b);
+                    gene += (bit.ToString() + " ");
+                }
+                return gene;
+            }
+        }
+
+        public string GetChromosome
+        {
+            get
+            {
+                string gene = "";
+                foreach (var b in chromosome)
+                {
+                    int bit = Convert.ToInt16(b);
+                    gene += (bit.ToString() + " ");
+                }
+                return gene;
+            }
+        } 
 
         internal delegate float FirstCriteriaDelegate(float x, float y);
         internal delegate float SecondCriteriaDelegate(float x, float y);
@@ -56,8 +101,8 @@ namespace GeneticAlgoritm
 
         private void InitializeGenes()
         {
-            FirstGene = new BitArray(BitConverter.GetBytes(RealLocation.X));
-            SecondGene = new BitArray(BitConverter.GetBytes(RealLocation.Y));
+            firstGene = new BitArray(BitConverter.GetBytes(RealLocation.X));
+            secondGene = new BitArray(BitConverter.GetBytes(RealLocation.Y));
         }
 
         private void InitializeDelegates()
@@ -77,17 +122,17 @@ namespace GeneticAlgoritm
 
         private void SetChromosome()
         {
-            int length = FirstGene.Count + SecondGene.Count;
-            Chromosome = new BitArray(length);
+            int length = firstGene.Count + secondGene.Count;
+            chromosome = new BitArray(length);
             
-            for (int i = 0; i < FirstGene.Count; i++)
+            for (int i = 0; i < firstGene.Count; i++)
             {
-                Chromosome[i] = FirstGene[i];
+                chromosome[i] = firstGene[i];
             }
 
-            for (int i = FirstGene.Count, j = 0; i < length; i++)
+            for (int i = firstGene.Count, j = 0; i < length; i++)
             {
-                Chromosome[i] = SecondGene[j];
+                chromosome[i] = secondGene[j];
             }
         }
        
