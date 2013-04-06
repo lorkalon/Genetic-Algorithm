@@ -86,7 +86,7 @@ namespace GeneticAlgoritm
 
             for (int j = 0; j < groups.Count; j++)
             {
-               // Statistics.AddDataInCurrentGeneration(groups[j], EntityTypes.ParentEntity);
+                Statistics.AddDataInCurrentGeneration(groups[j], EntityTypes.UsualEntity);
                 List<IEntity> modifiedEntities = new List<IEntity>();
                 Func<IEntity, float> comprasionDelegate;
 
@@ -100,7 +100,7 @@ namespace GeneticAlgoritm
                 }
                 //////////////////
                 var leadingEntities = selectionFromGroups.SelectEntities(groups[j], comprasionDelegate);
-                if (leadingEntities.Count == 0)
+                if (leadingEntities.Count == 0)//test
                 {
                     MessageBox.Show("leading entities count is null !!! ");
                 }
