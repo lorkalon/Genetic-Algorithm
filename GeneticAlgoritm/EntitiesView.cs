@@ -25,7 +25,6 @@ namespace GeneticAlgoritm
         private Dictionary<string, Type> divisionsDictionary = new Dictionary<string, Type>() { { "Center", typeof(CenterDivision) }, { "Even", typeof(EvenDivision) } };
         private Dictionary<string, Type> selectionFromGroupsDictionary = new Dictionary<string, Type>() { { "Roulette", typeof(Roulette) }, { "Tournament", typeof(Tournament) }, { "From Sorted", typeof(SelectionSortedEntities) } };
         private Dictionary<string, Type> selectionFromGenerationDictionary = new Dictionary<string, Type>() { { "Roulette", typeof(Roulette) }, { "Tournament", typeof(Tournament) }, { "From Sorted", typeof(SelectionSortedEntities) } };
-        //private bool settigsChanged = false;
         private bool formLoaded = false;
 
         public EntitiesView()
@@ -79,14 +78,6 @@ namespace GeneticAlgoritm
             return (int)settingsReader.GetValue("cyclesCount", typeof(int));
         }
 
-        //private Size GetIllustrationCanvasSize()
-        //{
-        //    int illustrationCanvasWidth = Convert.ToInt32(ConfigurationSettings.AppSettings.GetValues("illustrationCanvasWidth")[0]);
-        //    int illustrationCanvasHeigth = Convert.ToInt32(ConfigurationSettings.AppSettings.GetValues("illustrationCanvasHeigth")[0]);
-        //    Size illustrationCanvasSize = new Size(illustrationCanvasWidth, illustrationCanvasHeigth);
-        //    return illustrationCanvasSize;
-        //}
-
         private SearchArea GetAreaSize()
         {
             int serchAreaLeftBorder = (int)settingsReader.GetValue("serchAreaLeftBorder", typeof(int));
@@ -100,7 +91,7 @@ namespace GeneticAlgoritm
         private void ExecuteGeneticAlgorithmButton_Click(object sender, EventArgs e)
         {
             geneticAlgoritm.ExecuteGeneticAlgorithm();
-            this.illustrationPictureBox.Image = geneticAlgoritm.GetCanvas();
+            this.illustrationPictureBox.Image = EntitiesDrawer.GetIllustrationCanvas();
 
             ShowStatistics();
         }
@@ -108,7 +99,7 @@ namespace GeneticAlgoritm
         private void executeOneStepButton_Click(object sender, EventArgs e)
         {
             geneticAlgoritm.ExecuteOneStep();
-            this.illustrationPictureBox.Image = geneticAlgoritm.GetCanvas();
+            this.illustrationPictureBox.Image = EntitiesDrawer.GetIllustrationCanvas();
         }
 
         void ShowStatistics()

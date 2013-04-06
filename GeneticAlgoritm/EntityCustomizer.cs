@@ -11,7 +11,7 @@ namespace GeneticAlgoritm
 
     static class EntityCustomizer
     {
-        private static int transparensy = 180;
+        private static int transparensy = 170;
 
         private static Dictionary<EntityTypes, Color> entityColorConformity;
 

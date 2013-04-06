@@ -5,7 +5,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-//using System.Windows.
 using MoreLinq;
 
 namespace GeneticAlgoritm
@@ -22,19 +21,19 @@ namespace GeneticAlgoritm
 
         private static int dashesCount = 9;
 
-        //private static int transparensy = 180;
+        private static int currentEntityNumber;
 
-        public static Bitmap DrawEntities(List<IEntity> entities, EntityTypes type)
+        public static void DrawEntities(List<IEntity> entities, EntityTypes type)
         {
             searchArea = GetAreaSize();
             if (canvas == null)
             {
+                InitializeStuff();
                 InitializeCanvas();
                 InitializeDrawer();
                 DrawCS();
             }
             PaintEntities(entities, type);
-            return canvas;
         }
 
         public static void ClearCanvas()
@@ -42,12 +41,15 @@ namespace GeneticAlgoritm
             canvas = null;
         }
 
+        public static Bitmap GetIllustrationCanvas()
+        {
+            return canvas;
+        }
+
         private delegate void DrawEntityDelegate(Point windowCoordinates, EntityTypes type, int? index = null);
 
         private static void PaintEntities(List<IEntity> entities, EntityTypes type)
         {
-            int counter = 1;
-            //DrawEntityDelegate PaintEntity = (type == EntityTypes.BestEntity) ? DrawBestEntity : DrawEntity;
             DrawEntityDelegate PaintEntity;
             if (type == EntityTypes.BestEntity)
             {
@@ -60,8 +62,8 @@ namespace GeneticAlgoritm
             foreach (var entity in entities)
             {
                 Point windowCoordinates = TranslateToWindowCoordinates(entity.RealLocation);
-                PaintEntity(windowCoordinates, type, counter);
-                counter += 1;
+                PaintEntity(windowCoordinates, type, currentEntityNumber);
+                currentEntityNumber += 1;
             }
         }
 
@@ -101,14 +103,13 @@ namespace GeneticAlgoritm
             drawer.DrawString(AddSpacesToSentence(entityColorForType.Key.ToString()), new Font("Arial", 8), Brushes.Black, position.X + 16, position.Y - 7);
         }
 
-        public static Bitmap DrawBestResult(List<IEntity> entities)
+        public static void DrawBestResult(List<IEntity> entities)
         {
             if (entities.Count != 0)
             {
                 var bestEntity = entities.MaxBy(e => e.F1);
                 drawer.DrawString(String.Format("{0:0.00} {1:0.00} {2:0.00}", bestEntity.F1, bestEntity.RealLocation.X, bestEntity.RealLocation.Y), new Font("Arial", 7), Brushes.Black, 4, 15);
             }
-            return canvas;
         }
 
         private static String AddSpacesToSentence(String text)
@@ -152,8 +153,6 @@ namespace GeneticAlgoritm
             int outerRadius = 6;
             SolidBrush outerBrush = new SolidBrush(color);
             drawer.DrawEllipse(new Pen(outerBrush, 2), windowCoordinates.X - outerRadius, windowCoordinates.Y - outerRadius, 2 * outerRadius, 2 * outerRadius);
-
-            DrawEntityNumber(windowCoordinates, index);
         }
 
         private static void DrawEntityNumber(Point windowCoordinates, int? index)
@@ -215,6 +214,11 @@ namespace GeneticAlgoritm
             drawer.DrawString("Y", new Font("Arial", 8), Brushes.Black, 4, 6);
         }
 
+        private static void InitializeStuff()
+        {
+            currentEntityNumber = 1;
+        }
+
         private static void InitializeCanvas()
         {
             int illustrationCanvasWidth = Convert.ToInt32(ConfigurationSettings.AppSettings.GetValues("illustrationCanvasWidth")[0]);
@@ -232,6 +236,9 @@ namespace GeneticAlgoritm
             drawer = Graphics.FromImage(canvas);
             drawer.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             drawer.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            drawer.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighSpeed;
+            drawer.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Low;
+            drawer.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
         }
 
         private static SearchArea GetAreaSize()
