@@ -65,6 +65,8 @@ namespace GeneticAlgoritm
                 //canvas = EntitiesDrawer.DrawEntities(entities, EntityTypes.BestEntity);
             }
             //canvas = EntitiesDrawer.DrawEntities(entities, EntityTypes.BestEntity);
+         //   var s = Statistics.GetEntityTypeDictionary.Where(x => x.Value == EntityTypes.BestEntity).ToList(); //WHAT A FUCK IS THIS!!!!!!!!!!!!!!!!
+
             canvas = EntitiesDrawer.DrawBestResult(entities);
             entities = grid.GenerateGrid();
             EntitiesDrawer.ClearCanvas();
@@ -75,6 +77,7 @@ namespace GeneticAlgoritm
         {
             List<List<IEntity>> groups = entitiesDivision.DivideEntities(entities);
             entities = GetGenerationEntities(groups);
+            Statistics.SaveCurrentGeneration();
             //canvas = EntitiesDrawer.DrawEntities(entities,EntityTypes.BestEntity);
             currentStep += 1;
         }
@@ -134,7 +137,7 @@ namespace GeneticAlgoritm
             //var newPopulationEntities = selection.SelectEntities(newEntities, x => x.FGeneralized);   // !!!!!!!!!!!Обратить внимание на количество возвращаемых особей!!!!!
             var newPopulationEntities = selectionFromGeneration.SelectEntities(newEntities, x => x.F1);
             canvas = EntitiesDrawer.DrawEntities(newPopulationEntities, EntityTypes.BestEntity);
-            Statistics.AddDataInCurrentGeneration(newPopulationEntities, EntityTypes.BestEntity);
+            Statistics.AddBestEntitiesInCurrentGeneration(newPopulationEntities);
             return newPopulationEntities;
         }
 
