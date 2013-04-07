@@ -60,31 +60,31 @@ namespace GeneticAlgoritm
                 }
                 return gene;
             }
-        } 
+        }
 
-        internal delegate float FirstCriteriaDelegate(float x, float y);
-        internal delegate float SecondCriteriaDelegate(float x, float y);
+        internal delegate double FirstCriteriaDelegate(float x, float y);
+        internal delegate double SecondCriteriaDelegate(float x, float y);
 
         private FirstCriteriaDelegate firstCriteria;
         private SecondCriteriaDelegate secondCriteria;
 
-        public float f1;
-        public float f2;
-        public float fGeneralized;
+        public double f1;
+        public double f2;
+        public double fGeneralized;
 
-        const float c1 = 1.0f;
-        const float c2 = 1.0f;
+        const double c1 = 1.0f;
+        const double c2 = 1.0f;
         
-        private float FirstCriteriaMethod(float x, float y)
+        private double FirstCriteriaMethod(float x, float y)
         {
-            return (float)(1 / (1 + Math.Pow((x - 2), 2) + Math.Pow((y - 10), 2)) +
+            return (1 / (1 + Math.Pow((x - 2), 2) + Math.Pow((y - 10), 2)) +
                                1 / (2 + Math.Pow((x - 10), 2) + Math.Pow((y - 15), 2)) +
                                1 / (2 + Math.Pow((x - 18), 2) + x*Math.Pow((y - 4), 2 )));
         }
 
-        private float SecondCriteriaMethod(float x, float y)
+        private double SecondCriteriaMethod(float x, float y)
         {
-            return (float)(1 / (1 / (1 + Math.Pow((x - 2), 2) + Math.Pow((y - 10), 2)) +
+            return (1 / (1 / (1 + Math.Pow((x - 2), 2) + Math.Pow((y - 10), 2)) +
                               1 / (2 + Math.Pow((x - 10), 2) + Math.Pow((y - 15), 2)) +
                               1 / (2 + Math.Pow((x - 18), 2) + x*Math.Pow((y - 4), 2 ))));
         }
@@ -135,8 +135,8 @@ namespace GeneticAlgoritm
                 chromosome[i] = secondGene[j];
             }
         }
-       
-        public float F1
+
+        public double F1
         {
             get
             {
@@ -149,7 +149,7 @@ namespace GeneticAlgoritm
             set { firstCriteria = value; }
         }
 
-        public float F2
+        public double F2
         {
             get
             {
@@ -162,7 +162,7 @@ namespace GeneticAlgoritm
             set { secondCriteria = value; }
         }
 
-        public float FGeneralized
+        public double FGeneralized
         {
             get
             {
@@ -180,7 +180,10 @@ namespace GeneticAlgoritm
         {
             IEntity entity = (IEntity)obj;
 
-            return this.GetHashCode().Equals(entity.GetHashCode());
+
+            //return (this.RealLocation.Equals(entity.RealLocation)) && (this.firstGene.Equals(entity.FirstGene)) && (this.secondGene.Equals(entity.SecondGene)) && (this.chromosome.Equals(entity.Chromosome));
+            //return (this.F1.Equals(entity.F1)) && (this.F2.Equals(entity.F2)) && (this.FGeneralized.Equals(entity.FGeneralized));
+            return this.RealLocation.Equals(entity.RealLocation);
         }
 
         public override int GetHashCode()
@@ -190,9 +193,9 @@ namespace GeneticAlgoritm
             hash = (hash * 7) + firstGene.GetHashCode();
             hash = (hash * 7) + secondGene.GetHashCode();
             hash = (hash * 7) + chromosome.GetHashCode();
-            hash = (hash * 7) + fGeneralized.GetHashCode();
-            hash = (hash * 7) + F1.GetHashCode();
-            hash = (hash * 7) + F2.GetHashCode();
+            //hash = (hash * 7) + fGeneralized.GetHashCode();
+            //hash = (hash * 7) + F1.GetHashCode();
+            //hash = (hash * 7) + F2.GetHashCode();
 
             return hash;
         }

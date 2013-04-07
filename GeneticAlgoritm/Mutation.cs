@@ -29,7 +29,7 @@ namespace GeneticAlgoritm
                 BitArray secondGeneArray = new BitArray(entity.SecondGene);
 
                 tempEntity = new Entity(new PointF(GetMutateGene(firstGeneArray, random), GetMutateGene(secondGeneArray, random)));
-            } while (tempEntity.IsValid(searchAreaSize)!=true);
+            } while (tempEntity.IsValid(searchAreaSize) != true);
  
             return entity.Equals(tempEntity) ? null : tempEntity;
         }

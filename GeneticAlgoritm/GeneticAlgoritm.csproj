@@ -45,7 +45,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AlgorithmStatistic.cs" />
+    <Compile Include="BestAlgorithmFinder.cs" />
     <Compile Include="CenterDivision.cs" />
+    <Compile Include="ConfigurationManager.cs" />
     <Compile Include="EntitiesDrawer.cs" />
     <Compile Include="EntitiesView.cs">
       <SubType>Form</SubType>
@@ -73,6 +76,7 @@
     <Compile Include="SelectionSortedEntities.cs" />
     <Compile Include="SquareGrid.cs" />
     <Compile Include="Statistics.cs" />
+    <Compile Include="SubAlgorithmsManager.cs" />
     <Compile Include="Tournament.cs" />
     <Compile Include="TriangleGrid.cs" />
     <Compile Include="EvenDivision.cs" />

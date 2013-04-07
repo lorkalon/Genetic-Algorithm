@@ -16,7 +16,7 @@ namespace GeneticAlgoritm
             this.entitiesCount = entitiesCount;
         }
 
-        public List<IEntity> SelectEntities(List<IEntity> candidates, Func<IEntity, float> comparsionDelegate)
+        public List<IEntity> SelectEntities(List<IEntity> candidates, Func<IEntity, double> comparsionDelegate)
         {
             List<IEntity> selectedEntities = new List<IEntity>();
             List<List<IEntity>> groups = new List<List<IEntity>>();

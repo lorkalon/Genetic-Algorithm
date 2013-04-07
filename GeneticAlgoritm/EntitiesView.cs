@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -21,10 +22,7 @@ namespace GeneticAlgoritm
         private SearchArea searchAreaSize;
 
         private int cycles;
-        private Dictionary<string, Type> gridsDictionary = new Dictionary<string, Type>() { { "Random", typeof(RandomGrid) }, { "Triangle", typeof(TriangleGrid) }, { "Square", typeof(SquareGrid) } };
-        private Dictionary<string, Type> divisionsDictionary = new Dictionary<string, Type>() { { "Center", typeof(CenterDivision) }, { "Even", typeof(EvenDivision) } };
-        private Dictionary<string, Type> selectionFromGroupsDictionary = new Dictionary<string, Type>() { { "Roulette", typeof(Roulette) }, { "Tournament", typeof(Tournament) }, { "From Sorted", typeof(SelectionSortedEntities) } };
-        private Dictionary<string, Type> selectionFromGenerationDictionary = new Dictionary<string, Type>() { { "Roulette", typeof(Roulette) }, { "Tournament", typeof(Tournament) }, { "From Sorted", typeof(SelectionSortedEntities) } };
+        
         private bool formLoaded = false;
         private bool settingsChanged = false;
 
@@ -34,8 +32,8 @@ namespace GeneticAlgoritm
 
             settingsReader = new AppSettingsReader();
             InitializeComboBoxControls();
-            searchAreaSize = GetAreaSize();
-            cycles = GetCyclesCount();
+            searchAreaSize = ConfigurationManager.GetAreaSize();
+            cycles = ConfigurationManager.GetCyclesCount();
 
             geneticAlgoritm = new GeneticAlgorithmCore(searchAreaSize, cycles);
             InitializeGeneticAlgorithmProperties();
@@ -47,16 +45,16 @@ namespace GeneticAlgoritm
 
         private void InitializeComboBoxControls()
         {
-            gridComboBox.Items.AddRange(gridsDictionary.Keys.ToArray());
+            gridComboBox.Items.AddRange(SubAlgorithmsManager.GridsDictionary.Keys.ToArray());
             gridComboBox.SelectedIndex = 0;
 
-            divisionComboBox.Items.AddRange(divisionsDictionary.Keys.ToArray());
+            divisionComboBox.Items.AddRange(SubAlgorithmsManager.DivisionsDictionary.Keys.ToArray());
             divisionComboBox.SelectedIndex = 0;
 
-            selectionFromGroupsComboBox.Items.AddRange(selectionFromGroupsDictionary.Keys.ToArray());
+            selectionFromGroupsComboBox.Items.AddRange(SubAlgorithmsManager.SelectionFromGroupsDictionary.Keys.ToArray());
             selectionFromGroupsComboBox.SelectedIndex = 0;
 
-            selectionFromGenerationComboBox.Items.AddRange(selectionFromGenerationDictionary.Keys.ToArray());
+            selectionFromGenerationComboBox.Items.AddRange(SubAlgorithmsManager.SelectionFromGenerationDictionary.Keys.ToArray());
             selectionFromGenerationComboBox.SelectedIndex = 0;
         }
 
@@ -69,25 +67,10 @@ namespace GeneticAlgoritm
             geneticAlgoritm.Hybridize = new Hybridizer(searchAreaSize, new int[] { (int)crossPointNumericUpDown1.Value, (int)crossPointNumericUpDown2.Value });
             geneticAlgoritm.PerformMutation = new Mutation(searchAreaSize, (int)mutationPercentNumericUpDown.Value);
 
-            geneticAlgoritm.Grid = (IGrid)Activator.CreateInstance(gridsDictionary[gridComboBox.Text], searchAreaSize, (int)entitiesCountNumericUpDown.Value);
-            geneticAlgoritm.SelectionFromGroups = (ISelection)Activator.CreateInstance(selectionFromGroupsDictionary[selectionFromGroupsComboBox.Text], (int)selectionFromGroupsCountNumericUpDown.Value);
-            geneticAlgoritm.EntitiesDivision = (IDividable)Activator.CreateInstance(divisionsDictionary[divisionComboBox.Text]);
-            geneticAlgoritm.SelectionFromGeneration = (ISelection)Activator.CreateInstance(selectionFromGenerationDictionary[selectionFromGenerationComboBox.Text], (int)selectionFromGenerationCountNumericUpDown.Value);
-        }
-
-        private int GetCyclesCount()
-        {
-            return (int)settingsReader.GetValue("cyclesCount", typeof(int));
-        }
-
-        private SearchArea GetAreaSize()
-        {
-            int serchAreaLeftBorder = (int)settingsReader.GetValue("serchAreaLeftBorder", typeof(int));
-            int serchAreaRightBorder = (int)settingsReader.GetValue("serchAreaRightBorder", typeof(int));
-            int serchAreaBottomBorder = (int)settingsReader.GetValue("serchAreaBottomBorder", typeof(int));
-            int serchAreaTopBorder = (int)settingsReader.GetValue("serchAreaTopBorder", typeof(int));
-            SearchArea searchAreaSize = new SearchArea(serchAreaLeftBorder, serchAreaRightBorder, serchAreaBottomBorder, serchAreaTopBorder);
-            return searchAreaSize;
+            geneticAlgoritm.Grid = (IGrid)Activator.CreateInstance(SubAlgorithmsManager.GridsDictionary[gridComboBox.Text], searchAreaSize, (int)entitiesCountNumericUpDown.Value);
+            geneticAlgoritm.SelectionFromGroups = (ISelection)Activator.CreateInstance(SubAlgorithmsManager.SelectionFromGroupsDictionary[selectionFromGroupsComboBox.Text], (int)selectionFromGroupsCountNumericUpDown.Value);
+            geneticAlgoritm.EntitiesDivision = (IDividable)Activator.CreateInstance(SubAlgorithmsManager.DivisionsDictionary[divisionComboBox.Text]);
+            geneticAlgoritm.SelectionFromGeneration = (ISelection)Activator.CreateInstance(SubAlgorithmsManager.SelectionFromGenerationDictionary[selectionFromGenerationComboBox.Text], (int)selectionFromGenerationCountNumericUpDown.Value);
         }
 
         private void ExecuteGeneticAlgorithmButton_Click(object sender, EventArgs e)
@@ -138,7 +121,7 @@ namespace GeneticAlgoritm
         {
             if (formLoaded)
             {
-                geneticAlgoritm.Grid = (IGrid)Activator.CreateInstance(gridsDictionary[gridComboBox.Text], searchAreaSize, (int)entitiesCountNumericUpDown.Value);
+                geneticAlgoritm.Grid = (IGrid)Activator.CreateInstance(SubAlgorithmsManager.GridsDictionary[gridComboBox.Text], searchAreaSize, (int)entitiesCountNumericUpDown.Value);
                 settingsChanged = true;
             }
         }
@@ -147,7 +130,7 @@ namespace GeneticAlgoritm
         {
             if (formLoaded)
             {
-                geneticAlgoritm.SelectionFromGroups = (ISelection)Activator.CreateInstance(selectionFromGroupsDictionary[selectionFromGroupsComboBox.Text], 
+                geneticAlgoritm.SelectionFromGroups = (ISelection)Activator.CreateInstance(SubAlgorithmsManager.SelectionFromGroupsDictionary[selectionFromGroupsComboBox.Text], 
                     (int)selectionFromGroupsCountNumericUpDown.Value);
                 settingsChanged = true;
             }
@@ -157,7 +140,7 @@ namespace GeneticAlgoritm
         {
             if (formLoaded)
             {
-                geneticAlgoritm.SelectionFromGeneration = (ISelection)Activator.CreateInstance(selectionFromGenerationDictionary[selectionFromGroupsComboBox.Text], 
+                geneticAlgoritm.SelectionFromGeneration = (ISelection)Activator.CreateInstance(SubAlgorithmsManager.SelectionFromGenerationDictionary[selectionFromGroupsComboBox.Text], 
                     (int)selectionFromGenerationCountNumericUpDown.Value);
                 settingsChanged = true;
             }
@@ -167,11 +150,22 @@ namespace GeneticAlgoritm
         {
             if (formLoaded)
             {
-                geneticAlgoritm.EntitiesDivision = (IDividable)Activator.CreateInstance(divisionsDictionary[divisionComboBox.Text]);
+                geneticAlgoritm.EntitiesDivision = (IDividable)Activator.CreateInstance(SubAlgorithmsManager.DivisionsDictionary[divisionComboBox.Text]);
                 settingsChanged = true;
             }
         }
 
+        private void startFindingBestAlgorithmButton_Click(object sender, EventArgs e)
+        {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
 
+            BestAlgorithmFinder bestAlgorithmFinder = new BestAlgorithmFinder(1);
+            algorithmStatisticDataGridView.DataSource = bestAlgorithmFinder.FindBestAlgorithm();
+            algorithmStatisticDataGridView.AutoResizeColumns();
+            
+            stopwatch.Stop();
+            this.Text = stopwatch.Elapsed.ToString();
+        }
     }
 }

@@ -56,6 +56,9 @@
             this.illustrationPictureBox = new System.Windows.Forms.PictureBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.entitiesTreeView = new System.Windows.Forms.TreeView();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.startFindingBestAlgorithmButton = new System.Windows.Forms.Button();
+            this.algorithmStatisticDataGridView = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.entitiesCountNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.selectionFromGenerationCountNumericUpDown)).BeginInit();
             this.settingsPanel.SuspendLayout();
@@ -68,6 +71,8 @@
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.illustrationPictureBox)).BeginInit();
             this.tabPage2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.algorithmStatisticDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // initialCountLabel
@@ -364,6 +369,7 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Left;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
@@ -410,6 +416,39 @@
             this.entitiesTreeView.Size = new System.Drawing.Size(647, 600);
             this.entitiesTreeView.TabIndex = 0;
             // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.startFindingBestAlgorithmButton);
+            this.tabPage3.Controls.Add(this.algorithmStatisticDataGridView);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(653, 606);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Find best algorithm";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // startFindingBestAlgorithmButton
+            // 
+            this.startFindingBestAlgorithmButton.Location = new System.Drawing.Point(518, 575);
+            this.startFindingBestAlgorithmButton.Name = "startFindingBestAlgorithmButton";
+            this.startFindingBestAlgorithmButton.Size = new System.Drawing.Size(129, 23);
+            this.startFindingBestAlgorithmButton.TabIndex = 1;
+            this.startFindingBestAlgorithmButton.Text = "Find best algorithm";
+            this.startFindingBestAlgorithmButton.UseVisualStyleBackColor = true;
+            this.startFindingBestAlgorithmButton.Click += new System.EventHandler(this.startFindingBestAlgorithmButton_Click);
+            // 
+            // algorithmStatisticDataGridView
+            // 
+            this.algorithmStatisticDataGridView.AllowUserToAddRows = false;
+            this.algorithmStatisticDataGridView.AllowUserToDeleteRows = false;
+            this.algorithmStatisticDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.algorithmStatisticDataGridView.Location = new System.Drawing.Point(8, 6);
+            this.algorithmStatisticDataGridView.Name = "algorithmStatisticDataGridView";
+            this.algorithmStatisticDataGridView.ReadOnly = true;
+            this.algorithmStatisticDataGridView.Size = new System.Drawing.Size(639, 563);
+            this.algorithmStatisticDataGridView.TabIndex = 0;
+            // 
             // EntitiesView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -433,6 +472,8 @@
             this.tabPage1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.illustrationPictureBox)).EndInit();
             this.tabPage2.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.algorithmStatisticDataGridView)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -468,6 +509,9 @@
         private System.Windows.Forms.TreeView entitiesTreeView;
         private System.Windows.Forms.ComboBox selectionFromGenerationComboBox;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.Button startFindingBestAlgorithmButton;
+        private System.Windows.Forms.DataGridView algorithmStatisticDataGridView;
 
     }
 }

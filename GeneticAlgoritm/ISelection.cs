@@ -8,6 +8,6 @@ namespace GeneticAlgoritm
 {
     interface ISelection
     {
-        List<IEntity> SelectEntities(List<IEntity> candidates, Func<IEntity, float> comparsionDelegate);
+        List<IEntity> SelectEntities(List<IEntity> candidates, Func<IEntity, double> comparsionDelegate);
     }
 }

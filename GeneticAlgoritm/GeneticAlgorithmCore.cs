@@ -68,6 +68,7 @@ namespace GeneticAlgoritm
 
         public ISelection SelectionFromGeneration { get { return selectionFromGeneration; } set { selectionFromGeneration = value; } }
 
+
         public GeneticAlgorithmCore(SearchArea searchAreaSize, int cycles)
         {
             this.searchAreaSize = searchAreaSize;
@@ -101,6 +102,11 @@ namespace GeneticAlgoritm
             currentStep += 1;
         }
 
+        public List<IEntity> GetEntities()
+        {
+            return entities;
+        }
+
         private void StartOverIfNeed()
         {
             if (currentStep >= cycles)
@@ -123,7 +129,7 @@ namespace GeneticAlgoritm
                 //Statistics.AddDataInCurrentGeneration(groups[j], EntityTypes.UsualEntity);
 
                 List<IEntity> modifiedEntities = new List<IEntity>();
-                Func<IEntity, float> comprasionDelegate;
+                Func<IEntity, double> comprasionDelegate;
 
                 //if (j % 2 == 0)
                 {
@@ -196,5 +202,7 @@ namespace GeneticAlgoritm
             List<IEntity> mutationEntities = entities.Select(entity => performMutation.Mutate(entity)).Where(mutant => mutant != null).ToList();
             return mutationEntities;
         }
+
+
     }
 }

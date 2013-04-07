@@ -23,9 +23,10 @@ namespace GeneticAlgoritm
 
         private static int currentEntityNumber;
 
+
         public static void DrawEntities(List<IEntity> entities, EntityTypes type)
         {
-            searchArea = GetAreaSize();
+            searchArea = ConfigurationManager.GetAreaSize();
             if (canvas == null)
             {
                 InitializeStuff();
@@ -34,32 +35,6 @@ namespace GeneticAlgoritm
                 DrawCS();
             }
             PaintEntities(entities, type);
-        }
-
-        public static void ClearCanvas()
-        {
-            canvas = null;
-        }
-
-        public static Bitmap GetIllustrationCanvas()
-        {
-            return canvas;
-        }
-
-        private delegate void DrawEntityDelegate(Point windowCoordinates, EntityTypes type, int? index = null);
-
-        private static void PaintEntities(List<IEntity> entities, EntityTypes type)
-        {
-            DrawEntityDelegate PaintEntity = DrawEntity;
-            if (type == EntityTypes.BestEntity || type == EntityTypes.SelectedEntity)
-            {
-                PaintEntity = DrawLeadingEntity;
-            }
-            foreach (var entity in entities)
-            {
-                Point windowCoordinates = TranslateToWindowCoordinates(entity.RealLocation);
-                PaintEntity(windowCoordinates, type, currentEntityNumber);
-            }
         }
 
         public static Bitmap DrawLegend()
@@ -83,6 +58,41 @@ namespace GeneticAlgoritm
             return legendCanvas;
         }
 
+        public static void ClearCanvas()
+        {
+            canvas = null;
+        }
+
+        public static Bitmap GetIllustrationCanvas()
+        {
+            return canvas;
+        }
+
+        public static void DrawBestResult(List<IEntity> entities)
+        {
+            if (entities.Count != 0)
+            {
+                var bestEntity = entities.MaxBy(e => e.F1);
+                drawer.DrawString(String.Format("{0:0.00} {1:0.00} {2:0.00}", bestEntity.F1, bestEntity.RealLocation.X, bestEntity.RealLocation.Y), new Font("Arial", 7), Brushes.Black, 4, 15);
+            }
+        }
+
+        private delegate void DrawEntityDelegate(Point windowCoordinates, EntityTypes type, int? index = null);
+
+        private static void PaintEntities(List<IEntity> entities, EntityTypes type)
+        {
+            DrawEntityDelegate PaintEntity = DrawEntity;
+            if (type == EntityTypes.BestEntity || type == EntityTypes.SelectedEntity)
+            {
+                PaintEntity = DrawLeadingEntity;
+            }
+            foreach (var entity in entities)
+            {
+                Point windowCoordinates = TranslateToWindowCoordinates(entity.RealLocation);
+                PaintEntity(windowCoordinates, type, currentEntityNumber);
+            }
+        }
+
         private static void DrawLegendItem(KeyValuePair<EntityTypes, Color> entityColorForType, Point position, Graphics drawer)
         {
             if (entityColorForType.Key == EntityTypes.BestEntity || entityColorForType.Key == EntityTypes.SelectedEntity)
@@ -96,15 +106,6 @@ namespace GeneticAlgoritm
             }
 
             drawer.DrawString(AddSpacesToSentence(entityColorForType.Key.ToString()), new Font("Arial", 8), Brushes.Black, position.X + 16, position.Y - 7);
-        }
-
-        public static void DrawBestResult(List<IEntity> entities)
-        {
-            if (entities.Count != 0)
-            {
-                var bestEntity = entities.MaxBy(e => e.F1);
-                drawer.DrawString(String.Format("{0:0.00} {1:0.00} {2:0.00}", bestEntity.F1, bestEntity.RealLocation.X, bestEntity.RealLocation.Y), new Font("Arial", 7), Brushes.Black, 4, 15);
-            }
         }
 
         private static String AddSpacesToSentence(String text)
@@ -150,15 +151,6 @@ namespace GeneticAlgoritm
             SolidBrush outerBrush = new SolidBrush(color);
             drawer.DrawEllipse(new Pen(outerBrush, 2), windowCoordinates.X - outerRadius, windowCoordinates.Y - outerRadius, 2 * outerRadius, 2 * outerRadius);
         }
-
-        //private static void DrawLeadingEntity(Point windowCoordinates, EntityTypes type, int? index = null)
-        //{
-        //    Color color = EntityCustomizer.GetEntityColor(type);
-
-        //    int outerRadius = 6;
-        //    SolidBrush outerBrush = new SolidBrush(color);
-        //    drawer.DrawEllipse(new Pen(outerBrush, 2), windowCoordinates.X - outerRadius, windowCoordinates.Y - outerRadius, 2 * outerRadius, 2 * outerRadius);
-        //}
 
         private static void DrawEntityNumber(Point windowCoordinates, int? index)
         {
@@ -226,10 +218,8 @@ namespace GeneticAlgoritm
 
         private static void InitializeCanvas()
         {
-            int illustrationCanvasWidth = Convert.ToInt32(ConfigurationSettings.AppSettings.GetValues("illustrationCanvasWidth")[0]);
-            int illustrationCanvasHeigth = Convert.ToInt32(ConfigurationSettings.AppSettings.GetValues("illustrationCanvasHeigth")[0]);
-            canvas = new Bitmap(illustrationCanvasWidth, illustrationCanvasHeigth);
-            illustrationCanvasSize = new Size(illustrationCanvasWidth, illustrationCanvasHeigth);
+            illustrationCanvasSize = ConfigurationManager.GetIllustrationCanvasSize();
+            canvas = new Bitmap(illustrationCanvasSize.Width, illustrationCanvasSize.Height);
         }
 
         private static void InitializeDrawer()
@@ -244,16 +234,6 @@ namespace GeneticAlgoritm
             drawer.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighSpeed;
             drawer.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Low;
             drawer.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
-        }
-
-        private static SearchArea GetAreaSize()
-        {
-            int serchAreaLeftBorder = Convert.ToInt32(ConfigurationSettings.AppSettings.GetValues("serchAreaLeftBorder")[0]);
-            int serchAreaRightBorder = Convert.ToInt32(ConfigurationSettings.AppSettings.GetValues("serchAreaRightBorder")[0]);
-            int serchAreaBottomBorder = Convert.ToInt32(ConfigurationSettings.AppSettings.GetValues("serchAreaBottomBorder")[0]);
-            int serchAreaTopBorder = Convert.ToInt32(ConfigurationSettings.AppSettings.GetValues("serchAreaTopBorder")[0]);
-            SearchArea searchAreaSize = new SearchArea(serchAreaLeftBorder, serchAreaRightBorder, serchAreaBottomBorder, serchAreaTopBorder);
-            return searchAreaSize;
         }
     }
 }
