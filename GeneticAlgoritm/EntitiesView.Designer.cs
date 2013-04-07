@@ -191,7 +191,7 @@
             this.executeOneStepButton.TabIndex = 8;
             this.executeOneStepButton.Text = "Execute one step";
             this.executeOneStepButton.UseVisualStyleBackColor = true;
-            this.executeOneStepButton.Click += new System.EventHandler(this.executeOneStepButton_Click);
+            this.executeOneStepButton.Click += new System.EventHandler(this.ExecuteOneStepButton_Click);
             // 
             // crossPointNumericUpDown2
             // 

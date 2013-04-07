@@ -26,6 +26,7 @@ namespace GeneticAlgoritm
         private Dictionary<string, Type> selectionFromGroupsDictionary = new Dictionary<string, Type>() { { "Roulette", typeof(Roulette) }, { "Tournament", typeof(Tournament) }, { "From Sorted", typeof(SelectionSortedEntities) } };
         private Dictionary<string, Type> selectionFromGenerationDictionary = new Dictionary<string, Type>() { { "Roulette", typeof(Roulette) }, { "Tournament", typeof(Tournament) }, { "From Sorted", typeof(SelectionSortedEntities) } };
         private bool formLoaded = false;
+        private bool settingsChanged = false;
 
         public EntitiesView()
         {
@@ -41,6 +42,7 @@ namespace GeneticAlgoritm
             formLoaded = true;
 
             legendPictureBox.Image = EntitiesDrawer.DrawLegend();
+            Statistics.TreeViewStatistics = entitiesTreeView;
         }
 
         private void InitializeComboBoxControls()
@@ -90,6 +92,10 @@ namespace GeneticAlgoritm
 
         private void ExecuteGeneticAlgorithmButton_Click(object sender, EventArgs e)
         {
+            if (entitiesTreeView.Nodes.Count >= 100 || settingsChanged)
+            {
+                Statistics.ClearTreeView();
+            } 
             geneticAlgoritm.ExecuteGeneticAlgorithm();
             this.illustrationPictureBox.Image = EntitiesDrawer.GetIllustrationCanvas();
 
@@ -100,68 +106,28 @@ namespace GeneticAlgoritm
         {
             geneticAlgoritm.ExecuteOneStep();
             this.illustrationPictureBox.Image = EntitiesDrawer.GetIllustrationCanvas();
+            settingsChanged = false;
         }
 
-        void ShowStatistics()
+        private void ExecuteOneStepButton_Click(object sender, EventArgs e)
         {
-            int generation = 0;
-
-            foreach (var list in Statistics.GetEntitiesData)
+            if (entitiesTreeView.Nodes.Count >= 100 || settingsChanged)
             {
-                var tempGeneration = entitiesTreeView.Nodes.Add((generation + 1).ToString(), "Generation " + (generation + 1).ToString());
-                int childIndex = 0;
-                foreach (var entity in list)
-                {
-                    var node = tempGeneration.Nodes.Add(childIndex.ToString(), "Point "+childIndex.ToString());
-                    node.BackColor = EntityCustomizer.GetEntityColor(Statistics.GetTypeEntity(entity.FGeneralized));    
-
-                    node.Nodes.Add(entity.RealLocation.X.ToString(), "X - " + entity.RealLocation.X.ToString());
-                    node.Nodes.Add(entity.RealLocation.Y.ToString(), "Y - " + entity.RealLocation.Y.ToString());
-                    node.Nodes.Add(entity.F1.ToString(), "F1 - " + entity.F1.ToString());
-                    node.Nodes.Add(entity.F2.ToString(), "F2 - " + entity.F2.ToString());
-                    node.Nodes.Add(entity.FGeneralized.ToString(), "F - " + entity.FGeneralized.ToString());
-                    node.Nodes.Add(entity.FGeneralized.ToString(), "First gene - " + ((Entity)entity).GetFirstGene);
-                    node.Nodes.Add(entity.FGeneralized.ToString(), "Second gene - " + ((Entity)entity).GetSecondGene);
-                    node.Nodes.Add(Statistics.GetTypeEntity(entity.FGeneralized).ToString(), "Entity type - " + Statistics.GetTypeEntity(entity.FGeneralized).ToString());
-                    ++childIndex;
-                }
-
-                ++generation;
+                Statistics.ClearTreeView();
             }
-
+            geneticAlgoritm.ExecuteOneStep();
+            this.illustrationPictureBox.Image = geneticAlgoritm.GetCanvas();
+            settingsChanged = false;
         }
-
 
         // ------------------- обработчики изменений настроек -------------------------
-        /*      private void EntitiesCountValueChanged(object sender, EventArgs e)
-              {
-                  if (formLoaded)
-                  {
-                      geneticAlgoritm.SelectionFromGenerationCount = (int) entitiesCountNumericUpDown.Value;
-                  }
-              }
-
-              private void SelectedByGenerationCountValueChanged(object sender, EventArgs e)
-              {
-                  if (formLoaded)
-                  {
-                      geneticAlgoritm.SelectionFromGroupsCount = (int)selectionFromGenerationCountNumericUpDown.Value;
-                  }
-              }
-
-                      private void SelectedFromGenerationCountValueChanged(object sender, EventArgs e)
-              {
-                  if (formLoaded)
-                  {
-                      geneticAlgoritm.SelectionFromGroupsCount = (int)selectionFromGenerationCountNumericUpDown.Value;
-                  }
-              }*/
 
         private void CrossPointsValueChanged(object sender, EventArgs e)
         {
             if (formLoaded)
             {
                 geneticAlgoritm.Hybridize = new Hybridizer(searchAreaSize, new int[] { (int)crossPointNumericUpDown1.Value, (int)crossPointNumericUpDown2.Value });
+                settingsChanged = true;
             }
         }
 
@@ -170,6 +136,7 @@ namespace GeneticAlgoritm
             if (formLoaded)
             {
                 geneticAlgoritm.PerformMutation = new Mutation(searchAreaSize, (int)mutationPercentNumericUpDown.Value);
+                settingsChanged = true;
             }
         }
 
@@ -178,6 +145,7 @@ namespace GeneticAlgoritm
             if (formLoaded)
             {
                 geneticAlgoritm.Grid = (IGrid)Activator.CreateInstance(gridsDictionary[gridComboBox.Text], searchAreaSize, (int)entitiesCountNumericUpDown.Value);
+                settingsChanged = true;
             }
         }
 
@@ -185,7 +153,9 @@ namespace GeneticAlgoritm
         {
             if (formLoaded)
             {
-                geneticAlgoritm.SelectionFromGroups = (ISelection)Activator.CreateInstance(selectionFromGroupsDictionary[selectionFromGroupsComboBox.Text], (int)selectionFromGroupsCountNumericUpDown.Value);
+                geneticAlgoritm.SelectionFromGroups = (ISelection)Activator.CreateInstance(selectionFromGroupsDictionary[selectionFromGroupsComboBox.Text], 
+                    (int)selectionFromGroupsCountNumericUpDown.Value);
+                settingsChanged = true;
             }
         }
 
@@ -193,7 +163,9 @@ namespace GeneticAlgoritm
         {
             if (formLoaded)
             {
-                geneticAlgoritm.SelectionFromGeneration = (ISelection)Activator.CreateInstance(selectionFromGenerationDictionary[selectionFromGroupsComboBox.Text], (int)selectionFromGenerationCountNumericUpDown.Value);
+                geneticAlgoritm.SelectionFromGeneration = (ISelection)Activator.CreateInstance(selectionFromGenerationDictionary[selectionFromGroupsComboBox.Text], 
+                    (int)selectionFromGenerationCountNumericUpDown.Value);
+                settingsChanged = true;
             }
         }
 
@@ -202,6 +174,7 @@ namespace GeneticAlgoritm
             if (formLoaded)
             {
                 geneticAlgoritm.EntitiesDivision = (IDividable)Activator.CreateInstance(divisionsDictionary[divisionComboBox.Text]);
+                settingsChanged = true;
             }
         }
 

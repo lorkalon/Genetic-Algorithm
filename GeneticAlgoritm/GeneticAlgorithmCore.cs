@@ -153,6 +153,7 @@ namespace GeneticAlgoritm
             var newPopulationEntities = selectionFromGeneration.SelectEntities(newEntities, x => x.F1);
             EntitiesDrawer.DrawEntities(newPopulationEntities, EntityTypes.BestEntity);
             Statistics.AddDataInCurrentGeneration(newPopulationEntities, EntityTypes.BestEntity);
+            //Statistics.AddBestEntitiesInCurrentGeneration(newPopulationEntities);//new
             return newPopulationEntities;
         }
 
