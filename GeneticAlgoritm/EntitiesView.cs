@@ -31,6 +31,7 @@ namespace GeneticAlgoritm
         public EntitiesView()
         {
             InitializeComponent();
+            this.CenterToScreen();
 
             settingsReader = new AppSettingsReader();
             InitializeComboBoxControls();
@@ -64,7 +65,6 @@ namespace GeneticAlgoritm
         {
             geneticAlgoritm.Hybridize = new Hybridizer(searchAreaSize, new int[] { (int)crossPointNumericUpDown1.Value, (int)crossPointNumericUpDown2.Value });
             geneticAlgoritm.PerformMutation = new Mutation(searchAreaSize, (int)mutationPercentNumericUpDown.Value);
-
             geneticAlgoritm.Grid = (IGrid)Activator.CreateInstance(SubAlgorithmsManager.GridsDictionary[gridComboBox.Text], searchAreaSize, (int)entitiesCountNumericUpDown.Value);
             geneticAlgoritm.SelectionFromGroups = (ISelection)Activator.CreateInstance(SubAlgorithmsManager.SelectionFromGroupsDictionary[selectionFromGroupsComboBox.Text], (int)selectionFromGroupsCountNumericUpDown.Value);
             geneticAlgoritm.EntitiesDivision = (IDividable)Activator.CreateInstance(SubAlgorithmsManager.DivisionsDictionary[divisionComboBox.Text]);
@@ -173,7 +173,7 @@ namespace GeneticAlgoritm
             algorithmStatisticDataGridView.AutoResizeColumns();
 
             stopwatch.Stop();
-            this.Text = stopwatch.Elapsed.ToString();
+            this.Text = String.Format("Genetic algorithm - {0}", stopwatch.Elapsed.ToString());
         }
     }
 }

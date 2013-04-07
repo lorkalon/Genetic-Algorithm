@@ -125,8 +125,6 @@ namespace GeneticAlgoritm
             for (int j = 0; j < groups.Count; j++)
             {
                 LogStep(groups[j], EntityTypes.UsualEntity);
-                //EntitiesDrawer.DrawEntities(groups[j], EntityTypes.UsualEntity);
-                //Statistics.AddDataInCurrentGeneration(groups[j], EntityTypes.UsualEntity);
 
                 List<IEntity> modifiedEntities = new List<IEntity>();
                 Func<IEntity, double> comprasionDelegate;
@@ -143,20 +141,14 @@ namespace GeneticAlgoritm
                 var leadingEntities = selectionFromGroups.SelectEntities(groups[j], comprasionDelegate);
                 modifiedEntities.AddRange(leadingEntities);
                 LogStep(leadingEntities, EntityTypes.SelectedEntity);
-                //EntitiesDrawer.DrawEntities(leadingEntities, EntityTypes.SelectedEntity);
-                //Statistics.AddDataInCurrentGeneration(leadingEntities, EntityTypes.SelectedEntity);
 
                 var entitiesOffsprings = GetOffsprings(modifiedEntities);
                 modifiedEntities.AddRange(entitiesOffsprings);
                 LogStep(entitiesOffsprings, EntityTypes.ChildEntity);
-                //EntitiesDrawer.DrawEntities(entitiesOffsprings, EntityTypes.ChildEntity);
-                //Statistics.AddDataInCurrentGeneration(entitiesOffsprings, EntityTypes.ChildEntity);
 
                 var mutationEntities = GetMutationEntities(modifiedEntities);
                 modifiedEntities.AddRange(mutationEntities);
                 LogStep(mutationEntities, EntityTypes.MutantEntity);
-                //EntitiesDrawer.DrawEntities(mutationEntities, EntityTypes.MutantEntity);
-                //Statistics.AddDataInCurrentGeneration(mutationEntities, EntityTypes.MutantEntity);
 
                 //////////////////
                 //var mutationEntities = GetMutationEntities(groups[j]);

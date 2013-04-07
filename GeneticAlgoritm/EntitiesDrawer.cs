@@ -70,10 +70,10 @@ namespace GeneticAlgoritm
 
         public static void DrawBestResult(List<IEntity> entities)
         {
-            if (entities.Count != 0)
+            if (entities.Count != 0 && canvas != null)
             {
                 var bestEntity = entities.MaxBy(e => e.F1);
-                drawer.DrawString(String.Format("{0:0.00} {1:0.00} {2:0.00}", bestEntity.F1, bestEntity.RealLocation.X, bestEntity.RealLocation.Y), new Font("Arial", 7), Brushes.Black, 4, 15);
+                drawer.DrawString(String.Format("{0:0.00} {1:0.00} {2:0.00}", bestEntity.F1, bestEntity.RealLocation.X, bestEntity.RealLocation.Y), new Font("Arial", 7), Brushes.Black, illustrationCanvasSize.Width - 70, 10);
             }
         }
 
