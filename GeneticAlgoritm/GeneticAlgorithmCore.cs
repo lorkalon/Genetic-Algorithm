@@ -95,6 +95,8 @@ namespace GeneticAlgoritm
             }
         }
 
+        
+
         private List<IEntity> GetGenerationEntities(List<List<IEntity>> groups)
         {
             EntitiesDrawer.ClearCanvas();
@@ -147,7 +149,7 @@ namespace GeneticAlgoritm
             var newPopulationEntities = selectionFromGeneration.SelectEntities(newEntities, x => x.F1);
             EntitiesDrawer.DrawEntities(newPopulationEntities, EntityTypes.BestEntity);
             //Statistics.AddDataInCurrentGeneration(newPopulationEntities, EntityTypes.BestEntity);
-            Statistics.AddBestEntitiesInCurrentGeneration(newPopulationEntities);//new
+            Statistics.AddDataInCurrentGeneration(newPopulationEntities, EntityTypes.BestEntity);//new
             return newPopulationEntities;
         }
 
@@ -164,6 +166,10 @@ namespace GeneticAlgoritm
 
         private List<IEntity> GetMutationEntities(IEnumerable<IEntity> entities)
         {
+            foreach (var entity in entities)
+            {
+               var e = performMutation.Mutate(entity);
+            }
             List<IEntity> mutationEntities = entities.Select(entity => performMutation.Mutate(entity)).Where(mutant => mutant != null).ToList();
             return mutationEntities;
         }

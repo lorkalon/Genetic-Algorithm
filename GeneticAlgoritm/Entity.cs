@@ -13,9 +13,12 @@ namespace GeneticAlgoritm
         private BitArray firstGene;
         private BitArray secondGene;
         private BitArray chromosome;
+        private PointF realLocation;
+        private readonly int unicId1;
+        private readonly int unicId2;
 
         //public Point WindowLocation { get; private set; }
-        public PointF RealLocation { get; private set; }
+        public PointF RealLocation { get { return realLocation; } private set { realLocation = value; } }
         public BitArray FirstGene { get { return firstGene; } private set { firstGene = value; } }
         public BitArray SecondGene { get { return secondGene; } private set { secondGene = value; } }
         public BitArray Chromosome { get { return chromosome; } private set { chromosome = value; } }
@@ -60,7 +63,7 @@ namespace GeneticAlgoritm
                 }
                 return gene;
             }
-        } 
+        }
 
         internal delegate float FirstCriteriaDelegate(float x, float y);
         internal delegate float SecondCriteriaDelegate(float x, float y);
@@ -74,25 +77,27 @@ namespace GeneticAlgoritm
 
         const float c1 = 1.0f;
         const float c2 = 1.0f;
-        
+
         private float FirstCriteriaMethod(float x, float y)
         {
             return (float)(1 / (1 + Math.Pow((x - 2), 2) + Math.Pow((y - 10), 2)) +
                                1 / (2 + Math.Pow((x - 10), 2) + Math.Pow((y - 15), 2)) +
-                               1 / (2 + Math.Pow((x - 18), 2) + x*Math.Pow((y - 4), 2 )));
+                               1 / (2 + Math.Pow((x - 18), 2) + x * Math.Pow((y - 4), 2)));
         }
 
         private float SecondCriteriaMethod(float x, float y)
         {
             return (float)(1 / (1 / (1 + Math.Pow((x - 2), 2) + Math.Pow((y - 10), 2)) +
                               1 / (2 + Math.Pow((x - 10), 2) + Math.Pow((y - 15), 2)) +
-                              1 / (2 + Math.Pow((x - 18), 2) + x*Math.Pow((y - 4), 2 ))));
+                              1 / (2 + Math.Pow((x - 18), 2) + x * Math.Pow((y - 4), 2))));
         }
 
         public Entity(PointF realLocation)
         {
-            RealLocation = realLocation;
-
+            Random random = new Random(DateTime.Now.Millisecond);
+            unicId1 = random.Next(Int32.MaxValue);
+            unicId2 = random.Next(Int32.MaxValue);
+            this.realLocation = realLocation;
             InitializeDelegates();
             InitializeCriterias();
             InitializeGenes();
@@ -113,8 +118,8 @@ namespace GeneticAlgoritm
 
         private void InitializeCriterias()
         {
-            float x = RealLocation.X;
-            float y = RealLocation.Y;
+            float x = realLocation.X;
+            float y = realLocation.Y;
             f1 = firstCriteria(x, y);
             f2 = secondCriteria(x, y);
             fGeneralized = c1 * f1 + c2 * f2;
@@ -124,7 +129,7 @@ namespace GeneticAlgoritm
         {
             int length = firstGene.Count + secondGene.Count;
             chromosome = new BitArray(length);
-            
+
             for (int i = 0; i < firstGene.Count; i++)
             {
                 chromosome[i] = firstGene[i];
@@ -135,7 +140,7 @@ namespace GeneticAlgoritm
                 chromosome[i] = secondGene[j];
             }
         }
-       
+
         public float F1
         {
             get
@@ -172,29 +177,44 @@ namespace GeneticAlgoritm
 
         public bool IsValid(SearchArea searchAreaSize)
         {
-            return (RealLocation.X >= searchAreaSize.LeftBorder && RealLocation.X <= searchAreaSize.RightBorder &&
-                    RealLocation.Y >= searchAreaSize.BottomBorder && RealLocation.Y <= searchAreaSize.TopBorder);
+            return (realLocation.X >= searchAreaSize.LeftBorder && realLocation.X <= searchAreaSize.RightBorder &&
+                    realLocation.Y >= searchAreaSize.BottomBorder && realLocation.Y <= searchAreaSize.TopBorder);
         }
 
         public override bool Equals(object obj)
         {
-            IEntity entity = (IEntity)obj;
+            Entity entity = (Entity)obj;
+            
+            if (obj == null)
+            {
+                return false;
+            }
 
-            return this.GetHashCode().Equals(entity.GetHashCode());
+            if (this.GetHashCode() != entity.GetHashCode())
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public override string ToString()
+        {
+            return RealLocation.ToString() + F1.ToString() + F2.ToString() + FGeneralized.ToString() + GetChromosome;
         }
 
         public override int GetHashCode()
         {
-            int hash = 13;
-            hash = (hash * 7) + RealLocation.GetHashCode();
-            hash = (hash * 7) + firstGene.GetHashCode();
-            hash = (hash * 7) + secondGene.GetHashCode();
-            hash = (hash * 7) + chromosome.GetHashCode();
-            hash = (hash * 7) + fGeneralized.GetHashCode();
-            hash = (hash * 7) + F1.GetHashCode();
-            hash = (hash * 7) + F2.GetHashCode();
 
-            return hash;
+            //hash = RealLocation.GetHashCode() ^ FGeneralized.GetHashCode() ^ F1.GetHashCode() ^ F2.GetHashCode() ^ GetChromosome.GetHashCode();
+           //   hash = (hash * 7) + FirstGene.GetHashCode();
+           //   hash = (hash * 7) + SecondGene.GetHashCode();
+           //hash = (hash * 7) + FGeneralized.GetHashCode();
+           // hash = (hash * 7) + F1.GetHashCode();
+            //hash = (hash * 7) + F2.GetHashCode();
+          //  hash = (hash * 7) + FGeneralized.ToString().GetHashCode();
+            var hash = realLocation.X.ToString() + realLocation.Y.ToString();
+            return hash.GetHashCode();
         }
     }
 }
