@@ -19,10 +19,10 @@ namespace GeneticAlgoritm
         {
             entityColorConformity = new Dictionary<EntityTypes, Color>(){
             {EntityTypes.BestEntity, Color.FromArgb(transparensy, Color.Red)},
+            {EntityTypes.SelectedEntity, Color.FromArgb(transparensy, Color.Orange)},
             {EntityTypes.UsualEntity, Color.FromArgb(transparensy, Color.Gray)},
             {EntityTypes.MutantEntity, Color.FromArgb(transparensy, Color.Green)},
-            {EntityTypes.ChildEntity, Color.FromArgb(transparensy, Color.Blue)},
-            {EntityTypes.SelectedEntity, Color.FromArgb(transparensy, Color.Orange)}};
+            {EntityTypes.ChildEntity, Color.FromArgb(transparensy, Color.Blue)},};
         }
 
         public static Color GetEntityColor(EntityTypes entityType)

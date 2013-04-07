@@ -85,7 +85,7 @@ namespace GeneticAlgoritm
 
         private static void DrawLegendItem(KeyValuePair<EntityTypes, Color> entityColorForType, Point position, Graphics drawer)
         {
-            if (entityColorForType.Key == EntityTypes.BestEntity)
+            if (entityColorForType.Key == EntityTypes.BestEntity || entityColorForType.Key == EntityTypes.SelectedEntity)
             {
                 DrawEntity(position, EntityTypes.UsualEntity);
                 DrawLeadingEntity(position, entityColorForType.Key);
