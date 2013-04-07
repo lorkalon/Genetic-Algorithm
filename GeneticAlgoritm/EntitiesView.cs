@@ -98,14 +98,6 @@ namespace GeneticAlgoritm
             } 
             geneticAlgoritm.ExecuteGeneticAlgorithm();
             this.illustrationPictureBox.Image = EntitiesDrawer.GetIllustrationCanvas();
-
-            //ShowStatistics();
-        }
-
-        private void executeOneStepButton_Click(object sender, EventArgs e)
-        {
-            geneticAlgoritm.ExecuteOneStep();
-            this.illustrationPictureBox.Image = EntitiesDrawer.GetIllustrationCanvas();
             settingsChanged = false;
         }
 

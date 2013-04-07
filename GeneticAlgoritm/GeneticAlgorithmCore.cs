@@ -118,10 +118,6 @@ namespace GeneticAlgoritm
                 }
                 //////////////////
                 var leadingEntities = selectionFromGroups.SelectEntities(groups[j], comprasionDelegate);
-                if (leadingEntities.Count == 0)//test
-                {
-                    MessageBox.Show("leading entities count is null !!! ");
-                }
                 modifiedEntities.AddRange(leadingEntities);
                 EntitiesDrawer.DrawEntities(leadingEntities, EntityTypes.SelectedEntity);
                 Statistics.AddDataInCurrentGeneration(leadingEntities, EntityTypes.SelectedEntity);
@@ -137,7 +133,6 @@ namespace GeneticAlgoritm
                 Statistics.AddDataInCurrentGeneration(mutationEntities, EntityTypes.MutantEntity);
 
                 //////////////////
-
                 //var mutationEntities = GetMutationEntities(groups[j]);
                 //modifiedEntities.AddRange(mutationEntities);
                 //var leadingEntities = selection.SelectEntities(modifiedEntities, comprasionDelegate);
@@ -145,15 +140,14 @@ namespace GeneticAlgoritm
                 //var entitiesOffsprings = GetOffsprings(modifiedEntities);
                 //modifiedEntities.AddRange(entitiesOffsprings);
 
-
                 newEntities.AddRange(modifiedEntities);
             }
 
             //var newPopulationEntities = selection.SelectEntities(newEntities, x => x.FGeneralized);   // !!!!!!!!!!!Обратить внимание на количество возвращаемых особей!!!!!
             var newPopulationEntities = selectionFromGeneration.SelectEntities(newEntities, x => x.F1);
             EntitiesDrawer.DrawEntities(newPopulationEntities, EntityTypes.BestEntity);
-            Statistics.AddDataInCurrentGeneration(newPopulationEntities, EntityTypes.BestEntity);
-            //Statistics.AddBestEntitiesInCurrentGeneration(newPopulationEntities);//new
+            //Statistics.AddDataInCurrentGeneration(newPopulationEntities, EntityTypes.BestEntity);
+            Statistics.AddBestEntitiesInCurrentGeneration(newPopulationEntities);//new
             return newPopulationEntities;
         }
 

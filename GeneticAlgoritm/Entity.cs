@@ -180,14 +180,21 @@ namespace GeneticAlgoritm
         {
             IEntity entity = (IEntity)obj;
 
-            return this.RealLocation.Equals(entity.RealLocation);
+            return this.GetHashCode().Equals(entity.GetHashCode());
         }
 
         public override int GetHashCode()
         {
-            return this.RealLocation.GetHashCode();
-        }
+            int hash = 13;
+            hash = (hash * 7) + RealLocation.GetHashCode();
+            hash = (hash * 7) + firstGene.GetHashCode();
+            hash = (hash * 7) + secondGene.GetHashCode();
+            hash = (hash * 7) + chromosome.GetHashCode();
+            hash = (hash * 7) + fGeneralized.GetHashCode();
+            hash = (hash * 7) + F1.GetHashCode();
+            hash = (hash * 7) + F2.GetHashCode();
 
-     
+            return hash;
+        }
     }
 }

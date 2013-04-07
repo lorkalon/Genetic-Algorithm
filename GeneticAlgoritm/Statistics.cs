@@ -40,7 +40,7 @@ namespace GeneticAlgoritm
 
         static void InitializeDataLists()
         {
-            generationIndex = 0;
+            generationIndex = 1;
             entitiesData = new List<List<IEntity>>();
             entityTypeDictionary = new Dictionary<IEntity, EntityTypes>();
             entityBestTypeList = new List<IEntity>();
@@ -81,15 +81,14 @@ namespace GeneticAlgoritm
             entityBestTypeList = new List<IEntity>();
         }
 
-        public static TreeView GetTreeViewStatistics
-        {
-            get { return treeViewStatistics; }
-        }
-
+        //public static TreeView GetTreeViewStatistics
+        //{
+        //    get { return treeViewStatistics; }
+        //}
 
         private static void InitializeGenerationNode()
         {
-            var pointsCount = " ( " + entityTypeDictionary.Count.ToString()+" points ) ";
+            var pointsCount = " ( " + entityTypeDictionary.Count.ToString() + " points ) ";
             var bestEntitiesCount = "  -  BestEntities  " + entityBestTypeList.Count.ToString();
             var selectedEntitiesCount = "  -  SelectedEntities  " + entityTypeDictionary.Where(x => x.Value == EntityTypes.SelectedEntity).Count().ToString();
             var childEntitiesCount = "  -  ChildEntities  " + entityTypeDictionary.Where(x => x.Value == EntityTypes.ChildEntity).Count().ToString();
@@ -97,10 +96,10 @@ namespace GeneticAlgoritm
             var usualEntitiesCount = "  -  usualEntities  " + entityTypeDictionary.Where(x => x.Value == EntityTypes.UsualEntity).Count().ToString();
 
 
-            var generationNode = treeViewStatistics.Nodes.Add((generationIndex + 1).ToString(), "Generation " + (generationIndex + 1).ToString() + 
+            var generationNode = treeViewStatistics.Nodes.Add(generationIndex.ToString(), "Generation " + generationIndex.ToString() + 
                 pointsCount + usualEntitiesCount + selectedEntitiesCount + childEntitiesCount + mutationEntitiesCount +  bestEntitiesCount);
 
-            int childIndex = 0;
+            int childIndex = 1;
            
             foreach (var entity in tempGeneration)
             {

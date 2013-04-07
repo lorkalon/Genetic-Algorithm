@@ -50,20 +50,15 @@ namespace GeneticAlgoritm
 
         private static void PaintEntities(List<IEntity> entities, EntityTypes type)
         {
-            DrawEntityDelegate PaintEntity;
-            if (type == EntityTypes.BestEntity)
+            DrawEntityDelegate PaintEntity = DrawEntity;
+            if (type == EntityTypes.BestEntity || type == EntityTypes.SelectedEntity)
             {
-                PaintEntity = DrawBestEntity;
-            }
-            else
-            {
-                PaintEntity = DrawEntity;
+                PaintEntity = DrawLeadingEntity;
             }
             foreach (var entity in entities)
             {
                 Point windowCoordinates = TranslateToWindowCoordinates(entity.RealLocation);
                 PaintEntity(windowCoordinates, type, currentEntityNumber);
-                
             }
         }
 
@@ -93,7 +88,7 @@ namespace GeneticAlgoritm
             if (entityColorForType.Key == EntityTypes.BestEntity)
             {
                 DrawEntity(position, EntityTypes.UsualEntity);
-                DrawBestEntity(position, entityColorForType.Key);
+                DrawLeadingEntity(position, entityColorForType.Key);
             }
             else
             {
@@ -147,7 +142,7 @@ namespace GeneticAlgoritm
             currentEntityNumber += 1;
         }
 
-        private static void DrawBestEntity(Point windowCoordinates, EntityTypes type, int? index = null)
+        private static void DrawLeadingEntity(Point windowCoordinates, EntityTypes type, int? index = null)
         {
             Color color = EntityCustomizer.GetEntityColor(type);
 
@@ -155,6 +150,15 @@ namespace GeneticAlgoritm
             SolidBrush outerBrush = new SolidBrush(color);
             drawer.DrawEllipse(new Pen(outerBrush, 2), windowCoordinates.X - outerRadius, windowCoordinates.Y - outerRadius, 2 * outerRadius, 2 * outerRadius);
         }
+
+        //private static void DrawLeadingEntity(Point windowCoordinates, EntityTypes type, int? index = null)
+        //{
+        //    Color color = EntityCustomizer.GetEntityColor(type);
+
+        //    int outerRadius = 6;
+        //    SolidBrush outerBrush = new SolidBrush(color);
+        //    drawer.DrawEllipse(new Pen(outerBrush, 2), windowCoordinates.X - outerRadius, windowCoordinates.Y - outerRadius, 2 * outerRadius, 2 * outerRadius);
+        //}
 
         private static void DrawEntityNumber(Point windowCoordinates, int? index)
         {
