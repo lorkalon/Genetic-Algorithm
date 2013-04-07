@@ -95,7 +95,8 @@ namespace GeneticAlgoritm
             if (entitiesTreeView.Nodes.Count >= 100 || settingsChanged)
             {
                 Statistics.ClearTreeView();
-            } 
+            }
+            geneticAlgoritm.SetLogOn();
             geneticAlgoritm.ExecuteGeneticAlgorithm();
             this.illustrationPictureBox.Image = EntitiesDrawer.GetIllustrationCanvas();
             settingsChanged = false;
@@ -107,6 +108,7 @@ namespace GeneticAlgoritm
             {
                 Statistics.ClearTreeView();
             }
+            geneticAlgoritm.SetLogOn();
             geneticAlgoritm.ExecuteOneStep();
             this.illustrationPictureBox.Image = EntitiesDrawer.GetIllustrationCanvas();
             settingsChanged = false;

@@ -31,6 +31,20 @@ namespace GeneticAlgoritm
 
         private List<IEntity> entities;
 
+        private delegate void StatisticAndIllustration(List<IEntity> entities, EntityTypes entityType);
+
+        private StatisticAndIllustration LogStep;
+
+        public void SetLogOn()
+        {
+            LogStep = GrabStatisticAndIllustration;
+        }
+
+        public void SetLogOff()
+        {
+            LogStep = DoNotGrabStatisticAndIllustration;
+        }
+
         public IGrid Grid 
         {
             get
@@ -68,6 +82,7 @@ namespace GeneticAlgoritm
             {
                 List<List<IEntity>> groups = entitiesDivision.DivideEntities(entities);
                 entities = GetGenerationEntities(groups);
+
                 Statistics.SaveCurrentGeneration();
                 currentStep += 1;
             }
@@ -80,6 +95,7 @@ namespace GeneticAlgoritm
 
             List<List<IEntity>> groups = entitiesDivision.DivideEntities(entities);
             entities = GetGenerationEntities(groups);
+
             Statistics.SaveCurrentGeneration();
             EntitiesDrawer.DrawBestResult(entities);
             currentStep += 1;
@@ -102,8 +118,9 @@ namespace GeneticAlgoritm
 
             for (int j = 0; j < groups.Count; j++)
             {
-                EntitiesDrawer.DrawEntities(groups[j], EntityTypes.UsualEntity);
-                Statistics.AddDataInCurrentGeneration(groups[j], EntityTypes.UsualEntity);
+                LogStep(groups[j], EntityTypes.UsualEntity);
+                //EntitiesDrawer.DrawEntities(groups[j], EntityTypes.UsualEntity);
+                //Statistics.AddDataInCurrentGeneration(groups[j], EntityTypes.UsualEntity);
 
                 List<IEntity> modifiedEntities = new List<IEntity>();
                 Func<IEntity, float> comprasionDelegate;
@@ -119,18 +136,21 @@ namespace GeneticAlgoritm
                 //////////////////
                 var leadingEntities = selectionFromGroups.SelectEntities(groups[j], comprasionDelegate);
                 modifiedEntities.AddRange(leadingEntities);
-                EntitiesDrawer.DrawEntities(leadingEntities, EntityTypes.SelectedEntity);
-                Statistics.AddDataInCurrentGeneration(leadingEntities, EntityTypes.SelectedEntity);
+                LogStep(leadingEntities, EntityTypes.SelectedEntity);
+                //EntitiesDrawer.DrawEntities(leadingEntities, EntityTypes.SelectedEntity);
+                //Statistics.AddDataInCurrentGeneration(leadingEntities, EntityTypes.SelectedEntity);
 
                 var entitiesOffsprings = GetOffsprings(modifiedEntities);
                 modifiedEntities.AddRange(entitiesOffsprings);
-                EntitiesDrawer.DrawEntities(entitiesOffsprings, EntityTypes.ChildEntity);
-                Statistics.AddDataInCurrentGeneration(entitiesOffsprings, EntityTypes.ChildEntity);
+                LogStep(entitiesOffsprings, EntityTypes.ChildEntity);
+                //EntitiesDrawer.DrawEntities(entitiesOffsprings, EntityTypes.ChildEntity);
+                //Statistics.AddDataInCurrentGeneration(entitiesOffsprings, EntityTypes.ChildEntity);
 
                 var mutationEntities = GetMutationEntities(modifiedEntities);
                 modifiedEntities.AddRange(mutationEntities);
-                EntitiesDrawer.DrawEntities(mutationEntities, EntityTypes.MutantEntity);
-                Statistics.AddDataInCurrentGeneration(mutationEntities, EntityTypes.MutantEntity);
+                LogStep(mutationEntities, EntityTypes.MutantEntity);
+                //EntitiesDrawer.DrawEntities(mutationEntities, EntityTypes.MutantEntity);
+                //Statistics.AddDataInCurrentGeneration(mutationEntities, EntityTypes.MutantEntity);
 
                 //////////////////
                 //var mutationEntities = GetMutationEntities(groups[j]);
@@ -145,10 +165,19 @@ namespace GeneticAlgoritm
 
             //var newPopulationEntities = selection.SelectEntities(newEntities, x => x.FGeneralized);   // !!!!!!!!!!!Обратить внимание на количество возвращаемых особей!!!!!
             var newPopulationEntities = selectionFromGeneration.SelectEntities(newEntities, x => x.F1);
-            EntitiesDrawer.DrawEntities(newPopulationEntities, EntityTypes.BestEntity);
-            //Statistics.AddDataInCurrentGeneration(newPopulationEntities, EntityTypes.BestEntity);
-            Statistics.AddBestEntitiesInCurrentGeneration(newPopulationEntities);//new
+            LogStep(newPopulationEntities, EntityTypes.BestEntity);
             return newPopulationEntities;
+        }
+
+        private void GrabStatisticAndIllustration(List<IEntity> entities, EntityTypes entityType)
+        {
+            EntitiesDrawer.DrawEntities(entities, entityType);
+            Statistics.AddDataInCurrentGeneration(entities, entityType);
+        }
+
+        private void DoNotGrabStatisticAndIllustration(List<IEntity> entities, EntityTypes entityType)
+        {
+            //do nothing
         }
 
         private List<IEntity> GetOffsprings(List<IEntity> parents)

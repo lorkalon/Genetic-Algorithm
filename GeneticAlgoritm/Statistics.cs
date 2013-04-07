@@ -49,6 +49,11 @@ namespace GeneticAlgoritm
 
         public static void AddDataInCurrentGeneration(List<IEntity> entities, EntityTypes entityType)
         {
+            if (entityType == EntityTypes.BestEntity)
+            {
+                entityBestTypeList.AddRange(entities);
+                return;
+            }
             foreach (var entity in entities)  
             {
                 if (tempGeneration.Contains(entity) == false)
@@ -67,13 +72,12 @@ namespace GeneticAlgoritm
             }
         }
 
-        public static void AddBestEntitiesInCurrentGeneration(List<IEntity> entities)
-        {
-            entityBestTypeList.AddRange(entities);
-        }
-
         public static void SaveCurrentGeneration()
         {
+            if (tempGeneration.Count == 0)
+            {
+                return;
+            }
             entitiesData.Add(tempGeneration);
             InitializeGenerationNode();
             tempGeneration = new List<IEntity>();
