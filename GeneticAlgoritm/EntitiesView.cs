@@ -99,7 +99,7 @@ namespace GeneticAlgoritm
             geneticAlgoritm.ExecuteGeneticAlgorithm();
             this.illustrationPictureBox.Image = EntitiesDrawer.GetIllustrationCanvas();
 
-            ShowStatistics();
+            //ShowStatistics();
         }
 
         private void executeOneStepButton_Click(object sender, EventArgs e)
@@ -116,7 +116,7 @@ namespace GeneticAlgoritm
                 Statistics.ClearTreeView();
             }
             geneticAlgoritm.ExecuteOneStep();
-            this.illustrationPictureBox.Image = geneticAlgoritm.GetCanvas();
+            this.illustrationPictureBox.Image = EntitiesDrawer.GetIllustrationCanvas();
             settingsChanged = false;
         }
 

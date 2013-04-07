@@ -63,7 +63,7 @@ namespace GeneticAlgoritm
             {
                 Point windowCoordinates = TranslateToWindowCoordinates(entity.RealLocation);
                 PaintEntity(windowCoordinates, type, currentEntityNumber);
-                currentEntityNumber += 1;
+                
             }
         }
 
@@ -144,6 +144,7 @@ namespace GeneticAlgoritm
             drawer.FillEllipse(innerBrush, windowCoordinates.X - innerRadius, windowCoordinates.Y - innerRadius, 2 * innerRadius, 2 * innerRadius);
 
             DrawEntityNumber(windowCoordinates, index);
+            currentEntityNumber += 1;
         }
 
         private static void DrawBestEntity(Point windowCoordinates, EntityTypes type, int? index = null)
