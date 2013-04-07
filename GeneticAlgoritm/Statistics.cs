@@ -12,7 +12,7 @@ namespace GeneticAlgoritm
     {
         private static List<List<IEntity>> entitiesData;
      //   private static List<IEntity> tempGeneration;
-        private static Dictionary<IEntity, EntityTypes> entityTypeDictionary;
+        //private static Dictionary<IEntity, EntityTypes> entityTypeDictionary;
         private static Dictionary<EntityTypes, List<IEntity>> typesLists; 
 
         private static TreeView treeViewStatistics;
@@ -46,18 +46,22 @@ namespace GeneticAlgoritm
             {EntityTypes.BestEntity, new List<IEntity>()}};
         }
 
-        static void InitializeDataLists()
+        public static Dictionary<EntityTypes, List<IEntity>> GetStatistic()
+        {
+            return typesLists;
+        }
+
+        private static void InitializeDataLists()
         {
             generationIndex = 1;
             entitiesData = new List<List<IEntity>>();
-            entityTypeDictionary = new Dictionary<IEntity, EntityTypes>();
+            //entityTypeDictionary = new Dictionary<IEntity, EntityTypes>();
         }
 
         public static void AddDataInCurrentGeneration(List<IEntity> entities, EntityTypes entityType)
         {
             typesLists[entityType].AddRange(entities);
         }
-
 
         public static void SaveCurrentGeneration()
         {
@@ -68,7 +72,6 @@ namespace GeneticAlgoritm
             {
                 typesLists[key].Clear();
             }
-
         }
 
         private static List<IEntity> GetTempGeneration()
@@ -79,11 +82,6 @@ namespace GeneticAlgoritm
             tempGeneration.AddRange(typesLists[EntityTypes.MutantEntity]);
             return tempGeneration;
         }
-
-        //public static TreeView GetTreeViewStatistics
-        //{
-        //    get { return treeViewStatistics; }
-        //}
 
         private static void InitializeGenerationNode()
         {

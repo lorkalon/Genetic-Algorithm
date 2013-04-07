@@ -84,7 +84,6 @@ namespace GeneticAlgoritm
                 List<List<IEntity>> groups = entitiesDivision.DivideEntities(entities);
                 entities = GetGenerationEntities(groups);
 
-                Statistics.SaveCurrentGeneration();
                 currentStep += 1;
             }
             EntitiesDrawer.DrawBestResult(entities);
@@ -97,7 +96,6 @@ namespace GeneticAlgoritm
             List<List<IEntity>> groups = entitiesDivision.DivideEntities(entities);
             entities = GetGenerationEntities(groups);
 
-            Statistics.SaveCurrentGeneration();
             EntitiesDrawer.DrawBestResult(entities);
             currentStep += 1;
         }
@@ -119,7 +117,7 @@ namespace GeneticAlgoritm
 
         private List<IEntity> GetGenerationEntities(List<List<IEntity>> groups)
         {
-            EntitiesDrawer.ClearCanvas();
+            
             List<IEntity> newEntities = new List<IEntity>();
 
             for (int j = 0; j < groups.Count; j++)
@@ -164,13 +162,20 @@ namespace GeneticAlgoritm
             //var newPopulationEntities = selection.SelectEntities(newEntities, x => x.FGeneralized);   // !!!!!!!!!!!Обратить внимание на количество возвращаемых особей!!!!!
             var newPopulationEntities = selectionFromGeneration.SelectEntities(newEntities, x => x.F1);
             LogStep(newPopulationEntities, EntityTypes.BestEntity);
+
             return newPopulationEntities;
         }
 
         private void GrabStatisticAndIllustration(List<IEntity> entities, EntityTypes entityType)
         {
-            EntitiesDrawer.DrawEntities(entities, entityType);
             Statistics.AddDataInCurrentGeneration(entities, entityType);
+            if (entityType == EntityTypes.BestEntity)
+            {
+                Dictionary<EntityTypes, List<IEntity>> statistic = Statistics.GetStatistic();
+                EntitiesDrawer.ClearCanvas();
+                EntitiesDrawer.DrawEntities(statistic);
+                Statistics.SaveCurrentGeneration();
+            }
         }
 
         private void DoNotGrabStatisticAndIllustration(List<IEntity> entities, EntityTypes entityType)

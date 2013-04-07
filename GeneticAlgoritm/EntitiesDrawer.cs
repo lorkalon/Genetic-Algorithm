@@ -26,7 +26,6 @@ namespace GeneticAlgoritm
 
         public static void DrawEntities(List<IEntity> entities, EntityTypes type)
         {
-            searchArea = ConfigurationManager.GetAreaSize();
             if (canvas == null)
             {
                 InitializeStuff();
@@ -35,6 +34,18 @@ namespace GeneticAlgoritm
                 DrawCS();
             }
             PaintEntities(entities, type);
+        }
+
+        public static void DrawEntities(Dictionary<EntityTypes, List<IEntity>> statistic)
+        {
+            if (canvas == null)
+            {
+                InitializeStuff();
+                InitializeCanvas();
+                InitializeDrawer();
+                DrawCS();
+            }
+            PaintEntities(statistic);
         }
 
         public static Bitmap DrawLegend()
@@ -78,7 +89,7 @@ namespace GeneticAlgoritm
         }
 
         private delegate void DrawEntityDelegate(Point windowCoordinates, EntityTypes type, int? index = null);
-
+        
         private static void PaintEntities(List<IEntity> entities, EntityTypes type)
         {
             DrawEntityDelegate PaintEntity = DrawEntity;
@@ -90,6 +101,25 @@ namespace GeneticAlgoritm
             {
                 Point windowCoordinates = TranslateToWindowCoordinates(entity.RealLocation);
                 PaintEntity(windowCoordinates, type, currentEntityNumber);
+            }
+        }
+
+        private static void PaintEntities(Dictionary<EntityTypes, List<IEntity>> statistic)
+        {
+            foreach (var types in statistic)
+            {
+                EntityTypes type = types.Key;
+                List<IEntity> entities = types.Value;
+                DrawEntityDelegate PaintEntity = DrawEntity;
+                if (type == EntityTypes.BestEntity || type == EntityTypes.SelectedEntity)
+                {
+                    PaintEntity = DrawLeadingEntity;
+                }
+                foreach (var entity in entities)
+                {
+                    Point windowCoordinates = TranslateToWindowCoordinates(entity.RealLocation);
+                    PaintEntity(windowCoordinates, type, currentEntityNumber);
+                }
             }
         }
 
@@ -213,6 +243,7 @@ namespace GeneticAlgoritm
 
         private static void InitializeStuff()
         {
+            searchArea = ConfigurationManager.GetAreaSize();
             currentEntityNumber = 1;
         }
 
