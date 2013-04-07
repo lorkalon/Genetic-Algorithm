@@ -15,6 +15,8 @@ namespace GeneticAlgoritm
 {
     public partial class EntitiesView : Form
     {
+        private Stopwatch stopwatch = new Stopwatch();
+
         private GeneticAlgorithmCore geneticAlgoritm;
 
         private AppSettingsReader settingsReader;
@@ -60,10 +62,6 @@ namespace GeneticAlgoritm
 
         private void InitializeGeneticAlgorithmProperties()
         {
-            //geneticAlgoritm = (int) entitiesCountNumericUpDown.Value;    
-            //geneticAlgoritm.SelectionFromGroupsCount = (int)selectionFromGroupsCountNumericUpDown.Value;
-            //geneticAlgoritm.SelectionFromGenerationCount = (int) selectionFromGenerationCountNumericUpDown.Value;
-
             geneticAlgoritm.Hybridize = new Hybridizer(searchAreaSize, new int[] { (int)crossPointNumericUpDown1.Value, (int)crossPointNumericUpDown2.Value });
             geneticAlgoritm.PerformMutation = new Mutation(searchAreaSize, (int)mutationPercentNumericUpDown.Value);
 
@@ -157,13 +155,23 @@ namespace GeneticAlgoritm
 
         private void startFindingBestAlgorithmButton_Click(object sender, EventArgs e)
         {
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
+            stopwatch.Restart();
 
+            findBestAlgorithmBackgroundWorker.RunWorkerAsync();
+        }
+
+        private void findBestAlgorithmBackgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
             BestAlgorithmFinder bestAlgorithmFinder = new BestAlgorithmFinder(1);
-            algorithmStatisticDataGridView.DataSource = bestAlgorithmFinder.FindBestAlgorithm();
+            e.Result = bestAlgorithmFinder.FindBestAlgorithm();
+        }
+
+        private void findBestAlgorithmBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            List<AlgorithmStatistic> algorithmsStatistics = e.Result as List<AlgorithmStatistic>;
+            algorithmStatisticDataGridView.DataSource = algorithmsStatistics;
             algorithmStatisticDataGridView.AutoResizeColumns();
-            
+
             stopwatch.Stop();
             this.Text = stopwatch.Elapsed.ToString();
         }

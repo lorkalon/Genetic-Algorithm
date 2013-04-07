@@ -59,6 +59,7 @@
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.startFindingBestAlgorithmButton = new System.Windows.Forms.Button();
             this.algorithmStatisticDataGridView = new System.Windows.Forms.DataGridView();
+            this.findBestAlgorithmBackgroundWorker = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)(this.entitiesCountNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.selectionFromGenerationCountNumericUpDown)).BeginInit();
             this.settingsPanel.SuspendLayout();
@@ -449,6 +450,11 @@
             this.algorithmStatisticDataGridView.Size = new System.Drawing.Size(639, 563);
             this.algorithmStatisticDataGridView.TabIndex = 0;
             // 
+            // findBestAlgorithmBackgroundWorker
+            // 
+            this.findBestAlgorithmBackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.findBestAlgorithmBackgroundWorker_DoWork);
+            this.findBestAlgorithmBackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.findBestAlgorithmBackgroundWorker_RunWorkerCompleted);
+            // 
             // EntitiesView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -512,6 +518,7 @@
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.Button startFindingBestAlgorithmButton;
         private System.Windows.Forms.DataGridView algorithmStatisticDataGridView;
+        private System.ComponentModel.BackgroundWorker findBestAlgorithmBackgroundWorker;
 
     }
 }
