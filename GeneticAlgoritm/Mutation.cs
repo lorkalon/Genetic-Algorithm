@@ -31,7 +31,8 @@ namespace GeneticAlgoritm
                 tempEntity = new Entity(new PointF(GetMutateGene(firstGeneArray, random), GetMutateGene(secondGeneArray, random)));
             } while (tempEntity.IsValid(searchAreaSize) != true);
  
-            return entity.Equals(tempEntity) ? null : tempEntity;
+            var res = entity.Equals(tempEntity) ? null : tempEntity;
+            return res;
         }
 
         private float GetMutateGene(BitArray geneArray, Random random)
